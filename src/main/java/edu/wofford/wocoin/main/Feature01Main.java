@@ -9,7 +9,7 @@ public class Feature01Main {
         if (args.length > 0) {
             Scanner in = new Scanner(System.in);
             System.out.println("Enter Database Name: ");
-            String databaseName = in.next();
+            String databaseName = in.nextLine();
             Utilities.createNewDatabase(databaseName);
         } else {
             System.out.println("You must specify the database filepath as a command-line argument.");
