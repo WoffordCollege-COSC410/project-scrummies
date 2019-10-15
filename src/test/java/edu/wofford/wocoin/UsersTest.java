@@ -1,6 +1,13 @@
 package edu.wofford.wocoin;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import org.junit.Before;
 
 public class UsersTest {
-    ///this is a test from Avery's computer
-    //commit + push test
+
+    @Test
+    public void UsersTest(){
+
+    }
 }
+
