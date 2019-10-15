@@ -1,4 +1,4 @@
-package edu.wofford.wocoin.main;
+package edu.wofford.wocoin;
 
 import edu.wofford.wocoin.Utilities;
 
