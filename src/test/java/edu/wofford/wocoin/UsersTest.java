@@ -1,22 +1,17 @@
 package edu.wofford.wocoin;
 import static org.junit.Assert.*;
 
-import ch.qos.logback.core.db.DriverManagerConnectionSource;
-import org.junit.Assert;
+import edu.wofford.wocoin.main.Feature01Main;
 import org.junit.Test;
 import org.junit.Before;
-
-import java.sql.DriverAction;
-import java.sql.DriverManager;
 
 public class UsersTest {
 
     @Test
     public void UsersTest1(){
         //first test should be to determine if database exists
+        //String databaseName = Feature01Main;
 
-        //DriverManager da = new DriverAction();
-        //String actualString = da.toString();
     }
 
     @Test

@@ -2,13 +2,42 @@ package edu.wofford.wocoin.main;
 
 import edu.wofford.wocoin.Users;
 import edu.wofford.wocoin.Utilities;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
+import java.io.File;
 
 public class Feature01Main {
     //main file for Feature01
     public static void main(String[] args) {
         if (args.length > 0) {
-            Utilities.createNewDatabase(args[0]);
+            String url = "jdbc:sqlite:" + args[0];
+            String[] sqls = {" "};
+
+            File f = new File(args[0]);
+            if (f.exists()) {
+                try (Connection conn = DriverManager.getConnection(url)) {
+                    for (String sql : sqls) {
+                        Statement stmt = conn.createStatement();
+                        stmt.executeUpdate(sql);
+                        stmt.close();
+                        // Wait for one second so that timestamps are different.
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Utilities.createNewDatabase(args[0]);
+            }
+
             Scanner input = new Scanner(System.in);
             System.out.println("1: exit\n2: Admin\n");
             String answer = input.nextLine();
@@ -23,7 +52,8 @@ public class Feature01Main {
                 } else if (next_answer.equals("2")) {
                     System.out.println("Enter a user");
                     String user = input.nextLine();
-                    Users.AddUser(user);
+                    String password = input.nextLine();
+                    Users.AddUser(user, password);
                 }
             }
         } else {

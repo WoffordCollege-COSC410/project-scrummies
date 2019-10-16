@@ -9,9 +9,14 @@ import java.sql.Statement;
 
 public class Users {
     //feature 1 allows administrators to add users to the database
-    public static void AddUser(String filename, String user) {
-        String url = "jdbc:sqlite:" + filename;
-        String[] sqls = {""};
+    public static void Users(String filename) {
+        String username = "";
+        String password = "";
+    }
+
+    public static void AddUser(String username, String password) {
+        /* String url = "jdbc:sqlite:" + filename;
+        String[] sqls = {" "};
 
         try (Connection conn = DriverManager.getConnection(url)) {
             for (String sql : sqls) {
@@ -27,6 +32,6 @@ public class Users {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        } */
     }
 }
