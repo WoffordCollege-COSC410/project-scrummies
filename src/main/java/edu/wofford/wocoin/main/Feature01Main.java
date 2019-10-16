@@ -15,28 +15,8 @@ public class Feature01Main {
     public static void main(String[] args) {
         if (args.length > 0) {
             String url = "jdbc:sqlite:" + args[0];
-            String[] sqls = {" "};
 
             File f = new File(args[0]);
-            if (f.exists()) {
-                try (Connection conn = DriverManager.getConnection(url)) {
-                    for (String sql : sqls) {
-                        Statement stmt = conn.createStatement();
-                        stmt.executeUpdate(sql);
-                        stmt.close();
-                        // Wait for one second so that timestamps are different.
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Utilities.createNewDatabase(args[0]);
-            }
 
             Scanner input = new Scanner(System.in);
             System.out.println("1: exit\n2: Admin\n");
@@ -54,10 +34,30 @@ public class Feature01Main {
                     String user = input.nextLine();
                     String password = input.nextLine();
                     Users.AddUser(user, password);
+                    String[] sqls = {"INSERT INTO users (id, salt, hash) VALUES (\"\", 13587, \"ebd3528832b124bb7886cd8e8d42871c99e06d5f3ad0c6ee883f6219b2b6a955\")"};
+                    if (f.exists()) {
+                        try (Connection conn = DriverManager.getConnection(url)) {
+                            for (String sql : sqls) {
+                                Statement stmt = conn.createStatement();
+                                stmt.executeUpdate(sql);
+                                stmt.close();
+                                // Wait for one second so that timestamps are different.
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    Thread.currentThread().interrupt();
+                                }
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Utilities.createNewDatabase(args[0]);
+                    }
+                } else {
+                    System.out.println("You must specify the database filepath as a command-line argument.");
                 }
             }
-        } else {
-            System.out.println("You must specify the database filepath as a command-line argument.");
         }
     }
 }
