@@ -18,50 +18,49 @@ public class Feature01Main {
         boolean Still_running = true;
         if (args.length > 0) {
             String url = "jdbc:sqlite:" + args[0];
+            while (Still_running) {
+                File f = new File(args[0]);
+                PreparedStatement prepStmt = null;
+                Scanner input = new Scanner(System.in);
+                System.out.println("1: exit\n2: Admin\n");
+                String answer = input.nextLine();
+                if (answer.equals("1")) {
+                    // this exits out of the program
+                } else if (answer.equals("2")) {
+                    System.out.println("1: back\n2: add user\n");
+                    String next_answer = input.nextLine();
+                    if (next_answer.equals("1")) {
 
-            File f = new File(args[0]);
-            PreparedStatement prepStmt = null;
-            Scanner input = new Scanner(System.in);
-            System.out.println("1: exit\n2: Admin\n");
-            String answer = input.nextLine();
-            if (answer.equals("1")) {
-                // this exits out of the program
-            } else if (answer.equals("2")) {
-                System.out.println("1: back\n2: add user\n");
-                String next_answer = input.nextLine();
-                if (next_answer.equals("1")) {
-
-                } else if (next_answer.equals("2")) {
-                    System.out.println("Enter a user");
-                    String user = input.nextLine();
-                    String password = input.nextLine();
-                    Users.SaltPassword(user, password);
-                    int int_salt = Utilities.generateSalt();
-                    String salt = Integer.toString(int_salt);
-                    String hash = "" + Utilities.applySha256(password) + salt;
-
-
-
-                    if (f.exists()) {
-                        try (Connection conn = DriverManager.getConnection(url)) {
-                            Statement stmt = conn.createStatement();
-                            String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
-                            prepStmt = conn.prepareStatement(sqls);
-                            prepStmt.setString(1, user);
-                            prepStmt.setString(2, salt);
-                            prepStmt.setString(3, hash);
-                            stmt.executeUpdate(sqls);
-                            stmt.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                    } else if (next_answer.equals("2")) {
+                        System.out.println("Enter a user and a password");
+                        String user = input.nextLine();
+                        String password = input.nextLine();
+                        Users.SaltPassword(user, password);
+                        int int_salt = Utilities.generateSalt();
+                        String salt = Integer.toString(int_salt);
+                        String hash = "" + Utilities.applySha256(password) + salt;
+                        if (f.exists()) {
+                            try (Connection conn = DriverManager.getConnection(url)) {
+                                Statement stmt = conn.createStatement();
+                                String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
+                                prepStmt = conn.prepareStatement(sqls);
+                                prepStmt.setString(1, user);
+                                prepStmt.setString(2, salt);
+                                prepStmt.setString(3, hash);
+                                stmt.executeUpdate(sqls);
+                                stmt.close();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Utilities.createNewDatabase(args[0]);
                         }
                     } else {
-                        Utilities.createNewDatabase(args[0]);
+                        System.out.println("You must specify the database filepath as a command-line argument.");
                     }
-                } else {
-                    System.out.println("You must specify the database filepath as a command-line argument.");
                 }
             }
+
 
 
         }
