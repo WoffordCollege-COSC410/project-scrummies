@@ -19,10 +19,14 @@ public class UsersTest {
     public void UsersTest2(){
         //second test is see if admin info is correct
         Users tester = new Users();
-        assertEquals(tester.AddUser("jdoe", 13587), "username is: \npassword is:");
-        assertEquals(tester.AddUser("jsmith", 52196), "username is: \npassword is:");
-        assertEquals(tester.AddUser("hjones", 47440), "username is: \npassword is:");
-        assertEquals(tester.AddUser("srogers", 54419), "username is: \npassword is:");
+        assertEquals(tester.SaltPassword("jdoe", "ebd3528832b124bb7886cd8e8d42871c99e06d5f3ad0c6ee883f6219b2b6a955"),
+                "username is: \npassword is:");
+        assertEquals(tester.SaltPassword("jsmith", "9d3194cf601e62d35f144abebcea7704ad005402e102d134bd8f82ac469c2ec9"),
+                "username is: \npassword is:");
+        assertEquals(tester.SaltPassword("hjones", "5d94ecaff496ac900a1f68ec950153aa1f500d06227b65167f460e5dd20a959b"),
+                "username is: \npassword is:");
+        assertEquals(tester.SaltPassword("srogers", "26f2573d733da38fb3cd09eb79f884bbe63010570d394de7d8809b65823da85a"),
+                "username is: \npassword is:");
     }
 
     @Test

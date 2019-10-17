@@ -6,12 +6,23 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.lang.*;
+import java.lang.String;
+
 
 public class Users {
     //feature 1 allows administrators to add users to the database
     public static void Users(String filename) {
         String username = "";
         String password = "";
+    }
+
+    public static String SaltPassword(String username, String password) {
+        String newPassword = "";
+        int saltedNum = Utilities.generateSalt();
+        password += (saltedNum);
+        newPassword = Utilities.applySha256(password);
+        return newPassword;
     }
 
     public static void AddUser(String username, String password) {
