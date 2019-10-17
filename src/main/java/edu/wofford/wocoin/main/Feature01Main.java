@@ -30,8 +30,7 @@ public class Feature01Main {
                     System.out.println("1: back\n2: add user\n");
                     String next_answer = input.nextLine();
                     if (next_answer.equals("1")) {
-                        //TODO
-                        /* Go back to step 1 */
+
                     } else if (next_answer.equals("2")) {
                         System.out.println("Enter a user");
                         String user = input.nextLine();
