@@ -46,9 +46,9 @@ public class Feature01Main {
                         try (Connection conn = DriverManager.getConnection(url)) {
                             String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
                             prepStmt = conn.prepareStatement(sqls);
-                            prepStmt.setString(1, "user");
-                            prepStmt.setString(2, "salt");
-                            prepStmt.setString(3, "hash");
+                            prepStmt.setString(1, user);
+                            prepStmt.setString(2, salt);
+                            prepStmt.setString(3, hash);
                             stmt.executeUpdate(sqls);
                             stmt.close();
                         } catch (SQLException e) {
