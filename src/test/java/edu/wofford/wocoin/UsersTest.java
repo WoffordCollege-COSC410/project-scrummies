@@ -18,5 +18,6 @@ public class UsersTest {
     public void UsersTest2(){
         //second test on if user exists / can be created
     }
+
 }
 
