@@ -20,7 +20,7 @@ public class Feature01Main {
             String url = "jdbc:sqlite:" + args[0];
 
             File f = new File(args[0]);
-
+            PreparedStatement prepStmt = null;
             Scanner input = new Scanner(System.in);
             System.out.println("1: exit\n2: Admin\n");
             String answer = input.nextLine();
@@ -44,6 +44,7 @@ public class Feature01Main {
 
                     if (f.exists()) {
                         try (Connection conn = DriverManager.getConnection(url)) {
+                            Statement stmt = conn.createStatement();
                             String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
                             prepStmt = conn.prepareStatement(sqls);
                             prepStmt.setString(1, user);
