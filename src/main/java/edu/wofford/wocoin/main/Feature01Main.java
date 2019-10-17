@@ -35,6 +35,7 @@ public class Feature01Main {
                     System.out.println("Enter a user");
                     String user = input.nextLine();
                     String password = input.nextLine();
+                    Users.SaltPassword(user, password);
                     int int_salt = Utilities.generateSalt();
                     String salt = Integer.toString(int_salt);
                     String hash = "" + Utilities.applySha256(password) + salt;
