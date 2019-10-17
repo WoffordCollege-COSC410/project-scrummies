@@ -38,26 +38,18 @@ public class Feature01Main {
                     int int_salt = Utilities.generateSalt();
                     String salt = Integer.toString(int_salt);
                     String hash = "" + Utilities.applySha256(password) + salt;
-                    String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
-                    prepStmt = conn.prepareStatement(sqlStmt);
-                    prepStmt.setString(1, "user");
-                    prepStmt.setString(2, "salt");
-                    prepStmt.setString(3, "hash");
+
 
 
                     if (f.exists()) {
                         try (Connection conn = DriverManager.getConnection(url)) {
-                            for (String sql : sqls) {
-                                Statement stmt = conn.createStatement();
-                                stmt.executeUpdate(sql);
-                                stmt.close();
-                                // Wait for one second so that timestamps are different.
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    Thread.currentThread().interrupt();
-                                }
-                            }
+                            String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
+                            prepStmt = conn.prepareStatement(sqls);
+                            prepStmt.setString(1, "user");
+                            prepStmt.setString(2, "salt");
+                            prepStmt.setString(3, "hash");
+                            stmt.executeUpdate(sqls);
+                            stmt.close();
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
