@@ -12,7 +12,7 @@ import java.lang.String;
 
 public class Users {
     //feature 1 allows administrators to add users to the database
-    public static void Users(String filename) {
+    public static void users(String filename) {
         String username = "";
         String password = "";
     }
