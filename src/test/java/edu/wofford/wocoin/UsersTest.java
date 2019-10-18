@@ -32,12 +32,6 @@ public class UsersTest {
          */
     }
 
-    @Test
-    public void UsersTest3(){
-        //third test on if user exists / can be created
-        Users tester = new Users();
-
-    }
 
 }
 

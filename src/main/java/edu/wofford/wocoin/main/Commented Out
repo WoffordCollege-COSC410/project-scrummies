@@ -33,3 +33,16 @@ we found it redundant due to the Feature01Main code
         }
     }*/
 ------------------------------------------------------------------------------------------------------------------------
+
+UsersTest.java
+
+These are our Unit tests. We don't really know how to write Unit Tests so we experimented trying a few
+
+    @Test
+    public void UsersTest3(){
+        //third test on if user exists / can be created
+        Users tester = new Users();
+
+    }
+
+------------------------------------------------------------------------------------------------------------------------
