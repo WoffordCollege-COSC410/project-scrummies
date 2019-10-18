@@ -26,28 +26,34 @@ public class Feature01Main {
                 String answer = input.nextLine();
                 if (answer.equals("1")) {
                     // this exits out of the program
+                    Still_running = false;
                 } else if (answer.equals("2")) {
                     System.out.println("1: back\n2: add user\n");
                     String next_answer = input.nextLine();
                     if (next_answer.equals("1")) {
 
                     } else if (next_answer.equals("2")) {
-                        System.out.println("Enter a user and a password");
-                        String user = input.nextLine();
+                        System.out.println("Enter a id");
+                        String id = input.nextLine();
+                        System.out.println("Enter a password");
                         String password = input.nextLine();
-                        Users.SaltPassword(user, password);
+                        //Users.SaltPassword(id, password);
                         int int_salt = Utilities.generateSalt();
                         String salt = Integer.toString(int_salt);
                         String hash = "" + Utilities.applySha256(password) + salt;
                         if (f.exists()) {
+                            System.out.println(f);
                             try (Connection conn = DriverManager.getConnection(url)) {
+                                System.out.println("Past the try");
                                 Statement stmt = conn.createStatement();
                                 String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
                                 prepStmt = conn.prepareStatement(sqls);
-                                prepStmt.setString(1, user);
-                                prepStmt.setString(2, salt);
+                                prepStmt.setString(1, id);
+                                prepStmt.setInt(2, int_salt);
+                                System.out.println("" + id + " " + int_salt + " " + hash);
                                 prepStmt.setString(3, hash);
                                 stmt.executeUpdate(sqls);
+                                System.out.println("7");
                                 stmt.close();
                             } catch (SQLException e) {
                                 e.printStackTrace();
