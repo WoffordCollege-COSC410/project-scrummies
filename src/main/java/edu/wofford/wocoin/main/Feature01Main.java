@@ -40,10 +40,11 @@ public class Feature01Main {
                             String id = input.nextLine();
                             System.out.println("Enter a password");
                             String password = input.nextLine();
-                            Users.SaltPassword(id, password);
-                            int int_salt = Utilities.generateSalt();
-                            String salt = Integer.toString(int_salt);
-                            String hash = "" + Utilities.applySha256(password) + salt;
+
+                            String[] Salt_Hash = Users.SaltPassword(password);
+                            int int_salt = Integer.parseInt(Salt_Hash[0]);
+                            String hash = Salt_Hash[1];
+
                             if (f.exists()) {
                                 System.out.println(f);
                                 try (Connection conn = DriverManager.getConnection(url)) {

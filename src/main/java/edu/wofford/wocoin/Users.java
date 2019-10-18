@@ -1,6 +1,7 @@
 package edu.wofford.wocoin;
 
 import edu.wofford.wocoin.Utilities;
+import org.web3j.abi.datatypes.Int;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,12 +19,15 @@ public class Users {
         String password = "";
     }
 
-    public static String SaltPassword(String username, String password) {
-        String newPassword = "";
+    public static String[] SaltPassword(String password) {
+        String[] result = new String[2];
+        String salted_password = "";
         int saltedNum = Utilities.generateSalt();
-        password += (saltedNum);
-        newPassword = Utilities.applySha256(password);
-        return newPassword;
+        salted_password = password + (saltedNum);
+        String HashPassword = Utilities.applySha256(salted_password);
+        result[0] = Integer.toString(saltedNum);
+        result[1] = HashPassword;
+        return result;
     }
 
 }
