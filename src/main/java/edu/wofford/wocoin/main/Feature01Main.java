@@ -37,7 +37,7 @@ public class Feature01Main {
                         String id = input.nextLine();
                         System.out.println("Enter a password");
                         String password = input.nextLine();
-                        //Users.SaltPassword(id, password);
+                        Users.SaltPassword(id, password);
                         int int_salt = Utilities.generateSalt();
                         String salt = Integer.toString(int_salt);
                         String hash = "" + Utilities.applySha256(password) + salt;
@@ -52,9 +52,8 @@ public class Feature01Main {
                                 prepStmt.setInt(2, int_salt);
                                 System.out.println("" + id + " " + int_salt + " " + hash);
                                 prepStmt.setString(3, hash);
-                                stmt.executeUpdate(sqls);
-                                System.out.println("7");
-                                stmt.close();
+                                prepStmt.executeUpdate();
+                                prepStmt.close();
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
