@@ -28,9 +28,9 @@ public class Feature01Main {
                     // this exits out of the program
                     Still_running = false;
                 } else if (answer.equals("2")) {
-                    System.out.println("Enter password: ");
+                    System.out.println("Enter Admin password: ");
                     String admin_password = input.nextLine();
-                    if (admin_password == "adminpwd") {
+                    if (admin_password.equals("adminpwd")) {
                         System.out.println("1: back\n2: add user\n");
                         String next_answer = input.nextLine();
                         if (next_answer.equals("1")) {
