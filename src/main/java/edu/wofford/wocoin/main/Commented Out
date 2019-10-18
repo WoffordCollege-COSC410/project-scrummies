@@ -33,19 +33,3 @@ we found it redundant due to the Feature01Main code
         }
     }*/
 ------------------------------------------------------------------------------------------------------------------------
-
-UsersTest.java
-
-This is where we were doing our Unit Testing (JUnit)
-We tried writing tests for USeres.java before abandoning that and writing most of our code in Feature01Main
-
-/*
-    @Test
-    public void UsersTest2(){
-        //third test on if user exists / can be created
-        Users tester = new Users();
-
-    }
-*/
-
-------------------------------------------------------------------------------------------------------------------------

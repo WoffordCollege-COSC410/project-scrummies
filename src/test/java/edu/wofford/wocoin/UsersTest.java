@@ -8,7 +8,7 @@ import org.junit.Before;
 public class UsersTest {
 
     @Test
-    public void UsersTest1(){
+    public void Feature01MainTest(){
         //first test should be to determine if database exists
         //String databaseName = Feature01Main;
         Users tester = new Users();
@@ -16,7 +16,7 @@ public class UsersTest {
     }
 
     @Test
-    public void UsersTest2(){
+    public void UsersTest(){
         //second test is check username + password
         Users tester = new Users(); //should we set this to Feature01Main?
         //if we do, how do we test username + password ??
