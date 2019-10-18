@@ -28,46 +28,48 @@ public class Feature01Main {
                     // this exits out of the program
                     Still_running = false;
                 } else if (answer.equals("2")) {
-                    System.out.println("1: back\n2: add user\n");
-                    String next_answer = input.nextLine();
-                    if (next_answer.equals("1")) {
-
-                    } else if (next_answer.equals("2")) {
-                        System.out.println("Enter a id");
-                        String id = input.nextLine();
-                        System.out.println("Enter a password");
-                        String password = input.nextLine();
-                        Users.SaltPassword(id, password);
-                        int int_salt = Utilities.generateSalt();
-                        String salt = Integer.toString(int_salt);
-                        String hash = "" + Utilities.applySha256(password) + salt;
-                        if (f.exists()) {
-                            System.out.println(f);
-                            try (Connection conn = DriverManager.getConnection(url)) {
-                                System.out.println("Past the try");
-                                Statement stmt = conn.createStatement();
-                                String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
-                                prepStmt = conn.prepareStatement(sqls);
-                                prepStmt.setString(1, id);
-                                prepStmt.setInt(2, int_salt);
-                                System.out.println("" + id + " " + int_salt + " " + hash);
-                                prepStmt.setString(3, hash);
-                                prepStmt.executeUpdate();
-                                prepStmt.close();
-                            } catch (SQLException e) {
-                                e.printStackTrace();
+                    String admin_password = input.nextLine();
+                    if (admin_password == "adminpwd") {
+                        System.out.println("1: back\n2: add user\n");
+                        String next_answer = input.nextLine();
+                        if (next_answer.equals("1")) {
+                            // stays at exit admin prompt
+                        } else if (next_answer.equals("2")) {
+                            System.out.println("Enter a id");
+                            String id = input.nextLine();
+                            System.out.println("Enter a password");
+                            String password = input.nextLine();
+                            Users.SaltPassword(id, password);
+                            int int_salt = Utilities.generateSalt();
+                            String salt = Integer.toString(int_salt);
+                            String hash = "" + Utilities.applySha256(password) + salt;
+                            if (f.exists()) {
+                                System.out.println(f);
+                                try (Connection conn = DriverManager.getConnection(url)) {
+                                    System.out.println("Past the try");
+                                    Statement stmt = conn.createStatement();
+                                    String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
+                                    prepStmt = conn.prepareStatement(sqls);
+                                    prepStmt.setString(1, id);
+                                    prepStmt.setInt(2, int_salt);
+                                    System.out.println("" + id + " " + int_salt + " " + hash);
+                                    prepStmt.setString(3, hash);
+                                    prepStmt.executeUpdate();
+                                    prepStmt.close();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                Utilities.createNewDatabase(args[0]);
                             }
                         } else {
-                            Utilities.createNewDatabase(args[0]);
+                            System.out.println("You must specify the database filepath as a command-line argument.");
                         }
                     } else {
-                        System.out.println("You must specify the database filepath as a command-line argument.");
+                        // stays at exit admin prompt
                     }
                 }
             }
-
-
-
         }
     }
 }
