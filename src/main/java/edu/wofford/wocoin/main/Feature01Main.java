@@ -19,22 +19,27 @@ public class Feature01Main {
         if (args.length > 0) {
             String url = "jdbc:sqlite:" + args[0];
             while (Still_running) {
+
                 File f = new File(args[0]);
                 PreparedStatement prepStmt = null;
                 Scanner input = new Scanner(System.in);
                 System.out.println("1: exit\n2: Admin\n");
                 String answer = input.nextLine();
+
                 if (answer.equals("1")) {
                     // this exits out of the program
                     Still_running = false;
+
                 } else if (answer.equals("2")) {
                     System.out.println("Enter Admin password: ");
                     String admin_password = input.nextLine();
+
                     if (admin_password.equals("adminpwd")) {
                         System.out.println("1: back\n2: add user\n");
                         String next_answer = input.nextLine();
                         if (next_answer.equals("1")) {
                             // stays at exit admin prompt
+
                         } else if (next_answer.equals("2")) {
                             System.out.println("Enter a id");
                             String id = input.nextLine();
@@ -47,8 +52,8 @@ public class Feature01Main {
 
                             if (f.exists()) {
                                 System.out.println(f);
+
                                 try (Connection conn = DriverManager.getConnection(url)) {
-                                    System.out.println("Past the try");
                                     Statement stmt = conn.createStatement();
                                     String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
                                     prepStmt = conn.prepareStatement(sqls);
@@ -57,6 +62,7 @@ public class Feature01Main {
                                     System.out.println("" + id + " " + int_salt + " " + hash);
                                     prepStmt.setString(3, hash);
                                     prepStmt.executeUpdate();
+
                                     prepStmt.close();
                                 } catch (SQLException e) {
                                     e.printStackTrace();
