@@ -1,0 +1,51 @@
+README
+
+This is a scratch text file where we're putting all the code we :"commented out" either for confusion, code failure, or future use
+
+Each section has the code (with comment out /* */) and begins with the java class it came from
+
+There may also be brief descriptions of what the purpose was
+
+------------------------------------------------------------------------------------------------------------------------
+Users.java
+
+We originally wanted this to be our file for Adding Users to the database,
+we found it redundant due to the Feature01Main code
+
+  /*  public static void AddUser(String username, String password) {
+         String url = "jdbc:sqlite:" + filename;
+        String[] sqls = {" "};
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            for (String sql : sqls) {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+                stmt.close();
+                // Wait for one second so that timestamps are different.
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }*/
+------------------------------------------------------------------------------------------------------------------------
+
+UsersTest.java
+
+This is where we were doing our Unit Testing (JUnit)
+We tried writing tests for USeres.java before abandoning that and writing most of our code in Feature01Main
+
+/*
+    @Test
+    public void UsersTest2(){
+        //third test on if user exists / can be created
+        Users tester = new Users();
+
+    }
+*/
+
+------------------------------------------------------------------------------------------------------------------------
