@@ -14,10 +14,8 @@ public class UsersTest {
         Feature01Main tester = new Feature01Main();
 
     }
+    @Test
     public void saltpasswordTest() {
-        int int_salt = Utilities.generateSalt();
-        String salt = Integer.toString(int_salt);
-        String hash = "" + Utilities.applySha256("password") + salt;
 
     }
 
