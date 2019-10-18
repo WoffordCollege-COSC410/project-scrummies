@@ -25,8 +25,8 @@ public class Users {
         return newPassword;
     }
 
-    public static void AddUser(String username, String password) {
-        /* String url = "jdbc:sqlite:" + filename;
+  /*  public static void AddUser(String username, String password) {
+         String url = "jdbc:sqlite:" + filename;
         String[] sqls = {" "};
 
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -43,6 +43,6 @@ public class Users {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } */
-    }
+        }
+    }*/
 }
