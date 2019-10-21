@@ -33,4 +33,8 @@ public class DatabaseTest {
         }
 
     }
+
+    public void testOpenExistingDatabase() {
+        Database d = new Database("test/resources/test.db");
+    }
 }
