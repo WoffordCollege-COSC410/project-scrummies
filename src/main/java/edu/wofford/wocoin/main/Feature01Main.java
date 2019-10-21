@@ -18,6 +18,23 @@ public class Feature01Main {
         boolean Still_running = true;
         if (args.length > 0) {
             while (Still_running) {
+                Scanner input = new Scanner(System.in);
+                System.out.println("1: exit\n2: Admin\n");
+                String answer = input.nextLine();
+
+                if (answer.equals("1")) {
+                    Still_running = false;
+                } else {
+                    System.out.println("Enter Password");
+                    String Pass = input.nextLine();
+
+                    if (Pass.equals("adminpwd")){
+
+                    } else {
+                        System.out.println("Incorrect administrator password.");
+                    }
+
+                }
 
             }
         }
