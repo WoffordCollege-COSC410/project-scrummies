@@ -90,3 +90,90 @@ These are our Unit tests. We don't really know how to write Unit Tests so we exp
 
 ------------------------------------------------------------------------------------------------------------------------
 
+FEATURE 01 MAIN FIRST TRY
+We;ve gotten to the point (Sprint 2) that we need to completely start over,
+this will be our reference in cse we get stuck
+
+package edu.wofford.wocoin.main;
+
+import edu.wofford.wocoin.Users;
+import edu.wofford.wocoin.Utilities;
+import org.web3j.abi.datatypes.Int;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+import java.io.File;
+import java.sql.PreparedStatement;
+
+public class Feature01Main {
+    //main file for Feature01
+    public static void main(String[] args) {
+        boolean Still_running = true;
+        if (args.length > 0) {
+            String url = "jdbc:sqlite:" + args[0];
+            while (Still_running) {
+
+                File f = new File(args[0]);
+                PreparedStatement prepStmt = null;
+                Scanner input = new Scanner(System.in);
+                System.out.println("1: exit\n2: Admin\n");
+                String answer = input.nextLine();
+
+                if (answer.equals("1")) {
+                    // this exits out of the program
+                    Still_running = false;
+
+                } else if (answer.equals("2")) {
+                    System.out.println("Enter Admin password: ");
+                    String admin_password = input.nextLine();
+
+                    if (admin_password.equals("adminpwd")) {
+                        System.out.println("1: back\n2: add user\n");
+                        String next_answer = input.nextLine();
+                        if (next_answer.equals("1")) {
+                            // stays at exit admin prompt
+
+                        } else if (next_answer.equals("2")) {
+                            System.out.println("Enter a id");
+                            String id = input.nextLine();
+                            System.out.println("Enter a password");
+                            String password = input.nextLine();
+
+                            String[] Salt_Hash = Users.SaltPassword(password);
+                            int int_salt = Integer.parseInt(Salt_Hash[0]);
+                            String hash = Salt_Hash[1];
+
+                            if (f.exists()) {
+                                System.out.println(f);
+
+                                try (Connection conn = DriverManager.getConnection(url)) {
+                                    Statement stmt = conn.createStatement();
+                                    String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
+                                    prepStmt = conn.prepareStatement(sqls);
+                                    prepStmt.setString(1, id);
+                                    prepStmt.setInt(2, int_salt);
+                                    System.out.println("" + id + " " + int_salt + " " + hash);
+                                    prepStmt.setString(3, hash);
+                                    prepStmt.executeUpdate();
+
+                                    prepStmt.close();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                Utilities.createNewDatabase(args[0]);
+                            }
+                        } else {
+                            System.out.println("You must specify the database filepath as a command-line argument.");
+                        }
+                    } else {
+                        // stays at exit admin prompt
+                    }
+                }
+            }
+        }
+    }
+}
