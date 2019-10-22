@@ -1,6 +1,8 @@
 package edu.wofford.wocoin;
 
 import static org.junit.Assert.*;
+
+import gherkin.lexer.Fi;
 import org.junit.Test;
 import java.io.File;
 import java.sql.*;
@@ -31,10 +33,28 @@ public class DatabaseTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
-
+    @Test
     public void testOpenExistingDatabase() {
-        Database d = new Database("test/resources/test.db");
+       Database db= new Database("src/test/resource/testdb.db");
+       assertEquals(true,db.FileExist("testdb.db"));
+       assertEquals(false,db.FileExist("false.db"));
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"jdoe\";");
+            assertNotNull(rs.next());
+            assertEquals("jdoe", rs.getString(1));
+            assertNotNull(rs.next());
+            assertEquals("13687", rs.getString(2));
+            assertNotNull(rs.next());
+            assertEquals("ebd3528832b124bb7886cd8e8d42871c99e06d5f3ad0c6ee883f6219b2b6a955", rs.getString(3));
+            assertNotNull(rs.next());
+            //assertNull(rs.next());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
+
+
 }
