@@ -46,11 +46,8 @@ public class DatabaseTest {
             ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"jdoe\";");
             assertNotNull(rs.next());
             assertEquals("jdoe", rs.getString(1));
-            assertNotNull(rs.next());
-            assertEquals("13687", rs.getString(2));
-            assertNotNull(rs.next());
+            assertEquals("13587", rs.getString(2));
             assertEquals("ebd3528832b124bb7886cd8e8d42871c99e06d5f3ad0c6ee883f6219b2b6a955", rs.getString(3));
-            assertNotNull(rs.next());
             //assertNull(rs.next());
         } catch (SQLException e) {
             e.printStackTrace();
