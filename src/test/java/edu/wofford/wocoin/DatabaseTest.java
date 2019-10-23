@@ -53,7 +53,19 @@ public class DatabaseTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    }
+    @Test
+    public void testAddExistingUser() {
+        Database db = new Database("src/test/resources/testdb.db");
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"jdoe\";");
+            assertNotNull(rs.next());
+            assertEquals("jdoe", rs.getString(1));
+            System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
