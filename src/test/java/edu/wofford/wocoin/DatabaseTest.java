@@ -36,6 +36,8 @@ public class DatabaseTest {
     }
     @Test
     public void testOpenExistingDatabase() {
+        //make a private FileExist function so that the "client" wouldn't have to see it
+        //Dr. Garrett asked us to do that^^
        Database db= new Database("src/test/resource/testdb.db");
        assertEquals(true,db.FileExist("testdb.db"));
        assertEquals(false,db.FileExist("false.db"));
