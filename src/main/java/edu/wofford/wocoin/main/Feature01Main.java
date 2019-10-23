@@ -16,10 +16,10 @@ import java.sql.PreparedStatement;
 public class Feature01Main {
     //main file for Feature01
     public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
         boolean Still_running = true;
         if (args.length > 0) {
             while (Still_running) {
-                Scanner input = new Scanner(System.in);
                 System.out.println("1: exit\n2: Admin\n");
                 String answer = input.nextLine();
 
