@@ -2,7 +2,7 @@ Feature: Allow administrators to add users to the database.
   
   The administrator should be able to add users to the database.
   The program should take a single command-line argument for the database file.
-  It should present the user with a menu of three numbered options
+  It should present the user with a menu of two numbered options
   as follows:
   
   1: exit

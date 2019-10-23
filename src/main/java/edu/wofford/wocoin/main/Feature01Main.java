@@ -1,5 +1,6 @@
 package edu.wofford.wocoin.main;
 
+import edu.wofford.wocoin.Database;
 import edu.wofford.wocoin.Users;
 import edu.wofford.wocoin.Utilities;
 import org.web3j.abi.datatypes.Int;
@@ -29,7 +30,12 @@ public class Feature01Main {
                     String Pass = input.nextLine();
 
                     if (Pass.equals("adminpwd")){
-
+                        System.out.println("1: back\n2: add user\n");
+                        String next_step = input.nextLine();
+                        if (next_step.equals("2")) {
+                            Database d = new Database(args[0]);
+                            d.AddUser(args[0], "jsmith");
+                        }
                     } else {
                         System.out.println("Incorrect administrator password.");
                     }
