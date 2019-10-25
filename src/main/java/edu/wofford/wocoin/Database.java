@@ -14,6 +14,7 @@ public class Database {
 
     public Database(String filename) {
         Utilities.createNewDatabase(filename);
+        File file = new File(filename);
     }
     public boolean FileExist(String filename) {
         File f = new File(filename);
@@ -23,7 +24,6 @@ public class Database {
         return false;
     }
     public void AddUser(String filename, String id){
-        File file = new File(filename);
         Database db= new Database("filename");
         int salt = Utilities.generateSalt();
 
