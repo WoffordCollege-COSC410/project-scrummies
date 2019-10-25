@@ -9,13 +9,14 @@ import static org.junit.Assert.assertNotNull;
 
 
 public class Database {
-   
 
+    private File file;
 
     public Database(String filename) {
         Utilities.createNewDatabase(filename);
-        File file = new File(filename);
+        file = new File(filename);
     }
+
     public boolean FileExist(String filename) {
         File f = new File(filename);
         if (f.exists()) {
@@ -23,27 +24,51 @@ public class Database {
         }
         return false;
     }
-    public void AddUser(String filename, String id){
-        Database db= new Database("filename");
+
+    public void AddUser(String id) {
         int salt = Utilities.generateSalt();
-
         String hash = Utilities.applySha256(id + salt);
+        String url = "jdbc:sqlite:" + file;
+        if (file.exists()) {
+            if (!checkUser(id)) {
+                try (Connection conn = DriverManager.getConnection(url)) {
+                    Statement stmt = conn.createStatement();
+                    String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
+                    PreparedStatement prepStmt = conn.prepareStatement(sqls);
+                    prepStmt = conn.prepareStatement(sqls);
+                    prepStmt.setString(1, id);
+                    prepStmt.setInt(2, salt);
+                    //System.out.println("" + id + " " + salt + " " + hash);
+                    prepStmt.setString(3, hash);
+                    prepStmt.executeUpdate();
+                    System.out.println(id + " was added.");
+                    prepStmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println(id + " already exists.");
+            }
+        } else {
+            Utilities.createNewDatabase(url);
+        }
+    }
 
-        try (Connection conn = DriverManager.getConnection(filename)) {
+    public boolean checkUser(String id1) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
-            String sqls = "INSERT INTO users (id, salt, hash) VALUES (?, ?, ?)";
-            PreparedStatement prepStmt = conn.prepareStatement(sqls);
-            prepStmt = conn.prepareStatement(sqls);
-            prepStmt.setString(1, id);
-            prepStmt.setInt(2, salt);
-            System.out.println("" + id + " " + salt + " " + hash);
-            prepStmt.setString(3, hash);
-            prepStmt.executeUpdate();
-
-            prepStmt.close();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = '" + id1 + "';");
+            rs.next();
+            String result = rs.getString(1);
+            if (result.equals(id1)) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+        return false;
     }
 }
