@@ -36,6 +36,8 @@ public class DatabaseTest {
     }
     @Test
     public void testOpenExistingDatabase() {
+        //make a private FileExist function so that the "client" wouldn't have to see it
+        //Dr. Garrett asked us to do that^^
        Database db= new Database("src/test/resource/testdb.db");
        assertEquals(true,db.FileExist("testdb.db"));
        assertEquals(false,db.FileExist("false.db"));
@@ -44,16 +46,25 @@ public class DatabaseTest {
             ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"jdoe\";");
             assertNotNull(rs.next());
             assertEquals("jdoe", rs.getString(1));
-            assertNotNull(rs.next());
-            assertEquals("13687", rs.getString(2));
-            assertNotNull(rs.next());
+            assertEquals("13587", rs.getString(2));
             assertEquals("ebd3528832b124bb7886cd8e8d42871c99e06d5f3ad0c6ee883f6219b2b6a955", rs.getString(3));
-            assertNotNull(rs.next());
             //assertNull(rs.next());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    }
+    @Test
+    public void testAddExistingUser() {
+        Database db = new Database("src/test/resources/testdb.db");
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"jdoe\";");
+            assertNotNull(rs.next());
+            assertEquals("jdoe", rs.getString(1));
+            System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
