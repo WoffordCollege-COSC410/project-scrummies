@@ -39,8 +39,8 @@ public class DatabaseTest {
         //make a private FileExist function so that the "client" wouldn't have to see it
         //Dr. Garrett asked us to do that^^
        Database db= new Database("src/test/resource/testdb.db");
-       assertEquals(true,db.FileExist("testdb.db"));
-       assertEquals(false,db.FileExist("false.db"));
+       assertEquals(true,db.fileExist("testdb.db"));
+       assertEquals(false,db.fileExist("false.db"));
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"jdoe\";");
@@ -56,6 +56,9 @@ public class DatabaseTest {
     @Test
     public void testAddExistingUser() {
         Database db = new Database("src/test/resources/testdb.db");
+        db.addUser("Carson");
+        assertEquals(true, db.checkUser("Carson"));
+        assertEquals(false, db.checkUser("Seth"));
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"jdoe\";");

@@ -17,7 +17,7 @@ public class Database {
         file = new File(filename);
     }
 
-    public boolean FileExist(String filename) {
+    public boolean fileExist(String filename) {
         File f = new File(filename);
         if (f.exists()) {
             return true;
@@ -25,7 +25,7 @@ public class Database {
         return false;
     }
 
-    public void AddUser(String id) {
+    public void addUser(String id) {
         int salt = Utilities.generateSalt();
         String hash = Utilities.applySha256(id + salt);
         String url = "jdbc:sqlite:" + file;
@@ -63,12 +63,14 @@ public class Database {
             String result = rs.getString(1);
             if (result.equals(id1)) {
                 return true;
-            } else {
-                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void deleteUser(String user) {
+
     }
 }

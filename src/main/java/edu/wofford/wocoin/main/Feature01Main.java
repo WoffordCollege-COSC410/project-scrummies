@@ -36,7 +36,7 @@ public class Feature01Main {
                             System.out.println("Enter ID");
                             String response = input.nextLine();
                             Database d = new Database(args[0]);
-                            d.AddUser(response);
+                            d.addUser(response);
                         }
                     } else {
                         System.out.println("Incorrect administrator password.");
