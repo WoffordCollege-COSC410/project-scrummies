@@ -69,8 +69,9 @@ public class Database {
         }
         return false;
     }
-
+    /*
     public void deleteUser(String user) {
 
     }
+    */
 }
