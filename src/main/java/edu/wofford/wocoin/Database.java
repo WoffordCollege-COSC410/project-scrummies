@@ -24,7 +24,6 @@ public class Database {
         }
         return false;
     }
-
     public void addUser(String id) {
         int salt = Utilities.generateSalt();
         String hash = Utilities.applySha256(id + salt);
