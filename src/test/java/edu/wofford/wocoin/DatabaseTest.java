@@ -56,18 +56,27 @@ public class DatabaseTest {
     @Test
     public void testAddExistingUser() {
         Database db = new Database("src/test/resources/testdb.db");
+
         db.addUser("Carson");
         assertEquals(true, db.checkUser("Carson"));
-        assertEquals(false, db.checkUser("Seth"));
+
+        System.out.println(db.checkUser("shouldbefalse"));
+        assertEquals(false, db.checkUser("shouldbefalse"));
+        db.addUser("shouldbefalse");
+
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"jdoe\";");
-            ResultSet user = stmt.executeQuery(("SELECT id FROM users WHERE id = \"Seth\";"));
             assertNotNull(rs.next());
             assertEquals("jdoe", rs.getString(1));
+            System.out.println(rs.getString(1));
+
+            Statement stmt2 = conn.createStatement();
+            ResultSet user = stmt2.executeQuery(("SELECT id FROM users WHERE id = \"Seth\";"));
             assertNotNull(user.next());
             assertEquals("Seth", user.getString(1));
-            System.out.println(rs.getString(1));
+            System.out.println(user.getString(1));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

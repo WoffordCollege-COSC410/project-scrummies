@@ -1,5 +1,4 @@
 /**
- * <h1>Hello, World!</h1>
  * The Database program implements a process for Feature01, specifically it runs the
  * menu for administrators to add a user.
  *
@@ -75,6 +74,8 @@ public class Database {
             String result = rs.getString(1);
             if (result.equals(id1)) {
                 return true;
+            } else {
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
