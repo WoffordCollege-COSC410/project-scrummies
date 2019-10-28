@@ -1,3 +1,16 @@
+/**
+ * <h1>Hello, World!</h1>
+ * The Database program implements a process for Feature01, specifically it runs the
+ * menu for administrators to add a user.
+ *
+ *The menu gives you two initial options: 1. exit 2. Admin, if Admin is chosen
+ * then the correct password must be entered in order to add a new user
+ * with a unique username id and password
+ *
+ * @author Seth Ledford, Carson Vayhinger, Jack Dextraze, and Avery McMillen
+ * @since 2019-10-09
+ */
+
 package edu.wofford.wocoin;
 import gherkin.lexer.Fi;
 
