@@ -61,8 +61,6 @@ public class DatabaseTest {
         }
         Database db = new Database("src/test/resources/testdb.db");
 
-
-
         db.addUser("Carson");
         db.addUser("Carson");
         assertEquals(true, db.checkUser("Carson"));
@@ -96,6 +94,7 @@ public class DatabaseTest {
         Database db = new Database("src/test/resources/testdb.db");
         db.addUser("Seth");
         assertEquals(true, db.checkUser("Seth"));
+
         db.deleteUser("Seth");
         assertEquals(false, db.checkUser("Seth"));
 
