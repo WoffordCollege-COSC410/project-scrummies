@@ -81,7 +81,20 @@ public class DatabaseTest {
             e.printStackTrace();
         }
     }
+    @Test
+    public void testDeleteUser() {
+        Database db = new Database("src/test/resources/testdb.db");
+        db.deleteUser("Seth");
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"Seth\";");
+            assertNull(rs.next());
+            System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+    }
 
 
 }

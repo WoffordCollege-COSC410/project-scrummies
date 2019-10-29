@@ -82,9 +82,16 @@ public class Database {
         }
         return false;
     }
-    /*
-    public void deleteUser(String user) {
 
+    public void deleteUser(String user) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            stmt.executeQuery("DELETE FROM users WHERE id = '" + user + "';");
+            System.out.println("" + user + " was removed.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-    */
+
 }
