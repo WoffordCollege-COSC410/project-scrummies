@@ -85,12 +85,19 @@ public class Database {
 
     public void deleteUser(String user) {
         String url = "jdbc:sqlite:" + file;
-        try (Connection conn = DriverManager.getConnection(url)) {
-            Statement stmt = conn.createStatement();
-            stmt.executeQuery("DELETE FROM users WHERE id = '" + user + "';");
-            System.out.println("" + user + " was removed.");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (file.exists()) {
+            if (checkUser(user)) {
+                try (Connection conn = DriverManager.getConnection(url)) {
+                    Statement stmt = conn.createStatement();
+                    stmt.executeUpdate("DELETE FROM users WHERE id = '" + user + "';");
+                    System.out.println(user + " was removed.");
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                System.out.println(user + " does not exist.");
+            }
         }
     }
 

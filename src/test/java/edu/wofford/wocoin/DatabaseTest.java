@@ -55,12 +55,18 @@ public class DatabaseTest {
     }
     @Test
     public void testAddExistingUser() {
+        File dbfile = new File("src/test/resources/testdb.db");
+        if (dbfile.exists()) {
+            dbfile.delete();
+        }
         Database db = new Database("src/test/resources/testdb.db");
 
+
+
+        db.addUser("Carson");
         db.addUser("Carson");
         assertEquals(true, db.checkUser("Carson"));
 
-        System.out.println(db.checkUser("shouldbefalse"));
         assertEquals(false, db.checkUser("shouldbefalse"));
         db.addUser("shouldbefalse");
 
@@ -83,17 +89,28 @@ public class DatabaseTest {
     }
     @Test
     public void testDeleteUser() {
+        File dbfile = new File("src/test/resources/testdb.db");
+        if (dbfile.exists()) {
+            dbfile.delete();
+        }
         Database db = new Database("src/test/resources/testdb.db");
+        db.addUser("Seth");
+        assertEquals(true, db.checkUser("Seth"));
         db.deleteUser("Seth");
+        assertEquals(false, db.checkUser("Seth"));
+
+        assertEquals(false, db.checkUser("Drew"));
+        db.deleteUser("Drew");
+        /*
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"Seth\";");
-            assertNull(rs.next());
+            //assertNull();
             System.out.println(rs.getString(1));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        */
     }
 
 
