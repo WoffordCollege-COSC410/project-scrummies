@@ -74,8 +74,6 @@ public class Database {
             String result = rs.getString(1);
             if (result.equals(id1)) {
                 return true;
-            } else {
-                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,19 +83,17 @@ public class Database {
 
     public void deleteUser(String user) {
         String url = "jdbc:sqlite:" + file;
-        if (file.exists()) {
-            if (checkUser(user)) {
-                try (Connection conn = DriverManager.getConnection(url)) {
-                    Statement stmt = conn.createStatement();
-                    stmt.executeUpdate("DELETE FROM users WHERE id = '" + user + "';");
-                    System.out.println(user + " was removed.");
-                    stmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }else {
-                System.out.println(user + " does not exist.");
+        if (checkUser(user)) {
+            try (Connection conn = DriverManager.getConnection(url)) {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate("DELETE FROM users WHERE id = '" + user + "';");
+                System.out.println(user + " was removed.");
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
+        }else {
+            System.out.println(user + " does not exist.");
         }
     }
 
