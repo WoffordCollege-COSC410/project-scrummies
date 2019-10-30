@@ -24,11 +24,20 @@ public class Database {
 
     private File file;
 
+    /**
+     *Creates a new database and sets it to name, as well as creates file
+     * @param filename refers to name that database is set to
+     */
     public Database(String filename) {
         Utilities.createNewDatabase(filename);
         file = new File(filename);
     }
 
+    /**
+     *Checks if file exists or not
+     * @param filename refers to name of database that is being checked
+     * @return true if file does exist, false if it doesn't
+     */
     public boolean fileExist(String filename) {
         File f = new File(filename);
         if (f.exists()) {
@@ -36,6 +45,14 @@ public class Database {
         }
         return false;
     }
+
+    /**
+     *This method adds a new user after the admin password has been properly entered.
+     * It then takes the user id and salts and hashes it and stores the hashed password.
+     * If a new user is added, the user is told the id was added, if the id already exists,
+     * an "already exists" comment is thrown.
+     * @param id entered user id
+     */
     public void addUser(String id) {
         int salt = Utilities.generateSalt();
         String hash = Utilities.applySha256(id + salt);
@@ -65,6 +82,11 @@ public class Database {
         }
     }
 
+    /**
+     *This method sees if the given user id already exists and returns the results to be used in "addUser"
+     * @param id1 entered user id
+     * @return true if id already exists, otherwise returns false
+     */
     public boolean checkUser(String id1) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -81,6 +103,12 @@ public class Database {
         return false;
     }
 
+    /**
+     *This method removes an id if the admin properly enters the admin password and gives an id that
+     * is being stored. If a user id that is given does exist, it is removed and the user is told that,
+     * if the given id does not exist, a "does not exist" comment is thrown.
+     * @param user the referred to user id to be removed
+     */
     public void deleteUser(String user) {
         String url = "jdbc:sqlite:" + file;
         if (checkUser(user)) {

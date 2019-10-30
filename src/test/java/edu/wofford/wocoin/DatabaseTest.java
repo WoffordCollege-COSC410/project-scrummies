@@ -85,6 +85,7 @@ public class DatabaseTest {
             e.printStackTrace();
         }
     }
+
     @Test
     public void testDeleteUser() {
         File dbfile = new File("src/test/resources/testdb.db");
@@ -100,16 +101,7 @@ public class DatabaseTest {
 
         assertEquals(false, db.checkUser("Drew"));
         db.deleteUser("Drew");
-        /*
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"Seth\";");
-            //assertNull();
-            System.out.println(rs.getString(1));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        */
+
     }
 
 

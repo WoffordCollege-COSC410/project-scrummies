@@ -244,3 +244,17 @@ public class Users {
     }
 
 }
+------------------------------------------------------------------------------------------------------------------------
+
+DatabaseTest.java
+Extra code falling under testDeleteUser
+/*
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"Seth\";");
+            //assertNull();
+            System.out.println(rs.getString(1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        */
