@@ -1,15 +1,3 @@
-/**
- * The Database program implements a process for Feature01, specifically it runs the
- * menu for administrators to add a user.
- *
- *The menu gives you two initial options: 1. exit 2. Admin, if Admin is chosen
- * then the correct password must be entered in order to add a new user
- * with a unique username id and password
- *
- * @author Seth Ledford, Carson Vayhinger, Jack Dextraze, and Avery McMillen
- * @since 2019-10-09
- */
-
 package edu.wofford.wocoin;
 import gherkin.lexer.Fi;
 
@@ -18,6 +6,22 @@ import java.sql.*;
 import java.sql.PreparedStatement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+/**
+ * The Database program implements a process for Feature01 and Feature02, specifically it runs the
+ * menu for administrators to add a user in Feature01 while Feature02 allows an administrator
+ * to both add and remove a user
+ *
+ *The menu in Feature01 gives you two initial options: 1. exit 2. Admin, if Admin is chosen
+ * then the correct password must be entered in order to add a new user
+ * with a unique username id and password
+ * The menu in Feature02 implements the same above menu, but has a third "remove user" option
+ * when the admin password is properly entered. To remove a user, an existing user id name
+ * must be entered
+ *
+ * @author Seth Ledford, Carson Vayhinger, Jack Dextraze, and Avery McMillen
+ * @since 2019-10-09
+ */
 
 
 public class Database {
