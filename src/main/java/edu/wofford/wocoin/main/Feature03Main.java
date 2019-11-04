@@ -11,12 +11,12 @@ public class Feature03Main {
         boolean password_Correct;
         if (args.length > 0) {
             while (still_Running) {
-                System.out.println("1: exit\n2: Admin\n");
+                System.out.println("1: exit\n2: Admin\n3: User\n");
                 String answer = input.nextLine();
 
                 if (answer.equals("1")) {
                     still_Running = false;
-                } else {
+                } else if (answer.equals("2")) {
                     System.out.println("Enter Password");
                     String Pass = input.nextLine();
 
@@ -44,6 +44,12 @@ public class Feature03Main {
                         System.out.println("Incorrect administrator password.");
                     }
 
+                } else {
+                    System.out.println("1: back\n2: create wallet\n");
+                    String next_answer = input.nextLine();
+                    if (next_answer.equals("2")) {
+
+                    }
                 }
 
             }
