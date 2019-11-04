@@ -66,7 +66,6 @@ public class Database {
                     prepStmt = conn.prepareStatement(sqls);
                     prepStmt.setString(1, id);
                     prepStmt.setInt(2, salt);
-                    //System.out.println("" + id + " " + salt + " " + hash);
                     prepStmt.setString(3, hash);
                     prepStmt.executeUpdate();
                     System.out.println(id + " was added.");

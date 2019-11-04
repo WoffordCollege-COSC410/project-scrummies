@@ -13,7 +13,6 @@ public class Feature01Main {
             while (Still_running) {
                 System.out.println("1: exit\n2: Admin\n");
                 String answer = input.nextLine();
-
                 if (answer.equals("1")) {
                     Still_running = false;
                 } else {
