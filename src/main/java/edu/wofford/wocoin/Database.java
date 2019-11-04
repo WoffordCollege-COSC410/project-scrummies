@@ -6,6 +6,7 @@ import java.sql.*;
 import java.sql.PreparedStatement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import org.web3j.*;
 
 /**
  * The Database program implements a process for Feature01 and Feature02, specifically it runs the
