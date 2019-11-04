@@ -4,7 +4,7 @@ import edu.wofford.wocoin.Database;
 
 import java.util.Scanner;
 
-public class Feature02Main {
+public class Feature03Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean still_Running = true;
