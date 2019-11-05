@@ -112,6 +112,7 @@ public class DatabaseTest {
         Database db = new Database("src/test/resources/testdb.db");
         db.addUser("Seth");
         assertEquals(true, db.check_User_password("Seth", "Seth"));
+        db.check_User_password("Elise", "Elise");
     }
 
 

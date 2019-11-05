@@ -67,11 +67,7 @@ public class Feature03Main {
                                 //need to create wallet
                             }
                         }
-                    } else {
-                        System.out.println("No such user.");
                     }
-
-
                 }
 
             }

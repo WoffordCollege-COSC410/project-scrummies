@@ -131,26 +131,31 @@ public class Database {
 
     public boolean check_User_password(String user, String password) {
         String url = "jdbc:sqlite:" + file;
-        try (Connection conn = DriverManager.getConnection(url)) {
-            Statement stmt = conn.createStatement();
+        if (checkUser(user)) {
+            try (Connection conn = DriverManager.getConnection(url)) {
+                Statement stmt = conn.createStatement();
 
-            ResultSet users_hash = stmt.executeQuery("SELECT hash FROM users WHERE id = '" + user + "';");
-            users_hash.next();
-            String users_hashString = users_hash.getString(1);
+                ResultSet users_hash = stmt.executeQuery("SELECT hash FROM users WHERE id = '" + user + "';");
+                users_hash.next();
+                String users_hashString = users_hash.getString(1);
 
-            ResultSet users_salt = stmt.executeQuery("SELECT salt FROM users WHERE id = '" + user + "';");
-            users_salt.next();
-            String users_saltSring = users_salt.getString(1);
-            users_saltSring = password + users_saltSring;
+                ResultSet users_salt = stmt.executeQuery("SELECT salt FROM users WHERE id = '" + user + "';");
+                users_salt.next();
+                String users_saltSring = users_salt.getString(1);
+                users_saltSring = password + users_saltSring;
 
-            String salt_Input_Password = Utilities.applySha256(users_saltSring);
+                String salt_Input_Password = Utilities.applySha256(users_saltSring);
 
-            if (users_hashString.equals(salt_Input_Password)) {
-                return true;
+                if (users_hashString.equals(salt_Input_Password)) {
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("No such user.");
         }
         return false;
     }
+
 }
