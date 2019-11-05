@@ -103,6 +103,16 @@ public class DatabaseTest {
         db.deleteUser("Drew");
 
     }
+    @Test
+    public void check_User_password() {
+        File dbfile = new File("src/test/resources/testdb.db");
+        if (dbfile.exists()) {
+            dbfile.delete();
+        }
+        Database db = new Database("src/test/resources/testdb.db");
+        db.addUser("Seth");
+        assertEquals(true, db.check_User_password("Seth", "Seth"));
+    }
 
 
 }

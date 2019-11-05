@@ -9,6 +9,7 @@ public class Feature03Main {
         Scanner input = new Scanner(System.in);
         boolean still_Running = true;
         boolean password_Correct;
+        boolean user_Password_Correct;
         if (args.length > 0) {
             while (still_Running) {
                 System.out.println("1: exit\n2: Admin\n3: User\n");
@@ -45,11 +46,32 @@ public class Feature03Main {
                     }
 
                 } else {
-                    System.out.println("1: back\n2: create wallet\n");
-                    String next_answer = input.nextLine();
-                    if (next_answer.equals("2")) {
+                    Database d = new Database(args[0]);
 
+                    System.out.println("Enter User");
+                    String user = input.nextLine();
+
+                    System.out.println("Enter users password");
+                    String password = input.nextLine();
+
+                    if (d.check_User_password(user, password)) {
+                        user_Password_Correct = true;
+
+                        while (user_Password_Correct) {
+                            System.out.println("1: back\n2: create wallet\n");
+                            String next_answer = input.nextLine();
+
+                            if (next_answer.equals("1")) {
+                                user_Password_Correct = false;
+                            } else {
+                                //need to create wallet
+                            }
+                        }
+                    } else {
+                        System.out.println("No such user.");
                     }
+
+
                 }
 
             }

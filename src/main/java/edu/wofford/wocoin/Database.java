@@ -6,7 +6,7 @@ import java.sql.*;
 import java.sql.PreparedStatement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import org.web3j.*;
+//import org.web3j.*;
 
 /**
  * The Database program implements a process for Feature01 and Feature02, specifically it runs the
@@ -129,4 +129,28 @@ public class Database {
         }
     }
 
+    public boolean check_User_password(String user, String password) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+
+            ResultSet users_hash = stmt.executeQuery("SELECT hash FROM users WHERE id = '" + user + "';");
+            users_hash.next();
+            String users_hashString = users_hash.getString(1);
+
+            ResultSet users_salt = stmt.executeQuery("SELECT salt FROM users WHERE id = '" + user + "';");
+            users_salt.next();
+            String users_saltSring = users_salt.getString(1);
+            users_saltSring = password + users_saltSring;
+
+            String salt_Input_Password = Utilities.applySha256(users_saltSring);
+
+            if (users_hashString.equals(salt_Input_Password)) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
