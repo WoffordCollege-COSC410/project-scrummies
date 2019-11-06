@@ -131,6 +131,14 @@ public class Database {
         }
     }
 
+    /**
+     * Checks a given user id to see if in database, then checks the given password to
+     * see if it matches the existing use id and therefore exists or not
+     * @param user Given user id
+     * @param password Given corresponding password
+     * @return if the USer id and password match and exists, return true,
+     * else return "No such User" message
+     */
     public boolean checkUserpassword(String user, String password) {
         String url = "jdbc:sqlite:" + file;
         if (checkUser(user)) {
