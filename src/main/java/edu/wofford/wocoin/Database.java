@@ -32,7 +32,8 @@ public class Database {
     private File file;
 
     /**
-     *Creates a new database and sets it to name, as well as creates file
+     * Creates a new database and sets it to name, as well as creates file
+     *
      * @param filename refers to name that database is set to
      */
     public Database(String filename) {
@@ -42,10 +43,11 @@ public class Database {
 
 
     /**
-     *This method adds a new user after the admin password has been properly entered.
+     * This method adds a new user after the admin password has been properly entered.
      * It then takes the user id and salts and hashes it and stores the hashed password.
      * If a new user is added, the user is told the id was added, if the id already exists,
      * an "already exists" comment is thrown.
+     *
      * @param id entered user id
      */
     public void addUser(String id) {
@@ -77,7 +79,8 @@ public class Database {
     }
 
     /**
-     *This method sees if the given user id already exists and returns the results to be used in "addUser"
+     * This method sees if the given user id already exists and returns the results to be used in "addUser"
+     *
      * @param id1 entered user id
      * @return true if id already exists, otherwise returns false
      */
@@ -98,9 +101,10 @@ public class Database {
     }
 
     /**
-     *This method removes an id if the admin properly enters the admin password and gives an id that
+     * This method removes an id if the admin properly enters the admin password and gives an id that
      * is being stored. If a user id that is given does exist, it is removed and the user is told that,
      * if the given id does not exist, a "does not exist" comment is thrown.
+     *
      * @param user the referred to user id to be removed
      */
     public void deleteUser(String user) {
@@ -114,7 +118,7 @@ public class Database {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             System.out.println(user + " does not exist.");
         }
     }
@@ -122,7 +126,8 @@ public class Database {
     /**
      * Checks a given user id to see if in database, then checks the given password to
      * see if it matches the existing use id and therefore exists or not
-     * @param user Given user id
+     *
+     * @param user     Given user id
      * @param password Given corresponding password
      * @return if the USer id and password match and exists, return true,
      * else return "No such User" message
@@ -164,7 +169,7 @@ public class Database {
             PreparedStatement prepStmt = conn.prepareStatement(sqls);
             prepStmt = conn.prepareStatement(sqls);
             prepStmt.setInt(1, price);
-            prepStmt.setString(2,name);
+            prepStmt.setString(2, name);
             prepStmt.setString(3, description);
             prepStmt.executeUpdate();
             System.out.println(name + " was added.");
@@ -177,4 +182,5 @@ public class Database {
         System.out.println(name + " already exists.");
     }
     */
+    }
 }

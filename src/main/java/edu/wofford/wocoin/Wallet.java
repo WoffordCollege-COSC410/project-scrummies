@@ -19,5 +19,4 @@ public class Wallet {
             System.out.println(ex);
         }
     }
-
 }
