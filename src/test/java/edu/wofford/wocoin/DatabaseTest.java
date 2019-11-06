@@ -29,7 +29,6 @@ public class DatabaseTest {
             assertEquals("products", rs.getString(2));
             assertNotNull(rs.next());
             assertEquals("messages", rs.getString(2));
-            //assertNull(rs.next());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -39,8 +38,6 @@ public class DatabaseTest {
         //make a private FileExist function so that the "client" wouldn't have to see it
         //Dr. Garrett asked us to do that^^
        Database db= new Database("src/test/resource/testdb.db");
-       assertEquals(true,db.fileExist("testdb.db"));
-       assertEquals(false,db.fileExist("false.db"));
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id = \"jdoe\";");
@@ -104,15 +101,15 @@ public class DatabaseTest {
 
     }
     @Test
-    public void check_User_password() {
+    public void checkUserPassword() {
         File dbfile = new File("src/test/resources/testdb.db");
         if (dbfile.exists()) {
             dbfile.delete();
         }
         Database db = new Database("src/test/resources/testdb.db");
         db.addUser("Seth");
-        assertEquals(true, db.check_User_password("Seth", "Seth"));
-        db.check_User_password("Elise", "Elise");
+        assertEquals(true, db.checkUserPassword("Seth", "Seth"));
+        db.checkUserPassword("Elise", "Elise");
     }
 
 

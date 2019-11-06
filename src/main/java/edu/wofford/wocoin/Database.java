@@ -40,18 +40,6 @@ public class Database {
         file = new File(filename);
     }
 
-    /**
-     *Checks if file exists or not
-     * @param filename refers to name of database that is being checked
-     * @return true if file does exist, false if it doesn't
-     */
-    public boolean fileExist(String filename) {
-        File f = new File(filename);
-        if (f.exists()) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      *This method adds a new user after the admin password has been properly entered.
@@ -139,7 +127,7 @@ public class Database {
      * @return if the USer id and password match and exists, return true,
      * else return "No such User" message
      */
-    public boolean checkUserpassword(String user, String password) {
+    public boolean checkUserPassword(String user, String password) {
         String url = "jdbc:sqlite:" + file;
         if (checkUser(user)) {
             try (Connection conn = DriverManager.getConnection(url)) {
@@ -168,4 +156,25 @@ public class Database {
         return false;
     }
 
+    public void addProduct(String name, String description, int price) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            String sqls = "INSERT INTO products (price, name, description) VALUES (?, ?, ?)";
+            PreparedStatement prepStmt = conn.prepareStatement(sqls);
+            prepStmt = conn.prepareStatement(sqls);
+            prepStmt.setInt(1, price);
+            prepStmt.setString(2,name);
+            prepStmt.setString(3, description);
+            prepStmt.executeUpdate();
+            System.out.println(name + " was added.");
+            prepStmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    /*
+    } else {
+        System.out.println(name + " already exists.");
+    }
+    */
 }

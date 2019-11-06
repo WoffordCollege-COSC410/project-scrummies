@@ -54,13 +54,12 @@ public class Feature03Main {
                     System.out.println("Enter users password");
                     String password = input.nextLine();
 
-                    if (d.checkUserpassword(user, password)) {
+                    if (d.checkUserPassword(user, password)) {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
                             System.out.println("1: back\n2: create wallet\n");
                             String next_answer = input.nextLine();
-
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
                             } else {
