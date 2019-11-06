@@ -1,12 +1,14 @@
 package edu.wofford.wocoin;
-import gherkin.lexer.Fi;
 
 import java.io.File;
 import java.sql.*;
 import java.sql.PreparedStatement;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-//import org.web3j.*;
+import java.io.IOException;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.protocol.core.methods.response.EthBlockNumber;
+import org.web3j.protocol.core.methods.response.EthGasPrice;
+import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 
 /**
  * The Database program implements a process for Feature01 and Feature02, specifically it runs the
@@ -129,7 +131,7 @@ public class Database {
         }
     }
 
-    public boolean check_User_password(String user, String password) {
+    public boolean checkUserpassword(String user, String password) {
         String url = "jdbc:sqlite:" + file;
         if (checkUser(user)) {
             try (Connection conn = DriverManager.getConnection(url)) {

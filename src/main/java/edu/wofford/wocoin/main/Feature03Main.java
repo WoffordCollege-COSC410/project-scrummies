@@ -54,7 +54,7 @@ public class Feature03Main {
                     System.out.println("Enter users password");
                     String password = input.nextLine();
 
-                    if (d.check_User_password(user, password)) {
+                    if (d.checkUserpassword(user, password)) {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
