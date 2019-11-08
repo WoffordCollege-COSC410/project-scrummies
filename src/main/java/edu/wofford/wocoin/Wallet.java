@@ -27,7 +27,7 @@ public class Wallet {
 
         File walletFile = new File ("keystore/your_wallet_file.json");
 
-        String passwordWallet="Password12345";
+        String passwordWallet="walletpwd";
 
         try {
             credentials = WalletUtils.loadCredentials(passwordWallet, walletFile);
