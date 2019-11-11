@@ -9,10 +9,17 @@ import org.web3j.crypto.WalletUtils;
 
 public class Wallet {
 
+    private File file;
+
+    public Wallet(String walletName) {
+        file = new File(walletName);
+    }
+
     public void createWallet() {
-        File idStoreWallet = new File("idStore");
+        String dir = System.getProperty("user.dir");
+        File idStoreWallet = new File(dir +  File.separator + "ethereum" +File.separator + "node0" + File.separator + "keystore");
         String passwordWallet = "walletpwd";
-        String walletPath = "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json";
+        //String walletPath = "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json";
         try {
             String walletFile = WalletUtils.generateNewWalletFile(passwordWallet, idStoreWallet, false);
             System.out.println("File name ethereum wallet: " + walletFile);
@@ -21,16 +28,17 @@ public class Wallet {
         }
     }
 
-    public void getCredentials(){
+
+
+    public void getCredentials() {
 
         Credentials credentials;
 
-        File walletFile = new File ("keystore/your_wallet_file.json");
-
-        String passwordWallet="walletpwd";
+        String passwordWallet = "Seth";
 
         try {
-            credentials = WalletUtils.loadCredentials(passwordWallet, walletFile);
+            credentials = WalletUtils.loadCredentials(passwordWallet, file);
+            System.out.println(credentials);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CipherException e) {

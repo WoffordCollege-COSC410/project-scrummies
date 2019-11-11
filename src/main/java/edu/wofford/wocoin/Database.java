@@ -160,6 +160,12 @@ public class Database {
         return false;
     }
 
+    /**
+     *
+     * @param name
+     * @param description
+     * @param price
+     */
     public void addProduct(String name, String description, int price) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -192,16 +198,6 @@ public class Database {
         return false;
     }
 
-    public void createWallet() {
-        File idStoreWallet = new File ("C:\\Users\\sethl\\project-scrummies\\ethereum\\node0\\keystore\\");
-        String passwordWallet = "walletpwd";
-        //String walletPath = "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json";
-        try {
-            String walletFile = WalletUtils.generateNewWalletFile(passwordWallet, idStoreWallet, false);
-            System.out.println("File name ethereum wallet: " + walletFile);
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
+
 
 }

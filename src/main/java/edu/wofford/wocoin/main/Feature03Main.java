@@ -66,9 +66,13 @@ public class Feature03Main {
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
-                            } else {
+                            } else if (next_answer.equals("2")) {
                                 //need to create wallet
-                                d.createWallet();
+                                Wallet w = new Wallet(next_answer);
+                                w.createWallet();
+                            } else {
+                                Wallet w = new Wallet(next_answer);
+                                w.getCredentials();
                             }
                         }
                     }

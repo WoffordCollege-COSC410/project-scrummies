@@ -58,12 +58,12 @@ public class DatabaseTest {
         }
         Database db = new Database("src/test/resources/testdb.db");
 
-        db.addUser("Carson");
-        db.addUser("Carson");
+        db.addUser("Carson", "stinks");
+        db.addUser("Carson", "stinks");
         assertEquals(true, db.checkUser("Carson"));
 
         assertEquals(false, db.checkUser("shouldbefalse"));
-        db.addUser("shouldbefalse");
+        db.addUser("shouldbefalse", "shouldbefalse");
 
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
             Statement stmt = conn.createStatement();
@@ -90,7 +90,7 @@ public class DatabaseTest {
             dbfile.delete();
         }
         Database db = new Database("src/test/resources/testdb.db");
-        db.addUser("Seth");
+        db.addUser("Seth", "Seth");
         assertEquals(true, db.checkUser("Seth"));
 
         db.deleteUser("Seth");
@@ -107,7 +107,7 @@ public class DatabaseTest {
             dbfile.delete();
         }
         Database db = new Database("src/test/resources/testdb.db");
-        db.addUser("Seth");
+        db.addUser("Seth", "Seth");
         assertEquals(true, db.checkUserPassword("Seth", "Seth"));
         db.checkUserPassword("Elise", "Elise");
     }
