@@ -4,6 +4,10 @@ import org.junit.Test;
 
 public class WalletTest {
     @Test
-    public void name() {
+    public void walletExists() {
+    }
+
+    @Test
+    public void correctCredentials() {
     }
 }
