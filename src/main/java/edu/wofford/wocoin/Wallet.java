@@ -21,7 +21,9 @@ public class Wallet {
         String passwordWallet = "walletpwd";
         try {
             String walletFile = WalletUtils.generateNewWalletFile(passwordWallet, file, false);
+            file = new File(file + File.separator + walletFile);
             System.out.println("File name ethereum wallet: " + walletFile);
+            System.out.println("File: " + file);
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -32,12 +34,10 @@ public class Wallet {
 
         Credentials credentials;
 
-        File walletFile = new File("C:\\Users\\sethl\\project-scrummies\\ethereum\\node0\\keystore\\UTC--2019-11-11T17-04-54.869000000Z--202d79c70190a105a7320c956f73ae3cbda2703c.json");
-
         String passwordWallet = "Seth";
 
         try {
-            credentials = WalletUtils.loadCredentials(passwordWallet, walletFile);
+            credentials = WalletUtils.loadCredentials(passwordWallet, file);
             System.out.println(credentials);
         } catch (IOException e) {
             e.printStackTrace();
