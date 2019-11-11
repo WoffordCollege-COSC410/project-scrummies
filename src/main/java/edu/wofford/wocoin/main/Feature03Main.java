@@ -68,7 +68,7 @@ public class Feature03Main {
                                 user_Password_Correct = false;
                             } else {
                                 //need to create wallet
-
+                                d.createWallet();
                             }
                         }
                     }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.io.IOException;
+
+import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.protocol.core.methods.response.EthBlockNumber;
@@ -188,6 +190,18 @@ public class Database {
 
     public boolean checkWallet(String something) {
         return false;
+    }
+
+    public void createWallet() {
+        File idStoreWallet = new File ("C:\\Users\\sethl\\project-scrummies\\ethereum\\");
+        String passwordWallet = "walletpwd";
+        //String walletPath = "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json";
+        try {
+            String walletFile = WalletUtils.generateNewWalletFile(passwordWallet, idStoreWallet, false);
+            System.out.println("File name ethereum wallet: " + walletFile);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
 }
