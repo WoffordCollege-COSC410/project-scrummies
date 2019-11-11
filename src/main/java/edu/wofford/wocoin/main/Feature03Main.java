@@ -33,7 +33,10 @@ public class Feature03Main {
                                 System.out.println("Enter ID");
                                 String response = input.nextLine();
                                 Database d = new Database(args[0]);
-                                d.addUser(response);
+                                System.out.println("Enter a password:");
+                                String password = input.nextLine();
+
+                                d.addUser(response, password);
                             }else if (next_step.equals("3")){
                                 System.out.println("Enter ID");
                                 String response = input.nextLine();
@@ -48,7 +51,6 @@ public class Feature03Main {
 
                 } else {
                     Database d = new Database(args[0]);
-                    Wallet w = new Wallet();
 
                     System.out.println("Enter User");
                     String user = input.nextLine();
@@ -65,8 +67,8 @@ public class Feature03Main {
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
                             } else {
-                                //TODO need to create wallet
-
+                                //need to create wallet
+                                d.createWallet();
                             }
                         }
                     }
