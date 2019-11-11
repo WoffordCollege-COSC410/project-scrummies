@@ -160,6 +160,12 @@ public class Database {
         return false;
     }
 
+    /**
+     *
+     * @param name
+     * @param description
+     * @param price
+     */
     public void addProduct(String name, String description, int price) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
