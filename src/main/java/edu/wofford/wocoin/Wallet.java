@@ -10,7 +10,7 @@ import org.web3j.crypto.WalletUtils;
 public class Wallet {
 
     public void createWallet() {
-        File useridWallet = new File("userid");
+        File useridWallet = new File("keystore");
         String passwordWallet = "walletpwd";
         String walletPath = "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json";
         try {

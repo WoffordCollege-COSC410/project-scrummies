@@ -199,7 +199,8 @@ public class Database {
     }
 
     public void createWallet() {
-        File idStoreWallet = new File ("C:\\Users\\sethl\\project-scrummies\\ethereum\\node0\\keystore\\");
+        String home = System.getProperty("user.home");
+        File idStoreWallet = new File(home + File.separator + "project-scrummies" + File.separator + "ethereum" +File.separator + "node0" + File.separator + "keystore");
         String passwordWallet = "walletpwd";
         //String walletPath = "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json";
         try {
