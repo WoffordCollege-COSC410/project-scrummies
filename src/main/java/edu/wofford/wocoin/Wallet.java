@@ -16,13 +16,12 @@ public class Wallet {
     }
 
     public void createWallet() {
-        String dir = System.getProperty("user.dir");
-        file = new File(dir +  File.separator + "ethereum" +File.separator + "node0" + File.separator + "keystore");
+        String home = System.getProperty("user.home");
+        file = new File(home + File.separator + "project-scrummies" + File.separator + "ethereum" + File.separator + "node0" + File.separator + "keystore");
         String passwordWallet = "walletpwd";
-        //String walletPath = "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json";
         try {
             String walletFile = WalletUtils.generateNewWalletFile(passwordWallet, file, false);
-            file = new File(file + File.separator + walletFile);
+            file = new File(file + walletFile);
             System.out.println("File name ethereum wallet: " + walletFile);
             System.out.println("File: " + file);
         } catch (Exception ex) {
@@ -30,6 +29,9 @@ public class Wallet {
         }
     }
 
+    public void toAString() {
+        System.out.println(file);
+    }
 
     public void getCredentials() {
 
