@@ -48,9 +48,9 @@ public class Database {
      * an "already exists" comment is thrown.
      * @param id entered user id
      */
-    public void addUser(String id) {
+    public void addUser(String id, String password) {
         int salt = Utilities.generateSalt();
-        String hash = Utilities.applySha256(id + salt);
+        String hash = Utilities.applySha256(password + salt);
         String url = "jdbc:sqlite:" + file;
         if (file.exists()) {
             if (!checkUser(id)) {
@@ -146,6 +146,8 @@ public class Database {
 
                 if (users_hashString.equals(salt_Input_Password)) {
                     return true;
+                }else {
+                    System.out.println("Password is wrong.");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -178,4 +180,14 @@ public class Database {
     }
     */
     }
+
+    public void turnProductToString(String id) {
+        String url = "jdbc:sqlite:" + file;
+
+    }
+
+    public boolean checkWallet(String something) {
+        return false;
+    }
+
 }

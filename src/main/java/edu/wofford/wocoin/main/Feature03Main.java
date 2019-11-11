@@ -1,6 +1,7 @@
 package edu.wofford.wocoin.main;
 
 import edu.wofford.wocoin.Database;
+import edu.wofford.wocoin.Wallet;
 
 import java.util.Scanner;
 
@@ -32,7 +33,9 @@ public class Feature03Main {
                                 System.out.println("Enter ID");
                                 String response = input.nextLine();
                                 Database d = new Database(args[0]);
-                                d.addUser(response);
+                                System.out.println("Enter a password:");
+                                String password = input.nextLine();
+                                d.addUser(response, password);
                             }else if (next_step.equals("3")){
                                 System.out.println("Enter ID");
                                 String response = input.nextLine();
@@ -64,6 +67,7 @@ public class Feature03Main {
                                 user_Password_Correct = false;
                             } else {
                                 //need to create wallet
+
                             }
                         }
                     }

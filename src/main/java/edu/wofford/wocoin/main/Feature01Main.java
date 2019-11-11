@@ -23,10 +23,12 @@ public class Feature01Main {
                         System.out.println("1: back\n2: add user\n");
                         String next_step = input.nextLine();
                         if (next_step.equals("2")) {
-                            System.out.println("Enter ID");
+                            System.out.println("Enter ID:");
                             String response = input.nextLine();
+                            System.out.println("Enter a password:");
+                            String password = input.nextLine();
                             Database d = new Database(args[0]);
-                            d.addUser(response);
+                            d.addUser(response, password);
                         }
                     } else {
                         System.out.println("Incorrect administrator password.");

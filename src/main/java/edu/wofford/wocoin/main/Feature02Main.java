@@ -30,8 +30,10 @@ public class Feature02Main {
                             }else if (next_step.equals("2")) {
                                 System.out.println("Enter ID");
                                 String response = input.nextLine();
+                                System.out.println("Enter a password:");
+                                String password = input.nextLine();
                                 Database d = new Database(args[0]);
-                                d.addUser(response);
+                                d.addUser(response, password);
                             }else if (next_step.equals("3")){
                                 System.out.println("Enter ID");
                                 String response = input.nextLine();
