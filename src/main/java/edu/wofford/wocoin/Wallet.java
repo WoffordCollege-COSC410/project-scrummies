@@ -1,38 +1,38 @@
 package edu.wofford.wocoin;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
+//import jdk.nashorn.internal.parser.JSONParser;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
+import org.json.simple.JSONObject;
+import java.io.FileReader;
+import org.json.simple.parser.*;
 
 public class Wallet {
 
-    private File file;
-
-    public Wallet(String walletName) {
-        file = new File(walletName);
-    }
-
-    public void createWallet() {
-        String home = System.getProperty("user.home");
-        file = new File(home + File.separator + "project-scrummies" + File.separator + "ethereum" + File.separator + "node0" + File.separator + "keystore");
-        String passwordWallet = "walletpwd";
+    public static String createWallet(String dir, String userID, String userPassword) {
+        //String dir = System.getProperty("user.dir");
+        File newFile = new File(dir + File.separator + userID);
+        String passwordWallet = userPassword;
         try {
-            String walletFile = WalletUtils.generateNewWalletFile(passwordWallet, file, false);
-            file = new File(file + walletFile);
+            String walletFile = WalletUtils.generateNewWalletFile(passwordWallet, newFile, false);
             System.out.println("File name ethereum wallet: " + walletFile);
-            System.out.println("File: " + file);
+
+            FileReader x = new FileReader("file");
+            Object obj = new JSONParser().parse(x);
+            JSONObject jo = (JSONObject) obj;
+            String address = (String) jo.get("address");
+            System.out.println(address);
+            return address;
         } catch (Exception ex) {
             System.out.println(ex);
         }
-    }
+        return "";
 
-    public void toAString() {
-        System.out.println(file);
-    }
 
+    }/*
     public void getCredentials() {
 
         Credentials credentials;
@@ -47,5 +47,6 @@ public class Wallet {
         } catch (CipherException e) {
             e.printStackTrace();
         }
-    }
+    }\
+    */
 }

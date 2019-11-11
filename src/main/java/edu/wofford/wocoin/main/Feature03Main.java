@@ -54,7 +54,6 @@ public class Feature03Main {
 
                     System.out.println("Enter User");
                     String user = input.nextLine();
-                    Wallet w = new Wallet(user);
 
                     System.out.println("Enter users password");
                     String password = input.nextLine();
@@ -70,9 +69,9 @@ public class Feature03Main {
                                 userPasswordCorrect = false;
                             } else if (next_answer.equals("2")) {
                                 //need to create wallet
-                                w.createWallet();
-                            } else if (next_answer.equals("3")){
-                                w.getCredentials();
+                                System.out.println("Enter a directory: ");
+                                String dir = input.nextLine();
+                                Wallet.createWallet(dir, user, password);
                             }
                         }
                     }
