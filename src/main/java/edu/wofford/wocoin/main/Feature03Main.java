@@ -35,6 +35,7 @@ public class Feature03Main {
                                 Database d = new Database(args[0]);
                                 System.out.println("Enter a password:");
                                 String password = input.nextLine();
+
                                 d.addUser(response, password);
                             }else if (next_step.equals("3")){
                                 System.out.println("Enter ID");
