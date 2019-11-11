@@ -178,4 +178,9 @@ public class Database {
     }
     */
     }
+
+    public boolean checkWalletExists(String username, String directory) {
+
+        return false;
+    }
 }
