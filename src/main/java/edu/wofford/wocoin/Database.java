@@ -160,6 +160,23 @@ public class Database {
         return false;
     }
 
+    public void addWallet(String id, String publickey) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            String sqls = "INSERT INTO wallets (id, publickey) VALUES (?, ?)";
+            PreparedStatement prepStmt = conn.prepareStatement(sqls);
+            prepStmt = conn.prepareStatement(sqls);
+            prepStmt.setString(1, id);
+            prepStmt.setString(2, publickey);
+            prepStmt.executeUpdate();
+            System.out.println(id + "," + publickey + " was added.");
+            prepStmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      *
      * @param name
@@ -195,7 +212,7 @@ public class Database {
     }
 
     public boolean checkWallet(String something) {
-        return false;
+
     }
 
 

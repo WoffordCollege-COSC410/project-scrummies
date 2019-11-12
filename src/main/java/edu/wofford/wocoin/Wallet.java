@@ -15,12 +15,13 @@ public class Wallet {
     public static String createWallet(String dir, String userID, String userPassword) {
         //String dir = System.getProperty("user.dir");
         File newFile = new File(dir + File.separator + userID);
+        newFile.mkdir();
         String passwordWallet = userPassword;
         try {
             String walletFile = WalletUtils.generateNewWalletFile(passwordWallet, newFile, false);
             System.out.println("File name ethereum wallet: " + walletFile);
 
-            FileReader x = new FileReader("file");
+            FileReader x = new FileReader(dir + File.separator + userID + File.separator + walletFile);
             Object obj = new JSONParser().parse(x);
             JSONObject jo = (JSONObject) obj;
             String address = (String) jo.get("address");

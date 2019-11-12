@@ -71,7 +71,8 @@ public class Feature03Main {
                                 //need to create wallet
                                 System.out.println("Enter a directory: ");
                                 String dir = input.nextLine();
-                                Wallet.createWallet(dir, user, password);
+                                String publicKey = Wallet.createWallet(dir, user, password);
+                                d.addWallet(user, publicKey);
                             }
                         }
                     }
