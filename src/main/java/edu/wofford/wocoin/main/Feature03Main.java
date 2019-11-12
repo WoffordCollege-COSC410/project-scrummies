@@ -68,11 +68,24 @@ public class Feature03Main {
                             if (next_answer.equals("1")) {
                                 userPasswordCorrect = false;
                             } else if (next_answer.equals("2")) {
-                                //need to create wallet
-                                System.out.println("Enter a directory: ");
-                                String dir = input.nextLine();
-                                String publicKey = Wallet.createWallet(dir, user, password);
-                                d.addWallet(user, publicKey);
+                                if (d.checkWallet(user)) {
+                                    System.out.println("Enter Y or N");
+                                    String yesOrNo = input.nextLine();
+                                    if (yesOrNo.equals("Y") || yesOrNo.equals("y")) {
+                                        System.out.println("Enter a directory: ");
+                                        String dir = input.nextLine();
+                                        String publicKey = Wallet.createWallet(dir, user, password);
+                                        d.addWallet(user, publicKey);
+                                    } else {
+                                        System.out.println("Action canceled.");
+                                    }
+                                } else {
+                                    System.out.println("Enter a directory: ");
+                                    String dir = input.nextLine();
+                                    String publicKey = Wallet.createWallet(dir, user, password);
+                                    d.addWallet(user, publicKey);
+                                }
+
                             }
                         }
                     }
