@@ -160,6 +160,23 @@ public class Database {
         return false;
     }
 
+    public void addWallet(String id, String publickey) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            String sqls = "INSERT INTO wallets (id, publickey) VALUES (?, ?)";
+            PreparedStatement prepStmt = conn.prepareStatement(sqls);
+            prepStmt = conn.prepareStatement(sqls);
+            prepStmt.setString(1, id);
+            prepStmt.setString(2, publickey);
+            prepStmt.executeUpdate();
+            System.out.println("Wallet added.");
+            prepStmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      *
      * @param name
@@ -178,7 +195,7 @@ public class Database {
             prepStmt.setString(3, description);
             prepStmt.executeUpdate();
             System.out.println(name + " was added.");
-            prepStmt.close();
+            //prepStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -194,7 +211,19 @@ public class Database {
 
     }
 
-    public boolean checkWallet(String something) {
+    public boolean checkWallet(String username) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT id FROM wallets WHERE id = '" + username + "';");
+            id.next();
+            String user = id.getString(1);
+            if (user.equals(username)) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
