@@ -232,21 +232,16 @@ public class Database {
             ResultSetMetaData rsmd = products.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
             while (products.next()) {
-                for(int i = 1 ; i <= columnsNumber; i++) {
-                    if (i%5 == 0) {
-                        product =  product + products.getString(i) + "\n";
-                    } else if (i%5 == 1) {
-                        product = product + products.getString(i) + ":" + " ";
-                    }  else if(i%5 == 2) {
-                        String key = walletPublicKey(id);
-                        String p = products.getString(i);
-                        if (key.equals(p)) {
-                            product = product + ">>> " + products.getString(i) + " ";
-                        } else {
-                            product = product + products.getString(i) + ":" + " ";
-                        }
+                for(int i = 1 ; i <= columnsNumber; i = i + 5) {
+                    String index = products.getString(i%5);
+                    String publicKey = products.getString(i%5 + 1);
+                    String name = products.getString(i%5 + 3);
+                    String description = products.getString(i%5 + 4);
+                    String price = products.getString(i%5 + 2);
+                    if (publicKey.equals(walletPublicKey(id))) {
+                        product = product + index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
                     } else {
-                        product =  product + products.getString(i) + " ";
+                        product = product + index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
                     }
                 }
             }
