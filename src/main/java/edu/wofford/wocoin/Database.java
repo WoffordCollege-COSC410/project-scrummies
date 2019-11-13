@@ -222,9 +222,9 @@ public class Database {
     }
 
 
-    public String turnProductToString() {
+    public String turnProductToString(String id) {
         String url = "jdbc:sqlite:" + file;
-        String user = "";
+        String product = "";
 
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
@@ -234,21 +234,27 @@ public class Database {
             while (products.next()) {
                 for(int i = 1 ; i <= columnsNumber; i++) {
                     if (i%5 == 0) {
-                        user =  user + products.getString(i) + "\n";
+                        product =  product + products.getString(i) + "\n";
                     } else if (i%5 == 1) {
-                        user = user + products.getString(i) + ":" + " ";
+                        product = product + products.getString(i) + ":" + " ";
                     }  else if(i%5 == 2) {
-
+                        String key = walletPublicKey(id);
+                        String p = products.getString(i);
+                        if (key.equals(p)) {
+                            product = product + ">>> " + products.getString(i) + " ";
+                        } else {
+                            product = product + products.getString(i) + ":" + " ";
+                        }
                     } else {
-                        user =  user + products.getString(i) + " ";
+                        product =  product + products.getString(i) + " ";
                     }
                 }
             }
-            return user;
+            return product;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
+        return product;
     }
 
 
@@ -269,14 +275,14 @@ public class Database {
         return false;
     }
 
-    public String welletPublicKey (String user) {
+    public String walletPublicKey (String user) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
             ResultSet id = stmt.executeQuery("SELECT publickey FROM wallets WHERE id = '" + user + "';");
             id.next();
-            String user = id.getString(1);
-            return user;
+            String key = id.getString(1);
+            return key;
         } catch (SQLException e) {
             e.printStackTrace();
         }
