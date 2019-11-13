@@ -160,11 +160,27 @@ public class Database {
         return false;
     }
 
+    public void deleteWallet(String user) {
+        String url = "jdbc:sqlite:" + file;
+        if (checkUser(user)) {
+            try (Connection conn = DriverManager.getConnection(url)) {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate("DELETE FROM wallets WHERE id = '" + user + "';");
+                System.out.println(user + " was removed.");
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else {
+            System.out.println(user + " does not exist.");
+        }
+    }
+
     public void addWallet(String id, String publickey) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
-            String sqls = "INSERT INTO wallets (id, publickey) VALUES (?, ?)";
+            String sqls = "INSERT INTO wallets (id, publickey) VALUES (?, ?);";
             PreparedStatement prepStmt = conn.prepareStatement(sqls);
             prepStmt = conn.prepareStatement(sqls);
             prepStmt.setString(1, id);
@@ -183,33 +199,35 @@ public class Database {
      * @param description
      * @param price
      */
-    public void addProduct(String name, String description, int price) {
+    public void addProduct(String seller, String name, String description, int price) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
-            Statement stmt = conn.createStatement();
-            String sqls = "INSERT INTO products (price, name, description) VALUES (?, ?, ?)";
+            Statement stm = conn.createStatement();
+            ResultSet id = stm.executeQuery("SELECT publickey FROM wallets WHERE id = '" + seller + "';");
+            id.next();
+            String user = id.getString(1);
+
+            String sqls = "INSERT INTO products (seller, price, name, description) VALUES (?, ?, ?, ?);";
             PreparedStatement prepStmt = conn.prepareStatement(sqls);
-            prepStmt = conn.prepareStatement(sqls);
-            prepStmt.setInt(1, price);
-            prepStmt.setString(2, name);
-            prepStmt.setString(3, description);
+            prepStmt.setString(1, user);
+            prepStmt.setInt(2, price);
+            prepStmt.setString(3, name);
+            prepStmt.setString(4, description);
             prepStmt.executeUpdate();
-            System.out.println(name + " was added.");
-            //prepStmt.close();
+            System.out.println("Product added.");
+            prepStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    /*
-    } else {
-        System.out.println(name + " already exists.");
-    }
-    */
     }
 
+    /*
     public void turnProductToString(String id) {
         String url = "jdbc:sqlite:" + file;
 
     }
+
+    */
 
     public boolean checkWallet(String username) {
         String url = "jdbc:sqlite:" + file;

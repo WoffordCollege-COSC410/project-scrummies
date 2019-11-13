@@ -111,6 +111,41 @@ public class DatabaseTest {
         assertEquals(true, db.checkUserPassword("Seth", "Seth"));
         db.checkUserPassword("Elise", "Elise");
     }
+    @Test
+    public void checkProducts() {
+        File dbfile = new File("testForProducts.db");
+        if (dbfile.exists()) {
+            dbfile.delete();
+        }
+        Database db = new Database("testForProducts.db");
+        db.addUser("test", "test");
+        db.addUser("test2", "test2");
+        String address = Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","test","test");
+        db.addWallet("test", address);
+        String address2 = Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","test2","test2");
+        db.addWallet("test2", address2);
+        db.deleteWallet("test2");
+        db.deleteWallet("False");
 
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:testForProducts.db")) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(("SELECT publickey FROM wallets WHERE id = \"test\";"));
+            assertNotNull(rs.next());
+            String publickey = rs.getString(1);
+            assertEquals(address, publickey);
+            db.addProduct(publickey,"NeverWinter","Game on PC",50);
+
+            Statement stmt2 = conn.createStatement();
+            ResultSet user = stmt2.executeQuery(("SELECT name FROM products WHERE name = \"NeverWinter\";"));
+            assertNotNull(user.next());
+            String name = user.getString(1);
+            assertEquals("NeverWinter", name);
+            System.out.println(user.getString(1));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

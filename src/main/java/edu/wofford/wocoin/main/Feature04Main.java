@@ -1,8 +1,13 @@
 package edu.wofford.wocoin.main;
 
 import edu.wofford.wocoin.Database;
+import edu.wofford.wocoin.Wallet;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Scanner;
+import org.apache.commons.io.FileUtils;
 
 public class Feature04Main {
     public static void main(String[] args) {
@@ -10,6 +15,8 @@ public class Feature04Main {
         boolean still_Running = true;
         boolean password_Correct;
         boolean user_Password_Correct;
+        boolean nameCorrect = true;
+        boolean descriptionCorrect = true;
         if (args.length > 0) {
             while (still_Running) {
                 System.out.println("1: exit\n2: Admin\n3: User\n");
@@ -65,15 +72,69 @@ public class Feature04Main {
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
                             } else if (next_answer.equals("2")){
-                                //need to create wallet
-                            } else {
-                                System.out.println("Enter a name: ");
-                                String name = input.nextLine();
-                                System.out.println("Enter a description: ");
-                                String description = input.nextLine();
-                                System.out.println("Enter a price: ");
-                                int price = input.nextInt();
-                                d.addProduct(name, description,price);
+                                if (d.checkWallet(user)) {
+                                    System.out.println("Enter Y or N");
+                                    String yesOrNo = input.nextLine();
+                                    if (yesOrNo.equals("Y") || yesOrNo.equals("y")) {
+                                        System.out.println("Enter a directory: ");
+                                        String dir = input.nextLine();
+                                        if (new File(dir + File.separator + user).exists()) {
+                                            try {
+                                                FileUtils.deleteDirectory(new File(dir + File.separator + user));
+                                                d.deleteWallet(user);
+                                                String publicKey = Wallet.createWallet(dir, user, password);
+                                                d.addWallet(user, publicKey);
+                                            } catch (IOException ex) {
+                                                System.out.println("IOException");
+                                            }
+                                        } else {
+                                            String publicKey = Wallet.createWallet(dir, user, password);
+                                            d.addWallet(user, publicKey);
+                                        }
+                                    } else {
+                                        System.out.println("Action canceled.");
+                                    }
+                                } else {
+                                    System.out.println("Enter a directory: ");
+                                    String dir = input.nextLine();
+                                    String publicKey = Wallet.createWallet(dir, user, password);
+                                    d.addWallet(user, publicKey);
+                                }
+                            } else if (next_answer.equals("3")){
+                                if (d.checkWallet(user)) {
+                                    while (nameCorrect) {
+                                        System.out.println("Enter a name: ");
+                                        String name = input.nextLine();
+                                        if (name.equals("")) {
+                                            System.out.println("Invalid value.");
+                                            System.out.println("Expected a string with at least 1 character.");
+                                        } else {
+                                            while (descriptionCorrect) {
+                                                System.out.println("Enter a description: ");
+                                                String description = input.nextLine();
+                                                if (description.equals("")) {
+                                                    System.out.println("Invalid value.");
+                                                    System.out.println("Expected a string with at least 1 character.");
+                                                } else {
+                                                    System.out.println("Enter a price: ");
+                                                    int price = input.nextInt();
+                                                    if (price == 0) {
+                                                        System.out.println("Invalid value.");
+                                                        System.out.println("Expected an integer value greater than or equal to 1.");
+                                                    } else {
+                                                        d.addProduct(user, name, description,price);
+                                                        descriptionCorrect = false;
+                                                        nameCorrect = false;
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    System.out.println("User has no wallet.");
+                                }
+
                             }
                         }
                     }
