@@ -10,7 +10,7 @@ import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
 
 public class Feature04Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean still_Running = true;
         boolean password_Correct;
@@ -78,9 +78,19 @@ public class Feature04Main {
                                     if (yesOrNo.equals("Y") || yesOrNo.equals("y")) {
                                         System.out.println("Enter a directory: ");
                                         String dir = input.nextLine();
-                                        FileUtils.deleteDirectory(new File(dir + File.separator + user));
-                                        String publicKey = Wallet.createWallet(dir, user, password);
-                                        d.addWallet(user, publicKey);
+                                        if (new File(dir + File.separator + user).exists()) {
+                                            try {
+                                                FileUtils.deleteDirectory(new File(dir + File.separator + user));
+                                                d.deleteWallet(user);
+                                                String publicKey = Wallet.createWallet(dir, user, password);
+                                                d.addWallet(user, publicKey);
+                                            } catch (IOException ex) {
+                                                System.out.println("IOException");
+                                            }
+                                        } else {
+                                            String publicKey = Wallet.createWallet(dir, user, password);
+                                            d.addWallet(user, publicKey);
+                                        }
                                     } else {
                                         System.out.println("Action canceled.");
                                     }

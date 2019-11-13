@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
         logger.setLevel(ch.qos.logback.classic.Level.OFF);
         if (args.length >= 1) {

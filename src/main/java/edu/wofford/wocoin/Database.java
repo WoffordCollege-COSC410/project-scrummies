@@ -160,11 +160,27 @@ public class Database {
         return false;
     }
 
+    public void deleteWallet(String user) {
+        String url = "jdbc:sqlite:" + file;
+        if (checkUser(user)) {
+            try (Connection conn = DriverManager.getConnection(url)) {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate("DELETE FROM wallets WHERE id = '" + user + "';");
+                System.out.println(user + " was removed.");
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else {
+            System.out.println(user + " does not exist.");
+        }
+    }
+
     public void addWallet(String id, String publickey) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
-            String sqls = "INSERT INTO wallets (id, publickey) VALUES (?, ?)";
+            String sqls = "INSERT INTO wallets (id, publickey) VALUES (?, ?);";
             PreparedStatement prepStmt = conn.prepareStatement(sqls);
             prepStmt = conn.prepareStatement(sqls);
             prepStmt.setString(1, id);

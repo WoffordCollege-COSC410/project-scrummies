@@ -118,16 +118,21 @@ public class DatabaseTest {
             dbfile.delete();
         }
         Database db = new Database("testForProducts.db");
-        db.addUser("Seth", "Seth");
-        db.addWallet("Seth", Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","Seth","Seth"));
+        db.addUser("test", "test");
+        db.addUser("test2", "test2");
+        String address = Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","test","test");
+        db.addWallet("test", address);
+        String address2 = Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","test2","test2");
+        db.addWallet("test2", address2);
+        db.deleteWallet("test2");
+        db.deleteWallet("False");
 
-
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:testForProducts.db")) {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(("SELECT publickey FROM wallets WHERE id = \"Seth\";"));
+            ResultSet rs = stmt.executeQuery(("SELECT publickey FROM wallets WHERE id = \"test\";"));
             assertNotNull(rs.next());
             String publickey = rs.getString(1);
-            assertEquals("a3021253e3589a0ba79afbd48567512acbfb1b9", publickey);
+            assertEquals(address, publickey);
             db.addProduct(publickey,"NeverWinter","Game on PC",50);
 
             Statement stmt2 = conn.createStatement();
@@ -136,9 +141,11 @@ public class DatabaseTest {
             String name = user.getString(1);
             assertEquals("NeverWinter", name);
             System.out.println(user.getString(1));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
 }
