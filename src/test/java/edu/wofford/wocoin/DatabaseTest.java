@@ -111,6 +111,34 @@ public class DatabaseTest {
         assertEquals(true, db.checkUserPassword("Seth", "Seth"));
         db.checkUserPassword("Elise", "Elise");
     }
+    @Test
+    public void checkProducts() {
+        File dbfile = new File("testForProducts.db");
+        if (dbfile.exists()) {
+            dbfile.delete();
+        }
+        Database db = new Database("testForProducts.db");
+        db.addUser("Seth", "Seth");
+        db.addWallet("Seth", Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","Seth","Seth"));
 
+
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/test/resources/testdb.db")) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(("SELECT publickey FROM wallets WHERE id = \"Seth\";"));
+            assertNotNull(rs.next());
+            String publickey = rs.getString(1);
+            assertEquals("a3021253e3589a0ba79afbd48567512acbfb1b9", publickey);
+            db.addProduct(publickey,"NeverWinter","Game on PC",50);
+
+            Statement stmt2 = conn.createStatement();
+            ResultSet user = stmt2.executeQuery(("SELECT name FROM products WHERE name = \"NeverWinter\";"));
+            assertNotNull(user.next());
+            String name = user.getString(1);
+            assertEquals("NeverWinter", name);
+            System.out.println(user.getString(1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
