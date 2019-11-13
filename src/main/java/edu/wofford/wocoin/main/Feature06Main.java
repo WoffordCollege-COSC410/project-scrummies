@@ -138,7 +138,7 @@ public class Feature06Main {
                             } else if (next_answer.equals("4")) {
 
                             } else if (next_answer.equals("5")) {
-                                String productString = d.turnProductToString();
+                                String productString = d.turnProductToString(user);
                                 System.out.println(productString);
                             }
                         }
