@@ -12,8 +12,9 @@ import org.json.simple.parser.*;
 
 public class Wallet {
 
+
+
     public static String createWallet(String dir, String userID, String userPassword) {
-        //String dir = System.getProperty("user.dir");
         File newFile = new File(dir + File.separator + userID);
         newFile.mkdir();
         String passwordWallet = userPassword;
@@ -31,9 +32,10 @@ public class Wallet {
             System.out.println(ex);
         }
         return "";
+        }
 
 
-    }/*
+    /*
     public void getCredentials() {
 
         Credentials credentials;

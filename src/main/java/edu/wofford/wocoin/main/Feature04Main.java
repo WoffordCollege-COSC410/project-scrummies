@@ -3,10 +3,14 @@ package edu.wofford.wocoin.main;
 import edu.wofford.wocoin.Database;
 import edu.wofford.wocoin.Wallet;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Scanner;
+import org.apache.commons.io.FileUtils;
 
 public class Feature04Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner input = new Scanner(System.in);
         boolean still_Running = true;
         boolean password_Correct;
@@ -74,6 +78,7 @@ public class Feature04Main {
                                     if (yesOrNo.equals("Y") || yesOrNo.equals("y")) {
                                         System.out.println("Enter a directory: ");
                                         String dir = input.nextLine();
+                                        FileUtils.deleteDirectory(new File(dir + File.separator + user));
                                         String publicKey = Wallet.createWallet(dir, user, password);
                                         d.addWallet(user, publicKey);
                                     } else {
