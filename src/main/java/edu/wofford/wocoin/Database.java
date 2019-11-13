@@ -225,17 +225,30 @@ public class Database {
     public String turnProductToString() {
         String url = "jdbc:sqlite:" + file;
         String user = "";
+
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
             ResultSet products = stmt.executeQuery("SELECT * FROM products;");
+            ResultSetMetaData rsmd = products.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
             while (products.next()) {
-                user = products.getString(1);
+                for(int i = 1 ; i <= columnsNumber; i++) {
+                    if (i%5 == 0) {
+                        user =  user + products.getString(i) + "\n";
+                    } else if (i%5 == 1) {
+                        user = user + products.getString(i) + ":" + " ";
+                    }  else if(i%5 == 2) {
+
+                    } else {
+                        user =  user + products.getString(i) + " ";
+                    }
+                }
             }
             return user;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "";
+        return user;
     }
 
 
@@ -256,6 +269,18 @@ public class Database {
         return false;
     }
 
-
+    public String welletPublicKey (String user) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT publickey FROM wallets WHERE id = '" + user + "';");
+            id.next();
+            String user = id.getString(1);
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
 }
