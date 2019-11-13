@@ -67,7 +67,7 @@ public class Feature06Main {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
-                            System.out.println("1: back\n2: create wallet\n3: add product\n");
+                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n5: display products");
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
@@ -138,7 +138,8 @@ public class Feature06Main {
                             } else if (next_answer.equals("4")) {
 
                             } else if (next_answer.equals("5")) {
-
+                                String productString = d.turnProductToString();
+                                System.out.println(productString);
                             }
                         }
                     }

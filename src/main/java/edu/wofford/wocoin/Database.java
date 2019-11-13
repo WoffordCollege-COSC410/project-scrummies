@@ -221,13 +221,24 @@ public class Database {
         }
     }
 
-    /*
-    public void turnProductToString(String id) {
-        String url = "jdbc:sqlite:" + file;
 
+    public String turnProductToString() {
+        String url = "jdbc:sqlite:" + file;
+        String user = "";
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet products = stmt.executeQuery("SELECT * FROM products;");
+            while (products.next()) {
+                user = products.getString(1);
+            }
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
-    */
+
 
     public boolean checkWallet(String username) {
         String url = "jdbc:sqlite:" + file;
