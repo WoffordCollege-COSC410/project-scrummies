@@ -235,14 +235,24 @@ public class Database {
                 for(int i = 1 ; i <= columnsNumber; i = i + 5) {
                     String index = products.getString(i%5);
                     String publicKey = products.getString(i%5 + 1);
+                    int price = products.getInt(i%5 + 2);
                     String name = products.getString(i%5 + 3);
                     String description = products.getString(i%5 + 4);
-                    String price = products.getString(i%5 + 2);
-                    if (publicKey.equals(walletPublicKey(id))) {
-                        product = product + index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
+
+                    if (i > 5) {
+                        int temp = (i%5 + 2) - 5;
+                        int secondPrice = products.getInt(temp);
+                        if (price < secondPrice) {
+                            if (publicKey.equals(walletPublicKey(id))) {
+                                product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            } else {
+                                product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            }
+                        }
                     } else {
                         product = product + index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
                     }
+
                 }
             }
             return product;
