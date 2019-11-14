@@ -118,6 +118,7 @@ public class Feature04Main {
                                                 } else {
                                                     System.out.println("Enter a price: ");
                                                     int price = input.nextInt();
+                                                    input.nextLine();
                                                     if (price == 0) {
                                                         System.out.println("Invalid value.");
                                                         System.out.println("Expected an integer value greater than or equal to 1.");
