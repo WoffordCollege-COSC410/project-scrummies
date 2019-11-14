@@ -221,13 +221,48 @@ public class Database {
         }
     }
 
-    /*
-    public void turnProductToString(String id) {
-        String url = "jdbc:sqlite:" + file;
 
+    public String turnProductToString(String id) {
+        String url = "jdbc:sqlite:" + file;
+        String product = "";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet products = stmt.executeQuery("SELECT * FROM products;");
+            ResultSetMetaData rsmd = products.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (products.next()) {
+                for(int i = 1 ; i <= columnsNumber; i = i + 5) {
+                    String index = products.getString(i%5);
+                    String publicKey = products.getString(i%5 + 1);
+                    int price = products.getInt(i%5 + 2);
+                    String name = products.getString(i%5 + 3);
+                    String description = products.getString(i%5 + 4);
+
+                    if (i > 5) {
+                        int temp = (i%5 + 2) - 5;
+                        int secondPrice = products.getInt(temp);
+                        if (price < secondPrice) {
+                            if (publicKey.equals(walletPublicKey(id))) {
+                                product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            } else {
+                                product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            }
+                        }
+                    } else {
+                        product = product + index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
+                    }
+
+                }
+            }
+            return product;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
     }
 
-    */
+
 
     public boolean checkWallet(String username) {
         String url = "jdbc:sqlite:" + file;
@@ -245,6 +280,17 @@ public class Database {
         return false;
     }
 
-
-
+    public String walletPublicKey (String user) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT publickey FROM wallets WHERE id = '" + user + "';");
+            id.next();
+            String key = id.getString(1);
+            return key;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

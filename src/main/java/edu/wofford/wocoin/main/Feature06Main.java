@@ -15,8 +15,8 @@ public class Feature06Main {
         boolean still_Running = true;
         boolean password_Correct;
         boolean user_Password_Correct;
-        boolean nameCorrect = true;
-        boolean descriptionCorrect = true;
+        boolean nameCorrect;
+        boolean descriptionCorrect;
         if (args.length > 0) {
             while (still_Running) {
                 System.out.println("1: exit\n2: Admin\n3: User\n");
@@ -67,7 +67,7 @@ public class Feature06Main {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
-                            System.out.println("1: back\n2: create wallet\n3: add product\n");
+                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n5: display products");
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
@@ -101,6 +101,8 @@ public class Feature06Main {
                                     d.addWallet(user, publicKey);
                                 }
                             } else if (next_answer.equals("3")){
+                                nameCorrect = true;
+                                descriptionCorrect = true;
                                 if (d.checkWallet(user)) {
                                     while (nameCorrect) {
                                         System.out.println("Enter a name: ");
@@ -118,6 +120,7 @@ public class Feature06Main {
                                                 } else {
                                                     System.out.println("Enter a price: ");
                                                     int price = input.nextInt();
+                                                    input.nextLine();
                                                     if (price == 0) {
                                                         System.out.println("Invalid value.");
                                                         System.out.println("Expected an integer value greater than or equal to 1.");
@@ -138,7 +141,8 @@ public class Feature06Main {
                             } else if (next_answer.equals("4")) {
 
                             } else if (next_answer.equals("5")) {
-
+                                String productString = d.turnProductToString(user);
+                                System.out.println(productString);
                             }
                         }
                     }
