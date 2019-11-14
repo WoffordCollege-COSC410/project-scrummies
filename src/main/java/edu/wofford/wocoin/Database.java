@@ -4,6 +4,8 @@ import java.io.File;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
@@ -238,11 +240,17 @@ public class Database {
                     int price = products.getInt(i%5 + 2);
                     String name = products.getString(i%5 + 3);
                     String description = products.getString(i%5 + 4);
-
                     if (i > 5) {
                         int temp = (i%5 + 2) - 5;
                         int secondPrice = products.getInt(temp);
-                        if (price < secondPrice) {
+                        if (price == secondPrice) {
+                            //TODO sort alphabetically
+                        }
+                        else {
+                            //TODO sort numerically
+                        }
+
+
                             if (publicKey.equals(walletPublicKey(id))) {
                                 product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
                             } else {
@@ -252,6 +260,7 @@ public class Database {
                     } else {
                         product = product + index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
                     }
+
 
                 }
             }
