@@ -243,8 +243,9 @@ public class Database {
                     if (i > 5) {
                         int temp = (i%5 + 2) - 5;
                         int secondPrice = products.getInt(temp);
-                        if (price == secondPrice) {
-                            //TODO sort alphabetically
+
+                        if (price == secondPrice) { //if prices are the same
+                            //TODO sort alphabetically by product
                             //Collections.sort(products, name<name>);
                             //https://www.geeksforgeeks.org/collections-sort-java-examples/
 
@@ -255,8 +256,8 @@ public class Database {
                             }
 
                         }
-                        else {
-                            //TODO sort numerically
+                        else { //if prices are different
+                            //TODO sort numerically by price
                             //https://howtodoinjava.com/java-sorting-guide/
                             //https://dzone.com/articles/how-to-sort-objects-in-java
                             List<Integer> priceList = Arrays.asList(price);
