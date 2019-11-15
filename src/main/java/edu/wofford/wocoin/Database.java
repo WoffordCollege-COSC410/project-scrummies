@@ -4,8 +4,8 @@ import java.io.File;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
+import java.text.Collator;
+import java.util.*;
 
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
@@ -162,6 +162,12 @@ public class Database {
         return false;
     }
 
+    /**
+     * deleteWallet deletes a User's wallet after being prompted if they want their wallet deleted,
+     * if the user doesn't exist the user is given the appropriate "does not exist" comment
+     * @param user the input id for the user who wants to delete their already existing wallet
+     */
+
     public void deleteWallet(String user) {
         String url = "jdbc:sqlite:" + file;
         if (checkUser(user)) {
@@ -177,6 +183,12 @@ public class Database {
             System.out.println(user + " does not exist.");
         }
     }
+
+    /**
+     * addWallet creates a wallet and adds it to a user if one does not already exist for them
+     * @param id the given user id
+     * @param publickey the publickey is the set string coding the wallet
+     */
 
     public void addWallet(String id, String publickey) {
         String url = "jdbc:sqlite:" + file;
@@ -196,10 +208,12 @@ public class Database {
     }
 
     /**
-     *
-     * @param name
-     * @param description
-     * @param price
+     * addProduct is an option for an existing user, they have to give what the product is,
+     * a description of the product, and the cost of the product, when the product is successfully added,
+     * the user is prompted as such
+     * @param name the product being entered
+     * @param description a description of the product entered
+     * @param price the price of the product entered
      */
     public void addProduct(String seller, String name, String description, int price) {
         String url = "jdbc:sqlite:" + file;
@@ -223,7 +237,14 @@ public class Database {
         }
     }
 
-
+    /**
+     * This method creates a returnable string listing all the products, their decriptions, and prices,
+     * ordered numerically by price, if the price is the same for multiple products, then those are
+     * sorted alphabetically. If the user looking at the products added one of the products themselves,
+     * the item is preempted by a ">>>"
+     * @param id the user id accessing the product list
+     * @return a string based display of the products
+     */
     public String turnProductToString(String id) {
         String url = "jdbc:sqlite:" + file;
         String product = "";
@@ -243,13 +264,25 @@ public class Database {
                     if (i > 5) {
                         int temp = (i%5 + 2) - 5;
                         int secondPrice = products.getInt(temp);
-                        if (price == secondPrice) {
-                            //TODO sort alphabetically
-                        }
-                        else {
-                            //TODO sort numerically
-                        }
 
+                        if (price == secondPrice) { //if prices are the same
+                            //TODO sort alphabetically by product
+                            //Collections.sort(products, name<name>);
+                            //https://www.geeksforgeeks.org/collections-sort-java-examples/
+
+                            if (publicKey.equals(walletPublicKey(id))) {
+                                product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            } else {
+                                product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            }
+
+                        }
+                        else { //if prices are different
+                            //TODO sort numerically by price
+                            //https://howtodoinjava.com/java-sorting-guide/
+                            //https://dzone.com/articles/how-to-sort-objects-in-java
+                            List<Integer> priceList = Arrays.asList(price);
+                            Collections.sort(priceList);
 
                             if (publicKey.equals(walletPublicKey(id))) {
                                 product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
@@ -257,7 +290,15 @@ public class Database {
                                 product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
                             }
                         }
-                    } else {
+
+
+                           /* if (publicKey.equals(walletPublicKey(id))) {
+                                product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            } else {
+                                product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            }*/
+                        }
+                     else {
                         product = product + index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
                     }
 
@@ -272,7 +313,11 @@ public class Database {
     }
 
 
-
+    /**
+     * checkWallet sees if a user already has a wallet
+     * @param username the user id being checked
+     * @return false if the wallet does not already exist
+     */
     public boolean checkWallet(String username) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -289,6 +334,11 @@ public class Database {
         return false;
     }
 
+    /**
+     * The public key is the id assigned to the wallet of any given user
+     * @param user the id of whoever is accessing their wallet
+     * @return ""
+     */
     public String walletPublicKey (String user) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
