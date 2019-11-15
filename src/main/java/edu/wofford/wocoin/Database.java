@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.io.IOException;
 import java.text.Collator;
 import java.util.*;
+import java.util.Comparator;
+
 
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
@@ -36,7 +38,8 @@ public class Database {
     private File file;
 
     /**
-     *Creates a new database and sets it to name, as well as creates file
+     * Creates a new database and sets it to name, as well as creates file
+     *
      * @param filename refers to name that database is set to
      */
     public Database(String filename) {
@@ -46,10 +49,11 @@ public class Database {
 
 
     /**
-     *This method adds a new user after the admin password has been properly entered.
+     * This method adds a new user after the admin password has been properly entered.
      * It then takes the user id and salts and hashes it and stores the hashed password.
      * If a new user is added, the user is told the id was added, if the id already exists,
      * an "already exists" comment is thrown.
+     *
      * @param id entered user id
      */
     public void addUser(String id, String password) {
@@ -81,7 +85,8 @@ public class Database {
     }
 
     /**
-     *This method sees if the given user id already exists and returns the results to be used in "addUser"
+     * This method sees if the given user id already exists and returns the results to be used in "addUser"
+     *
      * @param id1 entered user id
      * @return true if id already exists, otherwise returns false
      */
@@ -102,9 +107,10 @@ public class Database {
     }
 
     /**
-     *This method removes an id if the admin properly enters the admin password and gives an id that
+     * This method removes an id if the admin properly enters the admin password and gives an id that
      * is being stored. If a user id that is given does exist, it is removed and the user is told that,
      * if the given id does not exist, a "does not exist" comment is thrown.
+     *
      * @param user the referred to user id to be removed
      */
     public void deleteUser(String user) {
@@ -118,7 +124,7 @@ public class Database {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             System.out.println(user + " does not exist.");
         }
     }
@@ -126,7 +132,8 @@ public class Database {
     /**
      * Checks a given user id to see if in database, then checks the given password to
      * see if it matches the existing use id and therefore exists or not
-     * @param user Given user id
+     *
+     * @param user     Given user id
      * @param password Given corresponding password
      * @return if the USer id and password match and exists, return true,
      * else return "No such User" message
@@ -150,7 +157,7 @@ public class Database {
 
                 if (users_hashString.equals(salt_Input_Password)) {
                     return true;
-                }else {
+                } else {
                     System.out.println("Password is wrong.");
                 }
             } catch (SQLException e) {
@@ -165,6 +172,7 @@ public class Database {
     /**
      * deleteWallet deletes a User's wallet after being prompted if they want their wallet deleted,
      * if the user doesn't exist the user is given the appropriate "does not exist" comment
+     *
      * @param user the input id for the user who wants to delete their already existing wallet
      */
 
@@ -179,14 +187,15 @@ public class Database {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             System.out.println(user + " does not exist.");
         }
     }
 
     /**
      * addWallet creates a wallet and adds it to a user if one does not already exist for them
-     * @param id the given user id
+     *
+     * @param id        the given user id
      * @param publickey the publickey is the set string coding the wallet
      */
 
@@ -211,9 +220,10 @@ public class Database {
      * addProduct is an option for an existing user, they have to give what the product is,
      * a description of the product, and the cost of the product, when the product is successfully added,
      * the user is prompted as such
-     * @param name the product being entered
+     *
+     * @param name        the product being entered
      * @param description a description of the product entered
-     * @param price the price of the product entered
+     * @param price       the price of the product entered
      */
     public void addProduct(String seller, String name, String description, int price) {
         String url = "jdbc:sqlite:" + file;
@@ -237,15 +247,16 @@ public class Database {
         }
     }
 
-    /**
-     * This method creates a returnable string listing all the products, their decriptions, and prices,
-     * ordered numerically by price, if the price is the same for multiple products, then those are
-     * sorted alphabetically. If the user looking at the products added one of the products themselves,
-     * the item is preempted by a ">>>"
-     * @param id the user id accessing the product list
-     * @return a string based display of the products
-     */
-    public String turnProductToString(String id) {
+
+        /**
+         * This method creates a returnable string listing all the products, their decriptions, and prices,
+         * ordered numerically by price, if the price is the same for multiple products, then those are
+         * sorted alphabetically. If the user looking at the products added one of the products themselves,
+         * the item is preempted by a ">>>"
+         * @param id the user id accessing the product list
+         * @return a string based display of the products
+         */
+        public String turnProductToString (String id){
         String url = "jdbc:sqlite:" + file;
         String product = "";
 
@@ -258,67 +269,29 @@ public class Database {
                 for(int i = 1 ; i <= columnsNumber; i = i + 5) {
                     String index = products.getString(i%5);
                     String publicKey = products.getString(i%5 + 1);
-                    int price = products.getInt(i%5 + 2);
                     String name = products.getString(i%5 + 3);
                     String description = products.getString(i%5 + 4);
-                    if (i > 5) {
-                        int temp = (i%5 + 2) - 5;
-                        int secondPrice = products.getInt(temp);
-
-                        if (price == secondPrice) { //if prices are the same
-                            //TODO sort alphabetically by product
-                            //Collections.sort(products, name<name>);
-                            //https://www.geeksforgeeks.org/collections-sort-java-examples/
-
-                            if (publicKey.equals(walletPublicKey(id))) {
-                                product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
-                            } else {
-                                product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
-                            }
-
-                        }
-                        else { //if prices are different
-                            //TODO sort numerically by price
-                            //https://howtodoinjava.com/java-sorting-guide/
-                            //https://dzone.com/articles/how-to-sort-objects-in-java
-                            List<Integer> priceList = Arrays.asList(price);
-                            Collections.sort(priceList);
-
-                            if (publicKey.equals(walletPublicKey(id))) {
-                                product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
-                            } else {
-                                product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
-                            }
-                        }
-
-
-                           /* if (publicKey.equals(walletPublicKey(id))) {
-                                product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
-                            } else {
-                                product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
-                            }*/
-                        }
-                     else {
+                    String price = products.getString(i%5 + 2);
+                    if (publicKey.equals(walletPublicKey(id))) {
+                        product = product + index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
+                    } else {
                         product = product + index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
                     }
-
-
                 }
             }
             return product;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return product;
-    }
+            return product;
+        }
 
-
-    /**
-     * checkWallet sees if a user already has a wallet
-     * @param username the user id being checked
-     * @return false if the wallet does not already exist
-     */
-    public boolean checkWallet(String username) {
+        /**
+         * checkWallet sees if a user already has a wallet
+         * @param username the user id being checked
+         * @return false if the wallet does not already exist
+         */
+        public boolean checkWallet (String username){
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
@@ -334,12 +307,12 @@ public class Database {
         return false;
     }
 
-    /**
-     * The public key is the id assigned to the wallet of any given user
-     * @param user the id of whoever is accessing their wallet
-     * @return ""
-     */
-    public String walletPublicKey (String user) {
+        /**
+         * The public key is the id assigned to the wallet of any given user
+         * @param user the id of whoever is accessing their wallet
+         * @return ""
+         */
+        public String walletPublicKey (String user){
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
@@ -352,4 +325,5 @@ public class Database {
         }
         return "";
     }
-}
+    }
+
