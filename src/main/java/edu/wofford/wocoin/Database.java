@@ -4,8 +4,8 @@ import java.io.File;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
+import java.text.Collator;
+import java.util.*;
 
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
@@ -245,11 +245,22 @@ public class Database {
                         int secondPrice = products.getInt(temp);
                         if (price == secondPrice) {
                             //TODO sort alphabetically
+                            //Collections.sort(products, name<name>);
+                            //https://www.geeksforgeeks.org/collections-sort-java-examples/
+
+                            if (publicKey.equals(walletPublicKey(id))) {
+                                product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            } else {
+                                product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            }
+
                         }
                         else {
                             //TODO sort numerically
-                        }
-
+                            //https://howtodoinjava.com/java-sorting-guide/
+                            //https://dzone.com/articles/how-to-sort-objects-in-java
+                            List<Integer> priceList = Arrays.asList(price);
+                            Collections.sort(priceList);
 
                             if (publicKey.equals(walletPublicKey(id))) {
                                 product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
@@ -257,7 +268,15 @@ public class Database {
                                 product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
                             }
                         }
-                    } else {
+
+
+                           /* if (publicKey.equals(walletPublicKey(id))) {
+                                product = index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            } else {
+                                product = index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n" + product;
+                            }*/
+                        }
+                     else {
                         product = product + index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
                     }
 
