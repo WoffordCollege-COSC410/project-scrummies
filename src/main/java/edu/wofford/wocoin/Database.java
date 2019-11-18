@@ -262,67 +262,47 @@ public class Database {
          * @return a string based display of the products
          */
         public String turnProductToString (String id){
-        String url = "jdbc:sqlite:" + file;
-        String product = "";
+            String url = "jdbc:sqlite:" + file;
+            String product = "";
+            int index = 1;
 
-        try (Connection conn = DriverManager.getConnection(url)) {
-            Statement stmt = conn.createStatement();
-            ResultSet products = stmt.executeQuery("SELECT * FROM products;");
-            ResultSetMetaData rsmd = products.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
-            while (products.next()) {
-                for(int i = 1 ; i <= columnsNumber; i = i + 5) {
-                    String price = products.getString(i % 5 + 2);
-                    String secondPrice = products.getString(i % 5 + 2 + 5 - 5);
-                    String publicKey = products.getString(i % 5 + 1);
-                    String index1 = products.getString(i % 5);
-                    String name1 = products.getString(i % 5 + 3);
-                    String description1 = products.getString(i % 5 + 4);
-                    String price1 = products.getString(i % 5 + 2);
-                    if (publicKey.equals(walletPublicKey(id))) {
-                        product = product + index1 + ":" + " >>>" + " " + name1 + ":" + " " + description1 + " " + "[" + price1 + " WoCoins]" + "\n";
-                    } else {
-                        product = product + index1 + ":" + " " + name1 + ":" + " " + description1 + " " + "[" + price1 + " WoCoins]" + "\n";
+            try (Connection conn = DriverManager.getConnection(url)) {
+                Statement stmt = conn.createStatement();
+                ResultSet products = stmt.executeQuery(" SELECT * FROM products ORDER BY price, name COLLATE NOCASE;");
+                ResultSetMetaData rsmd = products.getMetaData();
+                int columnsNumber = rsmd.getColumnCount();
+                while (products.next()) {
+                    for(int i = 1 ; i <= columnsNumber; i = i + 5) {
+                        String price = products.getString(i % 5 + 2);
+                        String publicKey = products.getString(i % 5 + 1);
+                        String index1 = products.getString(i % 5);
+                        String name1 = products.getString(i % 5 + 3);
+                        String description1 = products.getString(i % 5 + 4);
+                        String price1 = products.getString(i % 5 + 2);
+                        if (publicKey.equals(walletPublicKey(id))) {
+                            if (price1.equals("1")) {
+                                product = product + index + ":" + " >>> " + " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoin]" + "\n";
+                                index++;
+                            } else {
+                                product = product + index + ":" + " >>> " + " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoins]" + "\n";
+                                index++;
+                            }
+                        }else {
+                            if (price1.equals("1")) {
+                                product = product + index + ":" + " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoin]" + "\n";
+                                index++;
+                            } else {
+                                product = product + index + ":"+ " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoins]" + "\n";
+                                index++;
+                            }
+                        }
                     }
-                    /*
-                    if (secondPrice == price) {
-                        ResultSet resultSet = null;
-                        Statement statement = conn.createStatement();
-                        resultSet = statement.executeQuery("SELECT * FROM products ORDER BY name;");
-                        resultSet.next();
-                        String index1 = resultSet.getString(i % 5);
-                        String name1 = resultSet.getString(i % 5 + 3);
-                        String description1 = resultSet.getString(i % 5 + 4);
-                        String price1 = resultSet.getString(i % 5 + 2);
-                        if (publicKey.equals(walletPublicKey(id))) {
-                            product = product + index1 + ":" + " >>>" + " " + name1 + ":" + " " + description1 + " " + "[" + price1 + " WoCoins]" + "\n";
-                        } else {
-                            product = product + index1 + ":" + " " + name1 + ":" + " " + description1 + " " + "[" + price + " WoCoins]" + "\n";
-                        }
-                    } else{
-                        ResultSet resultSet = null;
-                        Statement statement = conn.createStatement();
-                        resultSet = statement.executeQuery("SELECT * FROM products ORDER BY price;");
-                        resultSet.next();
-                        String index1 = resultSet.getString(i % 5);
-                        String name1 = resultSet.getString(i % 5 + 3);
-                        String description1 = resultSet.getString(i % 5 + 4);
-                        String price1 = resultSet.getString(i % 5 + 2);
-                        if (publicKey.equals(walletPublicKey(id))) {
-                            product = product + index1 + ":" + " >>>" + " " + name1 + ":" + " " + description1 + " " + "[" + price1 + " WoCoins]" + "\n";
-                        } else {
-                            product = product + index1 + ":" + " " + name1 + ":" + " " + description1 + " " + "[" + price1 + " WoCoins]" + "\n";
-                        }
                 }
-
-                     */
-                }
+                return product;
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            return product;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-            return product;
+                return product;
         }
 
         /**
