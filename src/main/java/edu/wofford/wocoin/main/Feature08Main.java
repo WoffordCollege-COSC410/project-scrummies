@@ -30,7 +30,7 @@ public class Feature08Main {
                     if (Pass.equals("adminpwd")){
                         password_Correct = true;
                         while (password_Correct) {
-                            System.out.println("1: back\n2: add user\n3: remove user\n");
+                            System.out.println("1: back\n2: add user\n3: remove user\n4: transfer WoCoins\n");
                             String next_step = input.nextLine();
                             if (next_step .equals("1")) {
                                 password_Correct = false;
@@ -46,6 +46,19 @@ public class Feature08Main {
                                 String response = input.nextLine();
                                 Database d = new Database(args[0]);
                                 d.deleteUser(response);
+                            } else if (next_step.equals("4")) {
+                                Database db = new Database(args[0]);
+                                System.out.println("Enter users username");
+                                String response = input.nextLine();
+                                if (db.checkUser(response)) {
+                                    if (db.checkWallet(response)) {
+
+                                    } else {
+                                        System.out.println("User has no wallet.");
+                                    }
+                                }else {
+                                    System.out.println("No such user.");
+                                }
                             }
                         }
 
