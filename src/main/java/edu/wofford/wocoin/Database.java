@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.text.Collator;
 import java.util.*;
 import java.util.Comparator;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 import org.web3j.crypto.WalletUtils;
@@ -267,16 +272,50 @@ public class Database {
             int columnsNumber = rsmd.getColumnCount();
             while (products.next()) {
                 for(int i = 1 ; i <= columnsNumber; i = i + 5) {
-                    String index = products.getString(i%5);
-                    String publicKey = products.getString(i%5 + 1);
-                    String name = products.getString(i%5 + 3);
-                    String description = products.getString(i%5 + 4);
-                    String price = products.getString(i%5 + 2);
+                    String price = products.getString(i % 5 + 2);
+                    String secondPrice = products.getString(i % 5 + 2 + 5 - 5);
+                    String publicKey = products.getString(i % 5 + 1);
+                    String index1 = products.getString(i % 5);
+                    String name1 = products.getString(i % 5 + 3);
+                    String description1 = products.getString(i % 5 + 4);
+                    String price1 = products.getString(i % 5 + 2);
                     if (publicKey.equals(walletPublicKey(id))) {
-                        product = product + index + ":" + " >>>" +  " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
+                        product = product + index1 + ":" + " >>>" + " " + name1 + ":" + " " + description1 + " " + "[" + price1 + " WoCoins]" + "\n";
                     } else {
-                        product = product + index + ":" + " " + name  + ":" + " " + description + " " + "[" + price + " WoCoins]" + "\n";
+                        product = product + index1 + ":" + " " + name1 + ":" + " " + description1 + " " + "[" + price1 + " WoCoins]" + "\n";
                     }
+                    /*
+                    if (secondPrice == price) {
+                        ResultSet resultSet = null;
+                        Statement statement = conn.createStatement();
+                        resultSet = statement.executeQuery("SELECT * FROM products ORDER BY name;");
+                        resultSet.next();
+                        String index1 = resultSet.getString(i % 5);
+                        String name1 = resultSet.getString(i % 5 + 3);
+                        String description1 = resultSet.getString(i % 5 + 4);
+                        String price1 = resultSet.getString(i % 5 + 2);
+                        if (publicKey.equals(walletPublicKey(id))) {
+                            product = product + index1 + ":" + " >>>" + " " + name1 + ":" + " " + description1 + " " + "[" + price1 + " WoCoins]" + "\n";
+                        } else {
+                            product = product + index1 + ":" + " " + name1 + ":" + " " + description1 + " " + "[" + price + " WoCoins]" + "\n";
+                        }
+                    } else{
+                        ResultSet resultSet = null;
+                        Statement statement = conn.createStatement();
+                        resultSet = statement.executeQuery("SELECT * FROM products ORDER BY price;");
+                        resultSet.next();
+                        String index1 = resultSet.getString(i % 5);
+                        String name1 = resultSet.getString(i % 5 + 3);
+                        String description1 = resultSet.getString(i % 5 + 4);
+                        String price1 = resultSet.getString(i % 5 + 2);
+                        if (publicKey.equals(walletPublicKey(id))) {
+                            product = product + index1 + ":" + " >>>" + " " + name1 + ":" + " " + description1 + " " + "[" + price1 + " WoCoins]" + "\n";
+                        } else {
+                            product = product + index1 + ":" + " " + name1 + ":" + " " + description1 + " " + "[" + price1 + " WoCoins]" + "\n";
+                        }
+                }
+
+                     */
                 }
             }
             return product;
