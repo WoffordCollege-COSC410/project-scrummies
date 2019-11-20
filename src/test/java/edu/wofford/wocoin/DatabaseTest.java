@@ -158,13 +158,14 @@ public class DatabaseTest {
         Database dbb = new Database("testForAlphabeticalAndNumerical.db");
         dbb.addUser("ABC", "ABC");
         dbb.addUser("DEF", "DEF");
-        String address = Wallet.createWallet("C:\\Users\\tjd57\\IdeaProjects\\project-scrummies1","ABC","DEF");
+        String address = Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","ABC","DEF");
         dbb.addWallet("ABC", address);
-        String address2 = Wallet.createWallet("C:\\Users\\tjd57\\IdeaProjects\\project-scrummies1","DEF","DEF");
+        String address2 = Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","DEF","DEF");
         dbb.addWallet("DEF", address2);
         dbb.addProduct("ABC", "AlwaysWinter", "Game on PC", 50);
         dbb.addProduct("DEF", "NeverWinter", "Game on PC", 50);
-        assertEquals("1: >>>  AlwaysWinter: Game on PC  [50 WoCoins]\n2: NeverWinter: Game on PC  [50 WoCoins]\n",dbb.turnProductToString("ABC"));
+        dbb.addProduct("ABC","Trigger me elmo", "very racist", 1);
+        assertEquals("1: >>>  Trigger me elmo: very racist  [1 WoCoin]\n2: >>>  AlwaysWinter: Game on PC  [50 WoCoins]\n3: NeverWinter: Game on PC  [50 WoCoins]\n",dbb.turnProductToString("ABC"));
 
 
 

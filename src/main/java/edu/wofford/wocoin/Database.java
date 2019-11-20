@@ -344,5 +344,23 @@ public class Database {
         }
         return "";
     }
+    /*
+    public String productOfUsers(String user) {
+        String publickey = walletPublicKey(user);
+        String products = "";
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT * FROM products WHERE publickey = '" + publickey + "' ORDER BY price, name COLLATE NOCASE;");
+            id.next();
+            String key = id.getString(1);
+            return key;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+     */
+
     }
 
