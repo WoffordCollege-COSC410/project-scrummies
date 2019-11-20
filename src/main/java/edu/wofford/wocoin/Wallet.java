@@ -13,13 +13,7 @@ import org.json.simple.parser.*;
 public class Wallet {
 
 
-    /**
-     * Creates a wallet when prompeted and creates an address for the wallet
-     * @param dir the directory path for the wallet location
-     * @param userID the id of the user creating a wallet
-     * @param userPassword the associated password to a user which will also be their wallet password
-     * @return ""
-     */
+
     public static String createWallet(String dir, String userID, String userPassword) {
         File newFile = new File(dir + File.separator + userID);
         newFile.mkdir();

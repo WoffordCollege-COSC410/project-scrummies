@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import gherkin.lexer.Fi;
 import org.junit.Test;
+import org.web3j.crypto.WalletFile;
+
 import java.io.File;
 import java.sql.*;
 
@@ -147,5 +149,20 @@ public class DatabaseTest {
         }
 
     }
-
-}
+    @Test
+    public void checkProductsAreNumericalAndAlphabetical() {
+        File checkdbfile = new File("testForAlphabeticalAndNumerical.db");
+        if (checkdbfile.exists()) {
+            checkdbfile.delete();
+        }
+        Database dbb = new Database("TestForAlphabeticalAndNumerical.db");
+        dbb.addUser("test", "test");
+        dbb.addUser("test2", "test2");
+        String address = Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","test","test");
+        dbb.addWallet("test", address);
+        String address2 = Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","test2","test2");
+        dbb.addWallet("test2", address2);
+        dbb.deleteWallet("test2");
+        dbb.deleteWallet("False");
+        }
+    }
