@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
 
-public class Feature06Main {
+public class Feature07Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean still_Running = true;
@@ -67,8 +67,7 @@ public class Feature06Main {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
-                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n" +
-                                    "5: display products\n 6: send message\n 7: check messages");
+                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n5: display products");
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
@@ -140,16 +139,11 @@ public class Feature06Main {
                                 }
 
                             } else if (next_answer.equals("4")) {
+                                //TODO remove products (Feature05)
 
                             } else if (next_answer.equals("5")) {
                                 String productString = d.turnProductToString(user);
                                 System.out.println(productString);
-                            }
-                         else if (next_answer.equals("6")) {
-                            //TODO send message
-                        }
-                         else if (next_answer.equals("7")) {
-                             //TODO check messages
                             }
                         }
                     }

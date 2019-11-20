@@ -5,11 +5,10 @@ import edu.wofford.wocoin.Wallet;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
 
-public class Feature06Main {
+public class Feature08Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean still_Running = true;
@@ -31,7 +30,7 @@ public class Feature06Main {
                     if (Pass.equals("adminpwd")){
                         password_Correct = true;
                         while (password_Correct) {
-                            System.out.println("1: back\n2: add user\n3: remove user\n");
+                            System.out.println("1: back\n2: add user\n3: remove user\n4: transfer WoCoins\n");
                             String next_step = input.nextLine();
                             if (next_step .equals("1")) {
                                 password_Correct = false;
@@ -47,6 +46,20 @@ public class Feature06Main {
                                 String response = input.nextLine();
                                 Database d = new Database(args[0]);
                                 d.deleteUser(response);
+                            } else if (next_step.equals("4")) {
+                                Database db = new Database(args[0]);
+                                System.out.println("Enter users username");
+                                String response = input.nextLine();
+                                if (db.checkUser(response)) {
+                                    if (db.checkWallet(response)) {
+                                        //wallet does exist
+                                        //TODO transfer WoCoins
+                                    } else {
+                                        System.out.println("User has no wallet.");
+                                    }
+                                }else {
+                                    System.out.println("No such user.");
+                                }
                             }
                         }
 
@@ -67,8 +80,8 @@ public class Feature06Main {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
-                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n" +
-                                    "5: display products\n 6: send message\n 7: check messages");
+                            System.out.println("1: back\n2: create wallet\n" +
+                                    "3: add product\n4: remove product\n5: display products");
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
@@ -140,16 +153,11 @@ public class Feature06Main {
                                 }
 
                             } else if (next_answer.equals("4")) {
+                                //TODO Feature05 -> Allow users to remove products that they have added to the database
 
                             } else if (next_answer.equals("5")) {
                                 String productString = d.turnProductToString(user);
                                 System.out.println(productString);
-                            }
-                         else if (next_answer.equals("6")) {
-                            //TODO send message
-                        }
-                         else if (next_answer.equals("7")) {
-                             //TODO check messages
                             }
                         }
                     }

@@ -27,7 +27,11 @@ public class Main {
 
             } else if (args[0].equals("6")) {
                 Feature06Main.main(realArgs);
-            } else {
+            } else if (args[0].equals("7")) {
+
+            } else if (args[0].equals("8")) {
+                Feature08Main.main(realArgs);
+            }else {
                 System.out.println("Feature " + args[0] + " is not valid.");
             }
 

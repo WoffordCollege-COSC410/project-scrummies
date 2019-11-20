@@ -9,14 +9,14 @@ import java.nio.file.Files;
 import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
 
-public class Feature06Main {
+public class Feature05Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean still_Running = true;
         boolean password_Correct;
         boolean user_Password_Correct;
-        boolean nameCorrect;
-        boolean descriptionCorrect;
+        boolean nameCorrect = true;
+        boolean descriptionCorrect = true;
         if (args.length > 0) {
             while (still_Running) {
                 System.out.println("1: exit\n2: Admin\n3: User\n");
@@ -67,8 +67,7 @@ public class Feature06Main {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
-                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n" +
-                                    "5: display products\n 6: send message\n 7: check messages");
+                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n");
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
@@ -102,8 +101,6 @@ public class Feature06Main {
                                     d.addWallet(user, publicKey);
                                 }
                             } else if (next_answer.equals("3")){
-                                nameCorrect = true;
-                                descriptionCorrect = true;
                                 if (d.checkWallet(user)) {
                                     while (nameCorrect) {
                                         System.out.println("Enter a name: ");
@@ -138,24 +135,14 @@ public class Feature06Main {
                                 } else {
                                     System.out.println("User has no wallet.");
                                 }
-
                             } else if (next_answer.equals("4")) {
-
-                            } else if (next_answer.equals("5")) {
-                                String productString = d.turnProductToString(user);
-                                System.out.println(productString);
-                            }
-                         else if (next_answer.equals("6")) {
-                            //TODO send message
-                        }
-                         else if (next_answer.equals("7")) {
-                             //TODO check messages
+                                //TODO remove product
                             }
                         }
                     }
                 }
-
             }
         }
     }
 }
+
