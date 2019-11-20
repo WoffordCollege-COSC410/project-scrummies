@@ -80,7 +80,8 @@ public class Feature08Main {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
-                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n5: display products");
+                            System.out.println("1: back\n2: create wallet\n" +
+                                    "3: add product\n4: remove product\n5: display products");
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
@@ -152,7 +153,7 @@ public class Feature08Main {
                                 }
 
                             } else if (next_answer.equals("4")) {
-                                //TODO remove products (Feature05)
+                                //TODO Feature05 -> Allow users to remove products that they have added to the database
 
                             } else if (next_answer.equals("5")) {
                                 String productString = d.turnProductToString(user);

@@ -47,6 +47,20 @@ public class Feature09Main {
                                 String response = input.nextLine();
                                 Database d = new Database(args[0]);
                                 d.deleteUser(response);
+                            } else if (next_step.equals("4")) {
+                                Database db = new Database(args[0]);
+                                System.out.println("Enter users username");
+                                String response = input.nextLine();
+                                if (db.checkUser(response)) {
+                                    if (db.checkWallet(response)) {
+                                        //wallet does exist
+                                        //TODO transfer WoCoins
+                                    } else {
+                                        System.out.println("User has no wallet.");
+                                    }
+                                } else {
+                                    System.out.println("No such user.");
+                                }
                             }
                         }
 
