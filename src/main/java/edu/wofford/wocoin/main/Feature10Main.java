@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
 
-public class Feature06Main {
+public class Feature10Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean still_Running = true;
@@ -67,8 +67,9 @@ public class Feature06Main {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
-                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n" +
-                                    "5: display products\n 6: send message\n 7: check messages");
+                            System.out.println("1: back\n2: create wallet\n" +
+                                    "3: add product\n4: remove product\n5: display products\n" +
+                                    "6: send message\n7: check messages\n8: check balance\n9: purchase product");
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
@@ -140,16 +141,30 @@ public class Feature06Main {
                                 }
 
                             } else if (next_answer.equals("4")) {
+                                //TODO Feature05 -> Allow users to remove products that they have added to the database
 
                             } else if (next_answer.equals("5")) {
                                 String productString = d.turnProductToString(user);
                                 System.out.println(productString);
                             }
-                         else if (next_answer.equals("6")) {
-                            //TODO send message
-                        }
-                         else if (next_answer.equals("7")) {
-                             //TODO check messages
+                            else if (next_answer.equals("6")) {
+                                //TODO Feature07 -> send messages to other users
+                            }
+                            else if (next_answer.equals("7")) {
+                                //TODO Feature07 -> check messages from other users
+                            }
+                            else if (next_answer.equals("8")) {
+                                //TODO Feature09 -> check if user has wallet
+                                if (d.checkWallet(user)) {
+                                    //TODO Feature09 -> return WoCoin balance if wallet exists
+                                    //return "User has X WoCoins"
+                                }
+                                else{
+                                    System.out.println("User has no wallet.");
+                                }
+                            }
+                            else if (next_answer.equals("9")){
+                                //TODO purchase products w/ WoCoins
                             }
                         }
                     }

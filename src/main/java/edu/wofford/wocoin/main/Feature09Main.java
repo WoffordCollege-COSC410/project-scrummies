@@ -148,10 +148,10 @@ public class Feature09Main {
                                 System.out.println(productString);
                             }
                             else if (next_answer.equals("6")) {
-                                //TODO Feature07 -> send messages to and receive messages from other users
+                                //TODO Feature07 -> send messages to other users
                             }
                             else if (next_answer.equals("7")) {
-                                //TODO Feature07 -> send messages to and receive messages from other users
+                                //TODO Feature07 -> check messages from other users
                             }
                             else if (next_answer.equals("8")) {
                                 //TODO check if user has wallet

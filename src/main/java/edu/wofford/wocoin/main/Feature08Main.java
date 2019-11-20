@@ -52,7 +52,8 @@ public class Feature08Main {
                                 String response = input.nextLine();
                                 if (db.checkUser(response)) {
                                     if (db.checkWallet(response)) {
-
+                                        //wallet does exist
+                                        //TODO transfer WoCoins
                                     } else {
                                         System.out.println("User has no wallet.");
                                     }
@@ -151,6 +152,7 @@ public class Feature08Main {
                                 }
 
                             } else if (next_answer.equals("4")) {
+                                //TODO remove products (Feature05)
 
                             } else if (next_answer.equals("5")) {
                                 String productString = d.turnProductToString(user);
