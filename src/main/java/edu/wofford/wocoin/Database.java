@@ -253,64 +253,64 @@ public class Database {
     }
 
 
-        /**
-         * This method creates a returnable string listing all the products, their decriptions, and prices,
-         * ordered numerically by price, if the price is the same for multiple products, then those are
-         * sorted alphabetically. If the user looking at the products added one of the products themselves,
-         * the item is preempted by a ">>>"
-         * @param id the user id accessing the product list
-         * @return a string based display of the products
-         */
-        public String turnProductToString (String id){
-            String url = "jdbc:sqlite:" + file;
-            String product = "";
-            int index = 1;
+    /**
+     * This method creates a returnable string listing all the products, their decriptions, and prices,
+     * ordered numerically by price, if the price is the same for multiple products, then those are
+     * sorted alphabetically. If the user looking at the products added one of the products themselves,
+     * the item is preempted by a ">>>"
+     * @param id the user id accessing the product list
+     * @return a string based display of the products
+     */
+    public String turnProductToString (String id){
+        String url = "jdbc:sqlite:" + file;
+        String product = "";
+        int index = 1;
 
-            try (Connection conn = DriverManager.getConnection(url)) {
-                Statement stmt = conn.createStatement();
-                ResultSet products = stmt.executeQuery(" SELECT * FROM products ORDER BY price, name COLLATE NOCASE;");
-                ResultSetMetaData rsmd = products.getMetaData();
-                int columnsNumber = rsmd.getColumnCount();
-                while (products.next()) {
-                    for(int i = 1 ; i <= columnsNumber; i = i + 5) {
-                        String price = products.getString(i % 5 + 2);
-                        String publicKey = products.getString(i % 5 + 1);
-                        String index1 = products.getString(i % 5);
-                        String name1 = products.getString(i % 5 + 3);
-                        String description1 = products.getString(i % 5 + 4);
-                        String price1 = products.getString(i % 5 + 2);
-                        if (publicKey.equals(walletPublicKey(id))) {
-                            if (price1.equals("1")) {
-                                product = product + index + ":" + " >>> " + " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoin]" + "\n";
-                                index++;
-                            } else {
-                                product = product + index + ":" + " >>> " + " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoins]" + "\n";
-                                index++;
-                            }
-                        }else {
-                            if (price1.equals("1")) {
-                                product = product + index + ":" + " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoin]" + "\n";
-                                index++;
-                            } else {
-                                product = product + index + ":"+ " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoins]" + "\n";
-                                index++;
-                            }
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet products = stmt.executeQuery(" SELECT * FROM products ORDER BY price, name COLLATE NOCASE;");
+            ResultSetMetaData rsmd = products.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (products.next()) {
+                for(int i = 1 ; i <= columnsNumber; i = i + 5) {
+                    String price = products.getString(i % 5 + 2);
+                    String publicKey = products.getString(i % 5 + 1);
+                    String index1 = products.getString(i % 5);
+                    String name1 = products.getString(i % 5 + 3);
+                    String description1 = products.getString(i % 5 + 4);
+                    String price1 = products.getString(i % 5 + 2);
+                    if (publicKey.equals(walletPublicKey(id))) {
+                        if (price1.equals("1")) {
+                            product = product + index + ":" + " >>> " + " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoin]" + "\n";
+                            index++;
+                        } else {
+                            product = product + index + ":" + " >>> " + " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoins]" + "\n";
+                            index++;
+                        }
+                    }else {
+                        if (price1.equals("1")) {
+                            product = product + index + ":" + " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoin]" + "\n";
+                            index++;
+                        } else {
+                            product = product + index + ":"+ " " + name1 + ":" + " " + description1 + "  " + "[" + price1 + " WoCoins]" + "\n";
+                            index++;
                         }
                     }
                 }
-                return product;
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-                return product;
+            return product;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+            return product;
+    }
 
         /**
          * checkWallet sees if a user already has a wallet
          * @param username the user id being checked
          * @return false if the wallet does not already exist
          */
-        public boolean checkWallet (String username){
+    public boolean checkWallet (String username){
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
@@ -331,7 +331,7 @@ public class Database {
          * @param user the id of whoever is accessing their wallet
          * @return ""
          */
-        public String walletPublicKey (String user){
+    public String walletPublicKey (String user){
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
@@ -344,23 +344,60 @@ public class Database {
         }
         return "";
     }
-    /*
+
     public String productOfUsers(String user) {
-        String publickey = walletPublicKey(user);
-        String products = "";
+        String seller = walletPublicKey(user);
+        String products = "1: cancel\n";
+        int index = 2;
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
-            ResultSet id = stmt.executeQuery("SELECT * FROM products WHERE publickey = '" + publickey + "' ORDER BY price, name COLLATE NOCASE;");
-            id.next();
-            String key = id.getString(1);
-            return key;
+            ResultSet id = stmt.executeQuery("SELECT * FROM products WHERE seller = '" + seller + "' ORDER BY name COLLATE NOCASE;");
+            ResultSetMetaData rsmd = id.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (id.next()) {
+                for(int i = 1 ; i <= columnsNumber; i = i + 5) {
+                    String name = id.getString(i % 5 + 3);
+                    String description = id.getString(i % 5 + 4);
+                    String price = id.getString(i % 5 + 2);
+                    if (price.equals("1")) {
+                        products = products + index + ":" + " " + name + ":" + " " + description + "  " + "[" + price + " WoCoin]" + "\n";
+                        index++;
+                    } else {
+                        products = products + index + ":" + " " + name + ":" + " " + description + "  " + "[" + price + " WoCoins]" + "\n";
+                        index++;
+                    }
+                }
+            }
+            return products;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "";
+        return products;
     }
-     */
+    public void removeProduct(String user, int number) {
+        String url = "jdbc:sqlite:" + file;
+        String products = productOfUsers(user);
+        String[] parseProducts = products.split("\\n");
+        System.out.println(parseProducts[0]);
+        String row = parseProducts[number - 1];
+        String[] parseRow = row.split(": ");
+        String name = parseRow[1];
+        System.out.println(name);
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("DELETE FROM products WHERE name = '" + name + "';");
+            System.out.println("Product removed.");
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkProduct(String user){
 
     }
+
+    }
+
 

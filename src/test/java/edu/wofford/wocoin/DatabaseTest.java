@@ -150,7 +150,7 @@ public class DatabaseTest {
 
     }
     @Test
-    public void checkProductsAreNumericalAndAlphabetical() {
+    public void testProductsAreNumericalAndAlphabetical() {
         File checkdbfile = new File("testForAlphabeticalAndNumerical.db");
         if (checkdbfile.exists()) {
             checkdbfile.delete();
@@ -165,9 +165,31 @@ public class DatabaseTest {
         dbb.addProduct("ABC", "AlwaysWinter", "Game on PC", 50);
         dbb.addProduct("DEF", "NeverWinter", "Game on PC", 50);
         dbb.addProduct("ABC","Trigger me elmo", "very racist", 1);
-        assertEquals("1: >>>  Trigger me elmo: very racist  [1 WoCoin]\n2: >>>  AlwaysWinter: Game on PC  [50 WoCoins]\n3: NeverWinter: Game on PC  [50 WoCoins]\n",dbb.turnProductToString("ABC"));
+        dbb.addProduct("DEF", "Roomba","Yells when it bumps into things", 1);
+        assertEquals("1: Roomba: Yells when it bumps into things  [1 WoCoin]\n2: >>>  Trigger me elmo: very racist  [1 WoCoin]\n3: >>>  AlwaysWinter: Game on PC  [50 WoCoins]\n4: NeverWinter: Game on PC  [50 WoCoins]\n",dbb.turnProductToString("ABC"));
 
 
 
         }
+
+    @Test
+    public void testProductOfUser() {
+        File dbfile = new File("testForProducts.db");
+        if (dbfile.exists()) {
+            dbfile.delete();
+        }
+        Database db = new Database("testForProducts.db");
+        db.addUser("testforproduct", "test");
+        db.addUser("testforproduct2", "test2");
+        String address = Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","testforproduct","test");
+        db.addWallet("testforproduct", address);
+        String address2 = Wallet.createWallet("C:\\Users\\sethl\\project-scrummies","testforproduct2","test2");
+        db.addWallet("testforproduct2", address2);
+        db.addProduct("testforproduct", "AlwaysWinter", "Game on PC", 50);
+        db.addProduct("testforproduct1", "NeverWinter", "Game on PC", 50);
+        db.addProduct("testforproduct","Trigger me elmo", "very racist", 1);
+        db.addProduct("testforproduct1", "Roomba","Yells when it bumps into things", 1);
+        assertEquals("1: cancel\n2: AlwaysWinter: Game on PC  [50 WoCoins]\n3: Trigger me elmo: very racist  [1 WoCoin]\n",db.productOfUsers("testforproduct"));
+
+    }
     }

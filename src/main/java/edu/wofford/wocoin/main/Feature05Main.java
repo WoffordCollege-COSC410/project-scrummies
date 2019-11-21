@@ -137,6 +137,23 @@ public class Feature05Main {
                                 }
                             } else if (next_answer.equals("4")) {
                                 //TODO remove product
+                                String menu = d.productOfUsers(user);
+                                if (d.checkUser(user)) {
+                                    if (d.checkWallet(user)){
+                                        System.out.println(menu);
+                                        int response = input.nextInt();
+                                        if (response == 1) {
+                                            System.out.println("Action canceled.");
+                                        } else {
+                                            d.removeProduct(user,response);
+                                        }
+                                    } else {
+                                        System.out.println("User has no wallet.");
+                                    }
+                                } else {
+                                    System.out.println("No such user.");
+                                }
+
                             }
                         }
                     }
