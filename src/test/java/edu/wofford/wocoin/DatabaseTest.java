@@ -191,5 +191,10 @@ public class DatabaseTest {
         db.addProduct("testforproduct1", "Roomba","Yells when it bumps into things", 1);
         assertEquals("1: cancel\n2: AlwaysWinter: Game on PC  [50 WoCoins]\n3: Trigger me elmo: very racist  [1 WoCoin]\n",db.productOfUsers("testforproduct"));
 
+        assertEquals(true,db.checkProduct("testforproduct"));
+        assertEquals(false, db.checkProduct("Seth"));
+
+        assertEquals(2, db.countUsersProducts("testforproduct"));
+        db.removeProduct("testforproduct",2);
     }
     }

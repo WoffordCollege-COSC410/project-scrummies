@@ -376,28 +376,62 @@ public class Database {
         return products;
     }
     public void removeProduct(String user, int number) {
-        String url = "jdbc:sqlite:" + file;
-        String products = productOfUsers(user);
-        String[] parseProducts = products.split("\\n");
-        System.out.println(parseProducts[0]);
-        String row = parseProducts[number - 1];
-        String[] parseRow = row.split(": ");
-        String name = parseRow[1];
-        System.out.println(name);
-        try (Connection conn = DriverManager.getConnection(url)) {
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate("DELETE FROM products WHERE name = '" + name + "';");
+        int counter = countUsersProducts(user)  + 1;
+        if (number <= counter) {
+            String url = "jdbc:sqlite:" + file;
+            String products = productOfUsers(user);
+            String[] parseProducts = products.split("\\n");
+            System.out.println(parseProducts[0]);
+            String row = parseProducts[number - 1];
+            String[] parseRow = row.split(": ");
+            String name = parseRow[1];
+            System.out.println(name);
+            try (Connection conn = DriverManager.getConnection(url)) {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate("DELETE FROM products WHERE name = '" + name + "';");
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             System.out.println("Product removed.");
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("Invalid value. Enter a value between 1 and " + counter + ".");
         }
     }
 
     public boolean checkProduct(String user){
-
+        String url = "jdbc:sqlite:" + file;
+        String userPublickey = walletPublicKey(user);
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT publickey FROM wallets WHERE publickey = '" + userPublickey + "';");
+            id.next();
+            String realPublicKey = id.getString(1);
+            if (realPublicKey.equals(userPublickey)) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
+    public int countUsersProducts(String user) {
+        int counter = 0;
+        String url = "jdbc:sqlite:" + file;
+        String userPublickey = walletPublicKey(user);
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT COUNT(*) FROM products WHERE seller = '" + userPublickey + "';");
+            id.next();
+            counter = id.getInt(1);
+            return counter;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return counter;
     }
+
+}
 
 
