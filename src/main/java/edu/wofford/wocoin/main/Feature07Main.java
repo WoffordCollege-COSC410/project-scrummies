@@ -164,20 +164,42 @@ public class Feature07Main {
                                 if (d.checkWallet(user)) {
                                     String menu = d.productsNotOfUser(user);
                                     System.out.println(menu);
-                                    int responce = input.nextInt();
+                                    int response = input.nextInt();
                                     input.nextLine();
-                                    if (responce == 1) {
+                                    if (response == 1) {
                                         System.out.println("Action canceled.");
                                     } else {
                                         System.out.println("Enter message here: ");
                                         String message = input.nextLine();
-                                        d.sendMessage(user, responce, message);
+                                        d.sendMessage(user, response, message);
                                     }
                                 } else {
                                     System.out.println("User has no wallet.");
                                 }
                             } else if (next_answer.equals("7")) {
-                                System.out.println(d.recieveMessage(user));
+                                if (d.checkWallet(user)) {
+                                    String menu = d.recieveMessage(user);
+                                    System.out.println(menu);
+                                    int response = input.nextInt();
+                                    input.nextLine();
+                                    if (response == 1) {
+                                        System.out.println("Action canceled.");
+                                    } else {
+                                        System.out.println("1: cancel\n2: reply\n3: delete\n");
+                                        String next = input.nextLine();
+                                        if (next.equals("1")) {
+                                            System.out.println("Action canceled.");
+                                        } else if (next.equals("2")) {
+
+                                            System.out.println("Message sent.");
+                                        }
+                                        System.out.println("Enter message here: ");
+                                        String message = input.nextLine();
+                                        d.sendMessage(user, response, message);
+                                    }
+                                } else {
+                                    System.out.println("User has no wallet.");
+                                }
                             }
                         }
                     }
