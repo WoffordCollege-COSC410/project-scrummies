@@ -541,10 +541,6 @@ public class Database {
 
     }
 
-    public void sendResponce(String sender, String message) {
-
-    }
-
     public String recieveMessage(String user) {
         String recipient = walletPublicKey(user);
         String messages = "1: cancel\n";
@@ -561,7 +557,7 @@ public class Database {
                     String product = findProductFromId(id.getString(i % 3 ));
 
                     String time = id.getString(i % 6 + 5);
-                    messages = messages + index + ":" + " " + message +  "  " + "[" + product + "]" + "  " + time + "\n";
+                    messages = messages + index + ":" + " " + message +  " " + "[" + product + "]" + " " + time + "\n";
                     index++;
                 }
             }
