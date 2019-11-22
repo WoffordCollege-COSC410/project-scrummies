@@ -345,6 +345,11 @@ public class Database {
         return "";
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
     public String productOfUsers(String user) {
         String seller = walletPublicKey(user);
         String products = "1: cancel\n";
@@ -376,6 +381,11 @@ public class Database {
         return products;
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
     public String productsNotOfUser(String user) {
         String seller = walletPublicKey(user);
         String products = "1: cancel\n";
@@ -407,6 +417,11 @@ public class Database {
         return products;
     }
 
+    /**
+     *
+     * @param user
+     * @param number
+     */
     public void removeProduct(String user, int number) {
         int counter = countUsersProducts(user)  + 1;
         if (number <= counter) {
@@ -431,6 +446,11 @@ public class Database {
         }
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
     public boolean checkProduct(String user){
         String url = "jdbc:sqlite:" + file;
         String userPublickey = walletPublicKey(user);
@@ -448,6 +468,11 @@ public class Database {
         return false;
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
     public int countUsersProducts(String user) {
         int counter = 0;
         String url = "jdbc:sqlite:" + file;
@@ -464,6 +489,11 @@ public class Database {
         return counter;
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
     public int countProductsUserDoesNotOwn(String user) {
         int counter = 0;
         String url = "jdbc:sqlite:" + file;
@@ -480,6 +510,11 @@ public class Database {
         return counter;
     }
 
+    /**
+     *
+     * @param product
+     * @return
+     */
     public String findProduct(String product) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -494,6 +529,11 @@ public class Database {
         return "";
     }
 
+    /**
+     *
+     * @param productId
+     * @return
+     */
     public String findProductFromId(String productId) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -508,6 +548,12 @@ public class Database {
         return "";
     }
 
+    /**
+     *
+     * @param sender
+     * @param row
+     * @param message
+     */
     public void sendMessage(String sender,int row, String message) {
         int counter = countProductsUserDoesNotOwn(sender);
         String senderId = walletPublicKey(sender);
@@ -541,6 +587,11 @@ public class Database {
 
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
     public String recieveMessage(String user) {
         String recipient = walletPublicKey(user);
         String messages = "1: cancel\n";
