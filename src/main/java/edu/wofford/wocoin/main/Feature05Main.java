@@ -139,7 +139,6 @@ public class Feature05Main {
                                 }
                             } else if (next_answer.equals("4")) {
                                 //TODO remove product
-                                //TODO Need to loop through multiple times to remove a product input multiple times
                                 String menu = d.productOfUsers(user);
                                 if (d.checkUser(user)) {
                                     if (d.checkWallet(user)){
@@ -149,6 +148,15 @@ public class Feature05Main {
                                             System.out.println("Action canceled.");
                                         } else {
                                             d.removeProduct(user,response);
+                                            //TODO Need to loop through to remove a product input multiple times
+                                            if (response >= 1){//item appears more than once
+                                             //delete again
+                                            }
+                                            else{
+                                                //no loop
+                                            }
+                                            }
+
                                         }
                                     } else {
                                         System.out.println("User has no wallet.");
