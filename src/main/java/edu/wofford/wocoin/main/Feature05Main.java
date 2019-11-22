@@ -139,6 +139,7 @@ public class Feature05Main {
                                 }
                             } else if (next_answer.equals("4")) {
                                 //TODO remove product
+                                //TODO Need to loop through multiple times to remove a product input multiple times
                                 String menu = d.productOfUsers(user);
                                 if (d.checkUser(user)) {
                                     if (d.checkWallet(user)){
