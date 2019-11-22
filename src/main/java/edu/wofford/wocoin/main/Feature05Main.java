@@ -150,7 +150,7 @@ public class Feature05Main {
                                             d.removeProduct(user,response);
                                             //TODO Need to loop through to remove a product input multiple times
                                             if (response >= 1){//item appears more than once
-                                             //delete again
+                                                d.removeProduct(user,response);
                                             }
                                             else{
                                                 //no loop
@@ -172,5 +172,5 @@ public class Feature05Main {
             }
         }
     }
-}
+
 
