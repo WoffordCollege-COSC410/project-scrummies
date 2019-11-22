@@ -196,5 +196,10 @@ public class DatabaseTest {
 
         assertEquals(2, db.countUsersProducts("testforproduct"));
         db.removeProduct("testforproduct",2);
+
+        String testFindProduct = db.findProduct("NeverWinter");
+        assertEquals(testFindProduct,db.findProduct("NeverWinter"));
+
     }
-    }
+
+}

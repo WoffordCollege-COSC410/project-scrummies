@@ -67,7 +67,7 @@ public class Feature07Main {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
-                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n5: display products");
+                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n5: display products\n6: send messages\n7. check messages\n");
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
@@ -139,11 +139,45 @@ public class Feature07Main {
                                 }
 
                             } else if (next_answer.equals("4")) {
-                                //TODO remove products (Feature05)
+                                //TODO remove products
+                                String menu = d.productOfUsers(user);
+                                if (d.checkUser(user)) {
+                                    if (d.checkWallet(user)){
+                                        System.out.println(menu);
+                                        int response = input.nextInt();
+                                        if (response == 1) {
+                                            System.out.println("Action canceled.");
+                                        } else {
+                                            d.removeProduct(user,response);
+                                        }
+                                    } else {
+                                        System.out.println("User has no wallet.");
+                                    }
+                                } else {
+                                    System.out.println("No such user.");
+                                }
 
                             } else if (next_answer.equals("5")) {
                                 String productString = d.turnProductToString(user);
                                 System.out.println(productString);
+                            } else if (next_answer.equals("6")) {
+                                if (d.checkWallet(user)) {
+                                    String menu = d.productsNotOfUser(user);
+                                    System.out.println(menu);
+                                    int responce = input.nextInt();
+                                    input.nextLine();
+                                    if (responce == 1) {
+                                        System.out.println("Action canceled.");
+                                    } else {
+                                        System.out.println("Enter message here: ");
+                                        String message = input.nextLine();
+                                        d.sendMessage(user, responce, message);
+                                    }
+                                } else {
+                                    System.out.println("User has no wallet.");
+                                }
+                            } else if (next_answer.equals("7")) {
+                                System.out.println(d.recieveMessage(user));
                             }
                         }
                     }

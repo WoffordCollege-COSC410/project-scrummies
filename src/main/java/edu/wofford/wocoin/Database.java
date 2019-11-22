@@ -375,6 +375,38 @@ public class Database {
         }
         return products;
     }
+
+    public String productsNotOfUser(String user) {
+        String seller = walletPublicKey(user);
+        String products = "1: cancel\n";
+        int index = 2;
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT * FROM products WHERE seller != '" + seller + "' ORDER BY name COLLATE NOCASE;");
+            ResultSetMetaData rsmd = id.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (id.next()) {
+                for(int i = 1 ; i <= columnsNumber; i = i + 5) {
+                    String name = id.getString(i % 5 + 3);
+                    String description = id.getString(i % 5 + 4);
+                    String price = id.getString(i % 5 + 2);
+                    if (price.equals("1")) {
+                        products = products + index + ":" + " " + name + ":" + " " + description + "  " + "[" + price + " WoCoin]" + "\n";
+                        index++;
+                    } else {
+                        products = products + index + ":" + " " + name + ":" + " " + description + "  " + "[" + price + " WoCoins]" + "\n";
+                        index++;
+                    }
+                }
+            }
+            return products;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
     public void removeProduct(String user, int number) {
         int counter = countUsersProducts(user)  + 1;
         if (number <= counter) {
@@ -430,6 +462,110 @@ public class Database {
             e.printStackTrace();
         }
         return counter;
+    }
+
+    public int countProductsUserDoesNotOwn(String user) {
+        int counter = 0;
+        String url = "jdbc:sqlite:" + file;
+        String userPublickey = walletPublicKey(user);
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT COUNT(*) FROM products WHERE seller != '" + userPublickey + "';");
+            id.next();
+            counter = id.getInt(1);
+            return counter;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return counter;
+    }
+
+    public String findProduct(String product) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT seller FROM products WHERE name = '" + product + "';");
+            id.next();
+            String seller = id.getString(1);
+            return seller;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String findProductFromId(String productId) {
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT name FROM products WHERE id = '" + productId + "';");
+            id.next();
+            String product = id.getString(1);
+            return product;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public void sendMessage(String sender,int row, String message) {
+        int counter = countProductsUserDoesNotOwn(sender);
+        String senderId = walletPublicKey(sender);
+        if (row <= counter) {
+            String url = "jdbc:sqlite:" + file;
+            String products = productsNotOfUser(sender);
+            String[] parseProducts = products.split("\\n");
+            System.out.println(parseProducts[0]);
+            String rowOfMenu = parseProducts[row - 1];
+            String[] parseRow = rowOfMenu.split(": ");
+            String name = parseRow[1];
+            String recieverProductkey = findProduct(name);
+            try (Connection conn = DriverManager.getConnection(url)) {
+                Statement stm = conn.createStatement();
+                ResultSet id = stm.executeQuery("SELECT id FROM products WHERE name = '" + name + "';");
+                id.next();
+                String productId = id.getString(1);
+
+                String sqls = "INSERT INTO messages (sender, recipient, productid, message) VALUES (?, ?, ?, ?);";
+                PreparedStatement prepStmt = conn.prepareStatement(sqls);
+                prepStmt.setString(1, senderId);
+                prepStmt.setString(2, recieverProductkey);
+                prepStmt.setString(3, productId);
+                prepStmt.setString(4, message);
+                System.out.println("Message sent.");
+                prepStmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public String recieveMessage(String user) {
+        String recipient = walletPublicKey(user);
+        String messages = "1: cancel\n";
+        int index = 2;
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery("SELECT * FROM messages WHERE recipient != '" + recipient + "' ORDER BY DATETIME();");
+            ResultSetMetaData rsmd = id.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (id.next()) {
+                for(int i = 1 ; i <= columnsNumber; i = i + 6) {
+                    String message = id.getString(i % 6 + 4);
+                    String product = findProductFromId(id.getString(i % 3 ));
+
+                    String time = id.getString(i % 6 + 5);
+                    messages = messages + index + ":" + " " + message +  " " + "[" + product + "]" + " " + time + "\n";
+                    index++;
+                }
+            }
+            return messages;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return messages;
     }
 
 }
