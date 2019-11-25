@@ -212,6 +212,8 @@ public class DatabaseTest {
         String testFindProduct = db.findProduct("NeverWinter");
         assertEquals(testFindProduct,db.findProduct("NeverWinter"));
 
+        assertEquals(2, db.countProductsUserDoesNotOwn("testforproduct"));
+
     }
 
 }

@@ -191,12 +191,11 @@ public class Feature07Main {
                                         if (next.equals("1")) {
                                             System.out.println("Action canceled.");
                                         } else if (next.equals("2")) {
-
+                                            System.out.println("Enter message here: ");
+                                            String message = input.nextLine();
                                             System.out.println("Message sent.");
                                         }
-                                        System.out.println("Enter message here: ");
-                                        String message = input.nextLine();
-                                        d.sendMessage(user, response, message);
+
                                     }
                                 } else {
                                     System.out.println("User has no wallet.");

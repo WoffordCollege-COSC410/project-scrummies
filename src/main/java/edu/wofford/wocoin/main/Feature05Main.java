@@ -148,13 +148,6 @@ public class Feature05Main {
                                             System.out.println("Action canceled.");
                                         } else {
                                             d.removeProduct(user,response);
-                                            //TODO Need to loop through to remove a product input multiple times
-                                            if (response >= 1){//item appears more than once
-                                                d.removeProduct(user,response);
-                                            }
-                                            else{
-                                                //no loop
-                                            }
                                             }
                                         }
                                     } else {
