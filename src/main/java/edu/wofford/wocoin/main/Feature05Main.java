@@ -156,7 +156,6 @@ public class Feature05Main {
                                                 //no loop
                                             }
                                             }
-
                                         }
                                     } else {
                                         System.out.println("User has no wallet.");

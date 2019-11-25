@@ -67,7 +67,8 @@ public class Feature07Main {
                         user_Password_Correct = true;
 
                         while (user_Password_Correct) {
-                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n5: display products\n6: send messages\n7. check messages\n");
+                            System.out.println("1: back\n2: create wallet\n3: add product\n4: remove product\n" +
+                                    "5: display products\n6: send messages\n7. check messages\n");
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
