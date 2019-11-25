@@ -54,6 +54,7 @@ public class Feature08Main {
                                     if (db.checkWallet(response)) {
                                         //wallet does exist
                                         //TODO transfer WoCoins
+                                        System.out.println("Transfer complete.");
                                     } else {
                                         System.out.println("User has no wallet.");
                                     }

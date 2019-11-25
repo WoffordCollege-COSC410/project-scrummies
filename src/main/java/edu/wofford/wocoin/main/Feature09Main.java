@@ -156,22 +156,58 @@ public class Feature09Main {
 
                             } else if (next_answer.equals("4")) {
                                 //TODO Feature05 -> Allow users to remove products that they have added to the database
-
+                                String menu = d.productOfUsers(user);
+                                if (d.checkUser(user)) {
+                                    if (d.checkWallet(user)){
+                                        System.out.println(menu);
+                                        int response = input.nextInt();
+                                        if (response == 1) {
+                                            System.out.println("Action canceled.");
+                                        } else {
+                                            d.removeProduct(user,response);
+                                        }
+                                    } else {
+                                        System.out.println("User has no wallet.");
+                                    }
+                                } else {
+                                    System.out.println("No such user.");
+                                }
                             } else if (next_answer.equals("5")) {
                                 String productString = d.turnProductToString(user);
                                 System.out.println(productString);
                             }
                             else if (next_answer.equals("6")) {
                                 //TODO Feature07 -> send messages to other users
+                                if (d.checkWallet(user)) {
+                                    String menu = d.productsNotOfUser(user);
+                                    System.out.println(menu);
+                                    int responce = input.nextInt();
+                                    input.nextLine();
+                                    if (responce == 1) {
+                                        System.out.println("Action canceled.");
+                                    } else {
+                                        System.out.println("Enter message here: ");
+                                        String message = input.nextLine();
+                                        d.sendMessage(user, responce, message);
+                                    }
+                                } else {
+                                    System.out.println("User has no wallet.");
+                                }
                             }
                             else if (next_answer.equals("7")) {
                                 //TODO Feature07 -> check messages from other users
+                                System.out.println(d.recieveMessage(user));
                             }
                             else if (next_answer.equals("8")) {
                                 //TODO check if user has wallet
                                 if (d.checkWallet(user)) {
                                     //TODO return WoCoin balance if wallet exists
-                                        //return "User has X WoCoins"
+                                    int numCoins = 0;
+                                    if (numCoins == 1) {
+                                        System.out.println("User has " + numCoins + " WoCoin.");
+                                    } else {
+                                        System.out.println("User has " + numCoins + "WoCoins.");
+                                    }
                                 }
                                 else{
                                     System.out.println("User has no wallet.");
