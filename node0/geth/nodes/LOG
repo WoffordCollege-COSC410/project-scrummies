@@ -1,0 +1,69 @@
+=============== Dec 2, 2019 (EST) ===============
+15:32:35.985804 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:32:36.007932 db@open opening
+15:32:36.009747 version@stat F·[] S·0B[] Sc·[]
+15:32:36.021070 db@janitor F·2 G·0
+15:32:36.021103 db@open done T·13.129843ms
+=============== Dec 2, 2019 (EST) ===============
+15:32:54.391151 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:32:54.392807 version@stat F·[] S·0B[] Sc·[]
+15:32:54.392865 db@open opening
+15:32:54.393021 journal@recovery F·1
+15:32:54.393174 journal@recovery recovering @1
+15:32:54.407554 memdb@flush created L0@2 N·2 S·176B "loc..seq,v2":"version,v1"
+15:32:54.408624 version@stat F·[1] S·176B[176B] Sc·[0.25]
+15:32:54.443128 db@janitor F·3 G·0
+15:32:54.443210 db@open done T·50.315866ms
+=============== Dec 2, 2019 (EST) ===============
+15:33:47.651638 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:33:47.652869 version@stat F·[1] S·176B[176B] Sc·[0.25]
+15:33:47.652913 db@open opening
+15:33:47.652998 journal@recovery F·1
+15:33:47.653129 journal@recovery recovering @3
+15:33:47.664030 memdb@flush created L0@5 N·1 S·159B "loc..seq,v4":"loc..seq,v4"
+15:33:47.664348 version@stat F·[2] S·335B[335B] Sc·[0.50]
+15:33:47.714148 db@janitor F·4 G·0
+15:33:47.714420 db@open done T·61.474229ms
+=============== Dec 2, 2019 (EST) ===============
+15:34:01.715559 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:34:01.716631 version@stat F·[2] S·335B[335B] Sc·[0.50]
+15:34:01.716666 db@open opening
+15:34:01.716764 journal@recovery F·1
+15:34:01.716894 journal@recovery recovering @6
+15:34:01.731852 memdb@flush created L0@8 N·1 S·159B "loc..seq,v6":"loc..seq,v6"
+15:34:01.733711 version@stat F·[3] S·494B[494B] Sc·[0.75]
+15:34:01.772543 db@janitor F·5 G·0
+15:34:01.772627 db@open done T·55.942277ms
+=============== Dec 2, 2019 (EST) ===============
+15:34:14.175411 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:34:14.175726 version@stat F·[3] S·494B[494B] Sc·[0.75]
+15:34:14.175763 db@open opening
+15:34:14.175831 journal@recovery F·1
+15:34:14.175932 journal@recovery recovering @9
+15:34:14.191609 memdb@flush created L0@11 N·60 S·1KiB "loc..seq,v39":"n:\xf2..ong,v9"
+15:34:14.194054 version@stat F·[4] S·2KiB[2KiB] Sc·[1.00]
+15:34:14.245795 db@janitor F·6 G·0
+15:34:14.245830 db@open done T·70.055789ms
+15:34:14.245877 table@compaction L0·4 -> L1·0 S·2KiB Q·68
+15:34:14.263143 table@build created L1@14 N·59 S·1KiB "loc..seq,v39":"version,v1"
+15:34:14.263492 version@stat F·[0 1] S·1KiB[0B 1KiB] Sc·[0.00 0.00]
+15:34:14.292621 table@compaction committed F-3 S-496B Ke·0 D·5 T·46.653168ms
+15:34:14.296558 table@remove removed @8
+15:34:14.297110 table@remove removed @5
+15:34:14.297848 table@remove removed @2
+=============== Dec 2, 2019 (EST) ===============
+15:34:31.883115 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:34:31.884572 version@stat F·[0 1] S·1KiB[0B 1KiB] Sc·[0.00 0.00]
+15:34:31.884821 db@open opening
+15:34:31.885038 journal@recovery F·1
+15:34:31.885250 journal@recovery recovering @12
+15:34:31.896569 memdb@flush created L0@15 N·52 S·1KiB "loc..seq,v101":"n:\xd3..ong,v103"
+15:34:31.897032 version@stat F·[1 1] S·3KiB[1KiB 1KiB] Sc·[0.25 0.00]
+15:34:31.929219 db@janitor F·5 G·1
+15:34:31.929240 db@janitor removing table-11
+15:34:31.929336 db@open done T·44.480938ms
+15:34:38.330632 table@compaction L0·1 -> L1·1 S·3KiB Q·163
+15:34:38.345128 table@build created L1@18 N·101 S·3KiB "loc..seq,v101":"version,v1"
+15:34:38.345302 version@stat F·[0 1] S·3KiB[0B 3KiB] Sc·[0.00 0.00]
+15:34:38.361513 table@compaction committed F-1 S-414B Ke·0 D·10 T·30.795101ms
+15:34:38.362949 table@remove removed @14

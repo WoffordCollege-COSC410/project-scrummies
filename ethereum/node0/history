@@ -1,0 +1,10 @@
+web3.eth.accounts
+geth account list
+eth.accounta
+eth.accounts
+web3.fromWei(eth.getBalance(eth.coinbase), "ether")
+web3.fromWei(eth.getBalance(eth.coinbase))
+eth.getBalance(eth.accounts[0])
+eth.accounts
+eth.getBlock("latest").number
+quiyquit
