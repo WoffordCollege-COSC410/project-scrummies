@@ -179,7 +179,7 @@ public class Feature07Main {
                                 }
                             } else if (next_answer.equals("7")) {
                                 if (d.checkWallet(user)) {
-                                    String menu = d.recieveMessage(user);
+                                    String menu = d.receiveMessage(user);
                                     System.out.println(menu);
                                     int response = input.nextInt();
                                     input.nextLine();

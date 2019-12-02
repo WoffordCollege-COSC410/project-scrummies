@@ -519,7 +519,7 @@ public class Database {
             String rowOfMenu = parseProducts[row - 1];
             String[] parseRow = rowOfMenu.split(": ");
             String name = parseRow[1];
-            String recieverProductkey = findProduct(name);
+            String receiverProductkey = findProduct(name);
             try (Connection conn = DriverManager.getConnection(url)) {
                 Statement stm = conn.createStatement();
                 ResultSet id = stm.executeQuery("SELECT id FROM products WHERE name = '" + name + "';");
@@ -529,7 +529,7 @@ public class Database {
                 String sqls = "INSERT INTO messages (sender, recipient, productid, message) VALUES (?, ?, ?, ?);";
                 PreparedStatement prepStmt = conn.prepareStatement(sqls);
                 prepStmt.setString(1, senderId);
-                prepStmt.setString(2, recieverProductkey);
+                prepStmt.setString(2, receiverProductkey);
                 prepStmt.setString(3, productId);
                 prepStmt.setString(4, message);
                 System.out.println("Message sent.");
@@ -541,7 +541,7 @@ public class Database {
 
     }
 
-    public String recieveMessage(String user) {
+    public String receiveMessage(String user) {
         String recipient = walletPublicKey(user);
         String messages = "1: cancel\n";
         int index = 2;

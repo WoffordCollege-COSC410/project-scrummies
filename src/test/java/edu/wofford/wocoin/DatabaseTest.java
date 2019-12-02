@@ -244,7 +244,7 @@ public class DatabaseTest {
         String sellertest1 = db.findProduct("Trigger me elmo");
         db.sendMessage(sellertest1,2,"Is this fake?");
 
-        String recievedMessages = db.recieveMessage("testforproduct1");
+        String receivedMessages = db.receiveMessage("testforproduct1");
     }
 
 }
