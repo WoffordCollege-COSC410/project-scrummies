@@ -196,7 +196,7 @@ public class Feature09Main {
                             }
                             else if (next_answer.equals("7")) {
                                 //TODO Feature07 -> check messages from other users
-                                System.out.println(d.recieveMessage(user));
+                                System.out.println(d.receiveMessage(user));
                             }
                             else if (next_answer.equals("8")) {
                                 //TODO check if user has wallet
