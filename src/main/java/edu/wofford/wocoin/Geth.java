@@ -16,4 +16,21 @@ public class Geth {
         System.out.println("balance in ether: " + balanceInEther);
     }
 
+    @ReactMethod
+    public void balanceAccount(Promise promise) {
+        try {
+            Account acc = GethHolder.getAccount();
+            if (acc != null) {
+                Context ctx = new Context();
+                BigInt balance = GethHolder.getNode().getEthereumClient()
+                        .getBalanceAt(ctx, acc.getAddress(), -1);
+                promise.resolve(balance.toString());
+            } else {
+                promise.reject(BALANCE_ACCOUNT_ERROR, "call method setAccount() before");
+            }
+        } catch (Exception e) {
+            promise.reject(BALANCE_ACCOUNT_ERROR, e);
+        }
+    }
+
 }
