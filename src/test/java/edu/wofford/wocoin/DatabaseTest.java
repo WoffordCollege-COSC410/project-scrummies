@@ -212,8 +212,39 @@ public class DatabaseTest {
         String testFindProduct = db.findProduct("NeverWinter");
         assertEquals(testFindProduct,db.findProduct("NeverWinter"));
 
-        assertEquals(2, db.countProductsUserDoesNotOwn("testforproduct"));
+        String sellertest1 = db.findProduct("Trigger me elmo");
+        String sellertest2 = db.findProduct("Roomba");
+        assertEquals(1, db.countProductsUserDoesNotOwn(sellertest1));
+        assertEquals(1,db.countProductsUserDoesNotOwn(sellertest2));
 
+    }
+
+    @Test
+    public void testforprductfunctions() {
+        File dbfile = new File("testForProducts.db");
+        if (dbfile.exists()) {
+            dbfile.delete();
+        }
+        Database db = new Database("testForProducts.db");
+        db.addUser("testforproduct", "test");
+        db.addUser("testforproduct2", "test2");
+        String ret = "";
+        ret = System.getProperty("user.dir");
+        String address = Wallet.createWallet(ret,"testforproduct","test");
+        db.addWallet("testforproduct", address);
+        String address2 = Wallet.createWallet(ret,"testforproduct2","test2");
+        db.addWallet("testforproduct2", address2);
+        db.addProduct("testforproduct", "AlwaysWinter", "Game on PC", 50);
+        db.addProduct("testforproduct1", "NeverWinter", "Game on PC", 50);
+        db.addProduct("testforproduct","Trigger me elmo", "very racist", 1);
+        db.addProduct("testforproduct1", "Roomba","Yells when it bumps into things", 1);
+
+        assertEquals("AlwaysWinter", db.findProductFromId("1"));
+
+        String sellertest1 = db.findProduct("Trigger me elmo");
+        db.sendMessage(sellertest1,2,"Is this fake?");
+
+        String recievedMessages = db.recieveMessage("testforproduct1");
     }
 
 }

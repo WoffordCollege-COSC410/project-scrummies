@@ -1,0 +1,53 @@
+eth.accounts;
+account new
+eth.accounts new
+geth accounts new
+eth.accounts;
+web3.eth.getBalance( '0x8dda054b771af7b9ecb9c42e52c4863d52b0fd70')
+var sender = eth.accounts[0];
+var receiver = eth.accounts[1];
+var amount = web3.toWei(0.01, "ether")
+eth.sendTransaction({from:eth.coinbase, to:eth.accounts[1], value: web3.toWei(0.05, "ether")})
+eth.accounts;
+eth.sendTransaction({from:eth.coinbase, to:eth.accounts[1], value: web3.toWei(0.05, "ether")})
+eth.totalSupply(
+)
+eth.accounts;
+eth.sendTransaction({from: eth.coinbase, to: eth.accounts[1], value: web3.toWei(10, "ether")})
+eth.getBalance(0xe5782796403ae4a8c9d983b4983b70f48feb7fea)
+eth.getBalance("0xe5782796403ae4a8c9d983b4983b70f48feb7fea")
+eth.sendTransaction({from: eth.coinbase, to: eth.accounts[1], value: web3.toWei(10, "ether")})
+eth.sendTransaction({from: eth.coinbase, to: eth.accounts[0], value: web3.toWei(10, "ether")})
+eth.getBalance("0xe5782796403ae4a8c9d983b4983b70f48feb7fea")
+web3.personal.listAccounts
+eth.sendTransaction({from: eth.coinbase, to: eth.accounts[0], value: web3.toWei(10, "ether")})
+eth.coinbase
+miner.start();
+eth.getBalance("0xe5782796403ae4a8c9d983b4983b70f48feb7fea")
+eth.getBalance("0x8dda054b771af7b9ecb9c42e52c4863d52b0fd70")
+miner.start();
+account1 = web3.eth.coinbase
+web3.eth.getBalance(account1)
+miner.start()
+eth.hashrat
+miner.stop()
+eth.hashrate
+mine.start(1)
+eth.coinbase
+mine.start()
+miner.start(1)
+miner.start()
+miner.start(0)
+miner.start(1)
+miner.start()
+miner.stop()
+miner.start(1)
+miner.start()
+miner.start(1)
+miner.stop
+miner.stop()
+miner.setEtherbase(eth.accounts[0])
+miner.start()
+eth.coinbase
+eth.hashrate
+eth.getBalance("0xe5782796403ae4a8c9d983b4983b70f48feb7fea")
