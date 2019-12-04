@@ -5,9 +5,19 @@ import edu.wofford.wocoin.Wallet;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
+import org.web3j.crypto.CipherException;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.WalletUtils;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.protocol.exceptions.TransactionException;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.tx.Transfer;
+import org.web3j.utils.Convert;
 
 public class Feature09Main {
     public static void main(String[] args) {
@@ -55,6 +65,29 @@ public class Feature09Main {
                                     if (db.checkWallet(response)) {
                                         //wallet does exist
                                         //TODO transfer WoCoins
+                                        String key = "0x" + db.walletPublicKey(response);
+                                        System.out.println("Enter an amount:");
+                                        int amount = input.nextInt();
+                                        input.nextLine();
+                                        try {
+                                            Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
+
+                                            System.out.println("1");
+                                            Credentials credentials = WalletUtils.loadCredentials("adminpwd",
+                                                    "ethereum" + File.separator + "node0" + File.separator +
+                                                            "keystore" + File.separator +
+                                                            "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json");
+                                            System.out.println("2");
+                                            TransactionReceipt transactionReceipt = Transfer.sendFunds(
+                                                    web3, credentials, key,
+                                                    BigDecimal.valueOf(amount), Convert.Unit.ETHER)
+                                                    .send();
+                                            System.out.println("Transfer complete.");
+                                        } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
+                                            System.out.println(ex);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
                                     } else {
                                         System.out.println("User has no wallet.");
                                     }

@@ -5,9 +5,19 @@ import edu.wofford.wocoin.Wallet;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
+import org.web3j.crypto.CipherException;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.WalletUtils;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.protocol.exceptions.TransactionException;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.tx.Transfer;
+import org.web3j.utils.Convert;
 
 public class Feature10Main {
     public static void main(String[] args) {
@@ -55,6 +65,29 @@ public class Feature10Main {
                                     if (db.checkWallet(response)) {
                                         //wallet does exist
                                         //TODO transfer WoCoins
+                                        String key = "0x" + db.walletPublicKey(response);
+                                        System.out.println("Enter an amount:");
+                                        int amount = input.nextInt();
+                                        input.nextLine();
+                                        try {
+                                            Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
+
+                                            System.out.println("1");
+                                            Credentials credentials = WalletUtils.loadCredentials("adminpwd",
+                                                    "ethereum" + File.separator + "node0" + File.separator +
+                                                            "keystore" + File.separator +
+                                                            "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json");
+                                            System.out.println("2");
+                                            TransactionReceipt transactionReceipt = Transfer.sendFunds(
+                                                    web3, credentials, key,
+                                                    BigDecimal.valueOf(amount), Convert.Unit.ETHER)
+                                                    .send();
+                                            System.out.println("Transfer complete.");
+                                        } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
+                                            System.out.println(ex);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
                                     } else {
                                         System.out.println("User has no wallet.");
                                     }
@@ -156,22 +189,58 @@ public class Feature10Main {
 
                             } else if (next_answer.equals("4")) {
                                 //TODO Feature05 -> Allow users to remove products that they have added to the database
-
+                                String menu = d.productOfUsers(user);
+                                if (d.checkUser(user)) {
+                                    if (d.checkWallet(user)){
+                                        System.out.println(menu);
+                                        int response = input.nextInt();
+                                        if (response == 1) {
+                                            System.out.println("Action canceled.");
+                                        } else {
+                                            d.removeProduct(user,response);
+                                        }
+                                    } else {
+                                        System.out.println("User has no wallet.");
+                                    }
+                                } else {
+                                    System.out.println("No such user.");
+                                }
                             } else if (next_answer.equals("5")) {
                                 String productString = d.turnProductToString(user);
                                 System.out.println(productString);
                             }
                             else if (next_answer.equals("6")) {
                                 //TODO Feature07 -> send messages to other users
+                                if (d.checkWallet(user)) {
+                                    String menu = d.productsNotOfUser(user);
+                                    System.out.println(menu);
+                                    int responce = input.nextInt();
+                                    input.nextLine();
+                                    if (responce == 1) {
+                                        System.out.println("Action canceled.");
+                                    } else {
+                                        System.out.println("Enter message here: ");
+                                        String message = input.nextLine();
+                                        d.sendMessage(user, responce, message);
+                                    }
+                                } else {
+                                    System.out.println("User has no wallet.");
+                                }
                             }
                             else if (next_answer.equals("7")) {
                                 //TODO Feature07 -> check messages from other users
+                                System.out.println(d.receiveMessage(user));
                             }
                             else if (next_answer.equals("8")) {
                                 //TODO Feature09 -> check if user has wallet
                                 if (d.checkWallet(user)) {
                                     //TODO Feature09 -> return WoCoin balance if wallet exists
-                                    //return "User has X WoCoins"
+                                    int numCoins = 0;
+                                    if (numCoins == 1) {
+                                        System.out.println("User has " + numCoins + " WoCoin.");
+                                    } else {
+                                        System.out.println("User has " + numCoins + "WoCoins.");
+                                    }
                                 }
                                 else{
                                     System.out.println("User has no wallet.");
@@ -179,6 +248,12 @@ public class Feature10Main {
                             }
                             else if (next_answer.equals("9")){
                                 //TODO purchase products w/ WoCoins
+                                if (d.checkWallet(user)) {
+                                    System.out.println("Item purchased.");
+                                }
+                                else{
+                                    System.out.println("User has no wallet.");
+                                }
                             }
                         }
                     }
