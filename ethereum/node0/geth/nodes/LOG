@@ -129,3 +129,16 @@
 17:06:23.253920 db@open done T·13.1448ms
 19:10:12.315530 db@close closing
 19:10:12.315530 db@close done T·0s
+=============== Dec 4, 2019 (EST) ===============
+13:57:46.752994 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+13:57:46.754624 version@stat F·[1 1] S·1KiB[702B 645B] Sc·[0.25 0.00]
+13:57:46.754663 db@open opening
+13:57:46.754768 journal@recovery F·1
+13:57:46.755479 journal@recovery recovering @29
+13:57:46.767746 memdb@flush created L0@31 N·53 S·898B "loc..seq,v215":"n:\xf2..ail,v218"
+13:57:46.768747 version@stat F·[2 1] S·2KiB[1KiB 645B] Sc·[0.50 0.00]
+13:57:46.805885 db@janitor F·8 G·3
+13:57:46.805933 db@janitor removing journal-2
+13:57:46.806438 db@janitor removing manifest-0
+13:57:46.806632 db@janitor removing table-3
+13:57:46.806840 db@open done T·52.1641ms

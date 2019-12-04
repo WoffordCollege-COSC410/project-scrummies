@@ -1,26 +1,25 @@
 package gradle.cucumber;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.Before;
 import cucumber.api.java.After;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.MatcherAssert.assertThat; 
-import static org.hamcrest.Matchers.*;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import edu.wofford.wocoin.Utilities;
+import edu.wofford.wocoin.main.Main;
 
 import java.io.*;
-import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.math.BigInteger;
-import edu.wofford.wocoin.main.Main;
-import edu.wofford.wocoin.Utilities;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 
-class FeaturesSteps {
+public class FeatureSteps {
     private int featureNumber;
     private String dbname;
     private String programInput;
@@ -446,10 +445,12 @@ class FeaturesSteps {
             pstmt.setString(3, message);
             pstmt.setInt(4, productId);
             if (datetime.equals("now")) {
-                LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                pstmt.setString(5, formatter.format(now.minusSeconds(3)));
-                pstmt.setString(6, formatter.format(now.plusSeconds(3)));
+                Instant now = Instant.now();
+                Date early = Date.from(now.minusSeconds(3));
+                Date late = Date.from(now.plusSeconds(3));
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                pstmt.setString(5, formatter.format(early));
+                pstmt.setString(6, formatter.format(late));
             } else {
                 pstmt.setString(5, datetime);
             }
@@ -478,10 +479,12 @@ class FeaturesSteps {
             pstmt.setString(3, message);
             pstmt.setInt(4, productId);
             if (datetime.equals("now")) {
-                LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                pstmt.setString(5, formatter.format(now.minusSeconds(3)));
-                pstmt.setString(6, formatter.format(now.plusSeconds(3)));
+                Instant now = Instant.now();
+                Date early = Date.from(now.minusSeconds(3));
+                Date late = Date.from(now.plusSeconds(3));
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                pstmt.setString(5, formatter.format(early));
+                pstmt.setString(6, formatter.format(late));
             } else {
                 pstmt.setString(5, datetime);
             }
