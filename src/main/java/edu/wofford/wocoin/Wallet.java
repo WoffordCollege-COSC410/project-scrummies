@@ -34,22 +34,4 @@ public class Wallet {
         return "";
         }
 
-
-    /*
-    public void getCredentials() {
-
-        Credentials credentials;
-
-        String passwordWallet = "walletpwd";
-
-        try {
-            credentials = WalletUtils.loadCredentials(passwordWallet, file);
-            System.out.println(credentials);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CipherException e) {
-            e.printStackTrace();
-        }
-    }\
-    */
 }
