@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "Starting geth"
+geth --datadir node0 init genesis.json
+cd ..
+geth --datadir node0 --allow-insecure-unlock --unlock "0x0fce4741f3f54fbffb97837b4ddaa8f769ba0f91" --password "password" --rpc --mine
