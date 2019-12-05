@@ -2,12 +2,11 @@ package edu.wofford.wocoin.main;
 
 import edu.wofford.wocoin.Database;
 import edu.wofford.wocoin.Wallet;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Scanner;
-import org.apache.commons.io.FileUtils;
 
 public class Feature05Main {
     public static void main(String[] args) {
@@ -28,21 +27,21 @@ public class Feature05Main {
                     System.out.println("Enter Password");
                     String Pass = input.nextLine();
 
-                    if (Pass.equals("adminpwd")){
+                    if (Pass.equals("adminpwd")) {
                         password_Correct = true;
                         while (password_Correct) {
                             System.out.println("1: back\n2: add user\n3: remove user\n");
                             String next_step = input.nextLine();
-                            if (next_step .equals("1")) {
+                            if (next_step.equals("1")) {
                                 password_Correct = false;
-                            }else if (next_step.equals("2")) {
+                            } else if (next_step.equals("2")) {
                                 System.out.println("Enter ID");
                                 String response = input.nextLine();
                                 System.out.println("Enter a password:");
                                 String password = input.nextLine();
                                 Database d = new Database(args[0]);
                                 d.addUser(response, password);
-                            }else if (next_step.equals("3")){
+                            } else if (next_step.equals("3")) {
                                 System.out.println("Enter ID");
                                 String response = input.nextLine();
                                 Database d = new Database(args[0]);
@@ -73,7 +72,7 @@ public class Feature05Main {
                             String next_answer = input.nextLine();
                             if (next_answer.equals("1")) {
                                 user_Password_Correct = false;
-                            } else if (next_answer.equals("2")){
+                            } else if (next_answer.equals("2")) {
                                 if (d.checkWallet(user)) {
                                     System.out.println("Enter Y or N");
                                     String yesOrNo = input.nextLine();
@@ -102,7 +101,7 @@ public class Feature05Main {
                                     String publicKey = Wallet.createWallet(dir, user, password);
                                     d.addWallet(user, publicKey);
                                 }
-                            } else if (next_answer.equals("3")){
+                            } else if (next_answer.equals("3")) {
                                 if (d.checkWallet(user)) {
                                     while (nameCorrect) {
                                         System.out.println("Enter a name: ");
@@ -125,7 +124,7 @@ public class Feature05Main {
                                                         System.out.println("Invalid value.");
                                                         System.out.println("Expected an integer value greater than or equal to 1.");
                                                     } else {
-                                                        d.addProduct(user, name, description,price);
+                                                        d.addProduct(user, name, description, price);
                                                         descriptionCorrect = false;
                                                         nameCorrect = false;
                                                     }
@@ -141,14 +140,13 @@ public class Feature05Main {
                                 //TODO remove product
                                 String menu = d.productOfUsers(user);
                                 if (d.checkUser(user)) {
-                                    if (d.checkWallet(user)){
+                                    if (d.checkWallet(user)) {
                                         System.out.println(menu);
                                         int response = input.nextInt();
                                         if (response == 1) {
                                             System.out.println("Action canceled.");
                                         } else {
-                                            d.removeProduct(user,response);
-                                            }
+                                            d.removeProduct(user, response);
                                         }
                                     } else {
                                         System.out.println("User has no wallet.");
@@ -164,5 +162,6 @@ public class Feature05Main {
             }
         }
     }
+}
 
 
