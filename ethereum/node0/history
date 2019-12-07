@@ -62,3 +62,24 @@ function checkAllBalances() {
     console.log("  Total balance: " + totalBal + " ether");
 };
 checkAllBalances()
+web3j,eth.accounts;
+,eth.accounts;
+eth.accounts;
+eth.getBalance(0x0fce4741f3f54fbffb97837b4ddaa8f769ba0f91)
+eth.getBalance("0x0fce4741f3f54fbffb97837b4ddaa8f769ba0f91")
+eth.getBalance(0x0fce4741f3f54fbffb97837b4ddaa8f769ba0f91)
+eth.getBalance("0x6c592b16e6ba13db9376f64b4cb9fa54f581809d")
+eth.getBalance("0x0fce4741f3f54fbffb97837b4ddaa8f769ba0f91")
+miner.start
+miner.start()
+eth.getBalance("0x0fce4741f3f54fbffb97837b4ddaa8f769ba0f91")
+miner.start()
+eth.getBalance("0x6c592b16e6ba13db9376f64b4cb9fa54f581809d")
+eth.getBalance("0x0fce4741f3f54fbffb97837b4ddaa8f769ba0f91")
+web.eth.accounts
+web3j,eth.accounts;
+eth.accounts;
+web3j.eth.accounts;
+web3.eth.accounts;
+web3j.eth.getBalance("1c314d754685facf7198c98e818fd1e0be81d322")
+web3.eth.getBalance("1c314d754685facf7198c98e818fd1e0be81d322")

@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
+import org.web3j.abi.datatypes.Int;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
@@ -568,10 +569,118 @@ public class Database {
         return messages;
     }
 
+    public String printProductsThatUserCanAfford(String user, int amount) {
+        String seller = walletPublicKey(user);
+        String products = "1: cancel\n";
+        int index = 2;
+        String url = "jdbc:sqlite:" + file;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery(" SELECT * FROM products WHERE seller != '" + seller + "' And price <= '" + amount + "' ORDER BY price COLLATE NOCASE;\n");
+            ResultSetMetaData rsmd = id.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (id.next()) {
+                for(int i = 1 ; i <= columnsNumber; i = i + 5) {
+                    String name = id.getString(i % 5 + 3);
+                    String description = id.getString(i % 5 + 4);
+                    String price = id.getString(i % 5 + 2);
+                    if (price.equals("1")) {
+                        products = products + index + ":" + " " + name + ":" + " " + description + "  " + "[" + price + " WoCoin]" + "\n";
+                        index++;
+                    } else {
+                        products = products + index + ":" + " " + name + ":" + " " + description + "  " + "[" + price + " WoCoins]" + "\n";
+                        index++;
+                    }
+                }
+            }
+            return products;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
 
+    public void removeProductForTransaction(String user, int row, int amount) {
+        int counter = countProductsUserDoesNotOwn(user)  + 1;
+        if (row <= counter) {
+            String url = "jdbc:sqlite:" + file;
+            String products = printProductsThatUserCanAfford(user,amount);
+            String[] parseProducts = products.split("\\n");
+            System.out.println(parseProducts[0]);
+            String singleRow = parseProducts[row - 1];
+            String[] parseRow = singleRow.split(": ");
+            String name = parseRow[1];
+            System.out.println(name);
+            try (Connection conn = DriverManager.getConnection(url)) {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate("DELETE FROM products WHERE name = '" + name + "';");
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Product removed.");
+        } else {
+            System.out.println("Invalid value. Enter a value between 1 and " + counter + ".");
+        }
+    }
 
+    public int getPriceOfItem(String user, int row, int amount) {
+        String seller = walletPublicKey(user);
+        System.out.println("Row = " + row);
+        String url = "jdbc:sqlite:" + file;
+        int index = 1;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery(" SELECT * FROM products WHERE seller != '" + seller + "' And price <= '" + amount + "' ORDER BY price COLLATE NOCASE;\n");
+            ResultSetMetaData rsmd = id.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (id.next()) {
+                for(int i = 0 ; i <= columnsNumber; i = i + 5) {
+                    String price = id.getString(i % 5 + 3);
+                    if (row == index) {
+                        int priceOfItem = Integer.parseInt(price);
+                        System.out.println("Price =" + priceOfItem);
+                        return priceOfItem;
+                    }
+                    index++;
+                }
+            }
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
-
+    public String getReceiversKey(String user, int row, int amount) {
+        String seller = walletPublicKey(user);
+        System.out.println("Row = " + row);
+        String url = "jdbc:sqlite:" + file;
+        int index = 1;
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement stmt = conn.createStatement();
+            ResultSet id = stmt.executeQuery(" SELECT * FROM products WHERE seller != '" + seller + "' And price <= '" + amount + "' ORDER BY price COLLATE NOCASE;\n");
+            ResultSetMetaData rsmd = id.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            //System.out.println("1");
+            while (id.next()) {
+                //System.out.println("2");
+                for(int i = 0 ; i <= columnsNumber; i = i + 5) {
+                    //System.out.println("Index = " + index);
+                    String key = id.getString(i % 5 + 2);
+                    if (row == index) {
+                        //System.out.println("key = " + key);
+                        return key;
+                    }
+                    index++;
+                }
+            }
+            return "";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }
 
 

@@ -6,6 +6,7 @@ import edu.wofford.wocoin.Wallet;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
@@ -13,6 +14,8 @@ import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.exceptions.TransactionException;
 import org.web3j.protocol.http.HttpService;
@@ -41,7 +44,7 @@ public class Feature09Main {
                     if (Pass.equals("adminpwd")){
                         password_Correct = true;
                         while (password_Correct) {
-                            System.out.println("1: back\n2: add user\n3: remove user\n");
+                            System.out.println("1: back\n2: add user\n3: remove user\n4: transfer WoCoins\n");
                             String next_step = input.nextLine();
                             if (next_step .equals("1")) {
                                 password_Correct = false;
@@ -60,33 +63,36 @@ public class Feature09Main {
                             } else if (next_step.equals("4")) {
                                 Database db = new Database(args[0]);
                                 System.out.println("Enter users username");
-                                String response = input.nextLine();
-                                if (db.checkUser(response)) {
-                                    if (db.checkWallet(response)) {
+                                String user = input.nextLine();
+                                if (db.checkUser(user)) {
+                                    if (db.checkWallet(user)) {
                                         //wallet does exist
                                         //TODO transfer WoCoins
-                                        String key = "0x" + db.walletPublicKey(response);
+                                        String key = "0x" + db.walletPublicKey(user);
                                         System.out.println("Enter an amount:");
                                         int amount = input.nextInt();
                                         input.nextLine();
-                                        try {
-                                            Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
+                                        if (amount <= 0) {
+                                            System.out.println("Invalid value.");
+                                            System.out.println("Expected an integer value greater than or equal to 1.");
+                                        }else {
+                                            try {
+                                                Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
 
-                                            System.out.println("1");
-                                            Credentials credentials = WalletUtils.loadCredentials("adminpwd",
-                                                    "ethereum" + File.separator + "node0" + File.separator +
-                                                            "keystore" + File.separator +
-                                                            "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json");
-                                            System.out.println("2");
-                                            TransactionReceipt transactionReceipt = Transfer.sendFunds(
-                                                    web3, credentials, key,
-                                                    BigDecimal.valueOf(amount), Convert.Unit.ETHER)
-                                                    .send();
-                                            System.out.println("Transfer complete.");
-                                        } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
-                                            System.out.println(ex);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                                Credentials credentials = WalletUtils.loadCredentials("adminpwd",
+                                                        "ethereum" + File.separator + "node0" + File.separator +
+                                                                "keystore" + File.separator +
+                                                                "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json");
+                                                TransactionReceipt transactionReceipt = Transfer.sendFunds(
+                                                        web3, credentials, key,
+                                                        BigDecimal.valueOf(amount), Convert.Unit.WEI)
+                                                        .send();
+                                                System.out.println("Transfer complete.");
+                                            } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
+                                                System.out.println(ex);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                     } else {
                                         System.out.println("User has no wallet.");
@@ -235,12 +241,22 @@ public class Feature09Main {
                                 //TODO check if user has wallet
                                 if (d.checkWallet(user)) {
                                     //TODO return WoCoin balance if wallet exists
-                                    int numCoins = 0;
-                                    if (numCoins == 1) {
-                                        System.out.println("User has " + numCoins + " WoCoin.");
-                                    } else {
-                                        System.out.println("User has " + numCoins + "WoCoins.");
+                                    try {
+                                        String userKey = "0x" + d.walletPublicKey(user);
+                                        Web3j web3 = Web3j.build(new HttpService());
+                                        EthGetBalance balanceWei = web3.ethGetBalance(userKey, DefaultBlockParameterName.LATEST).send();
+                                        BigInteger amount = balanceWei.getBalance();
+                                        if (amount.equals(BigInteger.ONE) || amount.equals(BigInteger.ZERO)) {
+                                            System.out.println("User has " + amount + " WoCoin.");
+                                        } else {
+                                            System.out.println("User has " + amount + " WoCoins.");
+                                        }
+
+
+                                    } catch (IOException ex) {
+                                        System.out.println(ex);
                                     }
+
                                 }
                                 else{
                                     System.out.println("User has no wallet.");

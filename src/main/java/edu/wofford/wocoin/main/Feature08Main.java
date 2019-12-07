@@ -76,12 +76,10 @@ public class Feature08Main {
                                             try {
                                                 Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
 
-                                                System.out.println("1");
                                                 Credentials credentials = WalletUtils.loadCredentials("adminpwd",
                                                         "ethereum" + File.separator + "node0" + File.separator +
                                                                 "keystore" + File.separator +
                                                                 "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json");
-                                                System.out.println("2");
                                                 TransactionReceipt transactionReceipt = Transfer.sendFunds(
                                                         web3, credentials, key,
                                                         BigDecimal.valueOf(amount), Convert.Unit.WEI)

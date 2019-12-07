@@ -6,6 +6,7 @@ import edu.wofford.wocoin.Wallet;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
@@ -13,6 +14,8 @@ import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.exceptions.TransactionException;
 import org.web3j.protocol.http.HttpService;
@@ -41,7 +44,7 @@ public class Feature10Main {
                     if (Pass.equals("adminpwd")){
                         password_Correct = true;
                         while (password_Correct) {
-                            System.out.println("1: back\n2: add user\n3: remove user\n");
+                            System.out.println("1: back\n2: add user\n3: remove user\n4: transfer WoCoins\n");
                             String next_step = input.nextLine();
                             if (next_step .equals("1")) {
                                 password_Correct = false;
@@ -60,33 +63,36 @@ public class Feature10Main {
                             } else if (next_step.equals("4")) {
                                 Database db = new Database(args[0]);
                                 System.out.println("Enter users username");
-                                String response = input.nextLine();
-                                if (db.checkUser(response)) {
-                                    if (db.checkWallet(response)) {
+                                String user = input.nextLine();
+                                if (db.checkUser(user)) {
+                                    if (db.checkWallet(user)) {
                                         //wallet does exist
                                         //TODO transfer WoCoins
-                                        String key = "0x" + db.walletPublicKey(response);
+                                        String key = "0x" + db.walletPublicKey(user);
                                         System.out.println("Enter an amount:");
                                         int amount = input.nextInt();
                                         input.nextLine();
-                                        try {
-                                            Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
+                                        if (amount <= 0) {
+                                            System.out.println("Invalid value.");
+                                            System.out.println("Expected an integer value greater than or equal to 1.");
+                                        }else {
+                                            try {
+                                                Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
 
-                                            System.out.println("1");
-                                            Credentials credentials = WalletUtils.loadCredentials("adminpwd",
-                                                    "ethereum" + File.separator + "node0" + File.separator +
-                                                            "keystore" + File.separator +
-                                                            "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json");
-                                            System.out.println("2");
-                                            TransactionReceipt transactionReceipt = Transfer.sendFunds(
-                                                    web3, credentials, key,
-                                                    BigDecimal.valueOf(amount), Convert.Unit.ETHER)
-                                                    .send();
-                                            System.out.println("Transfer complete.");
-                                        } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
-                                            System.out.println(ex);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                                Credentials credentials = WalletUtils.loadCredentials("adminpwd",
+                                                        "ethereum" + File.separator + "node0" + File.separator +
+                                                                "keystore" + File.separator +
+                                                                "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json");
+                                                TransactionReceipt transactionReceipt = Transfer.sendFunds(
+                                                        web3, credentials, key,
+                                                        BigDecimal.valueOf(amount), Convert.Unit.WEI)
+                                                        .send();
+                                                System.out.println("Transfer complete.");
+                                            } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
+                                                System.out.println(ex);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                     } else {
                                         System.out.println("User has no wallet.");
@@ -189,58 +195,37 @@ public class Feature10Main {
 
                             } else if (next_answer.equals("4")) {
                                 //TODO Feature05 -> Allow users to remove products that they have added to the database
-                                String menu = d.productOfUsers(user);
-                                if (d.checkUser(user)) {
-                                    if (d.checkWallet(user)){
-                                        System.out.println(menu);
-                                        int response = input.nextInt();
-                                        if (response == 1) {
-                                            System.out.println("Action canceled.");
-                                        } else {
-                                            d.removeProduct(user,response);
-                                        }
-                                    } else {
-                                        System.out.println("User has no wallet.");
-                                    }
-                                } else {
-                                    System.out.println("No such user.");
-                                }
+
                             } else if (next_answer.equals("5")) {
                                 String productString = d.turnProductToString(user);
                                 System.out.println(productString);
                             }
                             else if (next_answer.equals("6")) {
                                 //TODO Feature07 -> send messages to other users
-                                if (d.checkWallet(user)) {
-                                    String menu = d.productsNotOfUser(user);
-                                    System.out.println(menu);
-                                    int responce = input.nextInt();
-                                    input.nextLine();
-                                    if (responce == 1) {
-                                        System.out.println("Action canceled.");
-                                    } else {
-                                        System.out.println("Enter message here: ");
-                                        String message = input.nextLine();
-                                        d.sendMessage(user, responce, message);
-                                    }
-                                } else {
-                                    System.out.println("User has no wallet.");
-                                }
                             }
                             else if (next_answer.equals("7")) {
                                 //TODO Feature07 -> check messages from other users
-                                System.out.println(d.receiveMessage(user));
                             }
                             else if (next_answer.equals("8")) {
-                                //TODO Feature09 -> check if user has wallet
+                                //TODO check if user has wallet
                                 if (d.checkWallet(user)) {
-                                    //TODO Feature09 -> return WoCoin balance if wallet exists
-                                    int numCoins = 0;
-                                    if (numCoins == 1) {
-                                        System.out.println("User has " + numCoins + " WoCoin.");
-                                    } else {
-                                        System.out.println("User has " + numCoins + "WoCoins.");
+                                    //TODO return WoCoin balance if wallet exists
+                                    try {
+                                        String userKey = "0x" + d.walletPublicKey(user);
+                                        Web3j web3 = Web3j.build(new HttpService());
+                                        EthGetBalance balanceWei = web3.ethGetBalance(userKey, DefaultBlockParameterName.LATEST).send();
+                                        BigInteger amount = balanceWei.getBalance();
+                                        if (amount.equals(BigInteger.ONE) || amount.equals(BigInteger.ZERO)) {
+                                            System.out.println("User has " + amount + " WoCoin.");
+                                        } else {
+                                            System.out.println("User has " + amount + " WoCoins.");
+                                        }
+
+
+                                    } catch (IOException ex) {
+                                        System.out.println(ex);
                                     }
+
                                 }
                                 else{
                                     System.out.println("User has no wallet.");
@@ -249,9 +234,58 @@ public class Feature10Main {
                             else if (next_answer.equals("9")){
                                 //TODO purchase products w/ WoCoins
                                 if (d.checkWallet(user)) {
-                                    System.out.println("Item purchased.");
-                                }
-                                else{
+                                    System.out.println("Enter user's wallet directory");
+                                    String directory = input.nextLine();
+                                    int total = 0;
+
+                                    try {
+                                        String userKey = "0x" + d.walletPublicKey(user);
+                                        System.out.println("userKey = " + userKey);
+                                        Web3j web3 = Web3j.build(new HttpService());
+                                        EthGetBalance balanceWei = web3.ethGetBalance(userKey, DefaultBlockParameterName.LATEST).send();
+                                        BigInteger amount = balanceWei.getBalance();
+                                        total = amount.intValue();
+                                    } catch (IOException ex) {
+                                        System.out.println(ex);
+                                    }
+
+                                    String menue = d.printProductsThatUserCanAfford(user,total);
+                                    System.out.println(menue);
+                                    System.out.println("Enter a row");
+                                    int next = input.nextInt();
+                                    input.nextLine();
+                                    if (next == 1) {
+                                        System.out.println("Action canceled.");
+                                    } else {
+                                        int cost = d.getPriceOfItem(user,next,total);
+                                        System.out.println("User =" + user);
+                                        System.out.println(("Password =" + password));
+                                        System.out.println("Directory =" + directory);
+                                        System.out.println("Cost = " + cost);
+                                        String key = "0x" + d.getReceiversKey(user,next,total);
+                                        System.out.println("Key = " + key);
+                                        try {
+                                            Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
+                                            Credentials credentials = WalletUtils.loadCredentials(password,
+                                                    directory);
+                                            BigDecimal value = Convert.toWei("" + cost, Convert.Unit.ETHER);
+                                            TransactionReceipt transactionReceipt = Transfer.sendFunds(
+                                                    web3, credentials, key,
+                                                    value, Convert.Unit.WEI)
+                                                    .send();
+                                            System.out.println("Transfer complete.");
+                                        } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
+                                            System.out.println(ex);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+
+
+                                        //d.removeProductForTransaction(user, next, total);
+                                    }
+
+                                } else {
                                     System.out.println("User has no wallet.");
                                 }
                             }
