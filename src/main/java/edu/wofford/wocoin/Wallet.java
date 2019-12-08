@@ -1,19 +1,24 @@
 package edu.wofford.wocoin;
 
-import java.io.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.web3j.crypto.WalletUtils;
+
+import java.io.File;
+import java.io.FileReader;
 
 //import jdk.nashorn.internal.parser.JSONParser;
-import org.web3j.crypto.CipherException;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
-import org.json.simple.JSONObject;
-import java.io.FileReader;
-import org.json.simple.parser.*;
 
 public class Wallet {
 
 
-
+    /**
+     * This function creates a User's wallet for future transactions
+     * @param dir the directory of the wallet
+     * @param userID the given user id
+     * @param userPassword the user's password
+     * @return THe wallet's address after it has been created
+     */
     public static String createWallet(String dir, String userID, String userPassword) {
         File newFile = new File(dir + File.separator + userID);
         newFile.mkdir();
