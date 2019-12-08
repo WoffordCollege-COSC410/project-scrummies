@@ -2,25 +2,6 @@ package edu.wofford.wocoin;
 
 import java.io.File;
 import java.sql.*;
-import java.sql.PreparedStatement;
-import java.io.IOException;
-import java.text.Collator;
-import java.util.*;
-import java.util.Comparator;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-
-import org.web3j.abi.datatypes.Int;
-import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.http.HttpService;
-import org.web3j.protocol.core.methods.response.EthBlockNumber;
-import org.web3j.protocol.core.methods.response.EthGasPrice;
-import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 
 /**
  * The Database program implements a process for Feature01 and Feature02, specifically it runs the
@@ -346,6 +327,11 @@ public class Database {
         return "";
     }
 
+    /**
+     * Sees if the given product was added by the same User accessing it
+     * @param user input user id
+     * @return description of the item posted
+     */
     public String productOfUsers(String user) {
         String seller = walletPublicKey(user);
         String products = "1: cancel\n";
@@ -377,6 +363,11 @@ public class Database {
         return products;
     }
 
+    /**
+     * Sees if the given product was NOT added by the same User accessing it
+     * @param user given user id
+     * @return description of the item posted
+     */
     public String productsNotOfUser(String user) {
         String seller = walletPublicKey(user);
         String products = "1: cancel\n";
@@ -408,6 +399,11 @@ public class Database {
         return products;
     }
 
+    /**
+     * This function removes a product from the product databsed or "store" when its specific id is given
+     * @param user the given user id trying to delete the product
+     * @param number how many instances of the product to be removed
+     */
     public void removeProduct(String user, int number) {
         int counter = countUsersProducts(user)  + 1;
         if (number <= counter) {
@@ -432,6 +428,11 @@ public class Database {
         }
     }
 
+    /**
+     * Checks to see if the product exists in the store
+     * @param user given user id
+     * @return True if item exists, false if not
+     */
     public boolean checkProduct(String user){
         String url = "jdbc:sqlite:" + file;
         String userPublickey = walletPublicKey(user);
@@ -449,6 +450,11 @@ public class Database {
         return false;
     }
 
+    /**
+     * Counts the number of products a user has added
+     * @param user given user id
+     * @return count of number of item occurences
+     */
     public int countUsersProducts(String user) {
         int counter = 0;
         String url = "jdbc:sqlite:" + file;
@@ -465,6 +471,11 @@ public class Database {
         return counter;
     }
 
+    /**
+     * Counts the number of products in which the current user is not the owner of the products
+     * @param user given user id
+     * @return count of item instances
+     */
     public int countProductsUserDoesNotOwn(String user) {
         int counter = 0;
         String url = "jdbc:sqlite:" + file;
@@ -481,6 +492,11 @@ public class Database {
         return counter;
     }
 
+    /**
+     * Searches for product given specific id
+     * @param product given product id
+     * @return nothing
+     */
     public String findProduct(String product) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -495,6 +511,11 @@ public class Database {
         return "";
     }
 
+    /**
+     * Searches for product using a given product id
+     * @param productId given product id number
+     * @return nothing
+     */
     public String findProductFromId(String productId) {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -509,6 +530,12 @@ public class Database {
         return "";
     }
 
+    /**
+     * This functions gives the ability to send messages from one User to another
+     * @param sender the user id of the person sending the message
+     * @param row knows what row to parse given user selection
+     * @param message the contents of the message
+     */
     public void sendMessage(String sender,int row, String message) {
         int counter = countProductsUserDoesNotOwn(sender);
         String senderId = walletPublicKey(sender);
@@ -542,6 +569,11 @@ public class Database {
 
     }
 
+    /**
+     * This function gives the ability to receive messages from a User
+     * @param user receiving User id
+     * @return the received message
+     */
     public String receiveMessage(String user) {
         String recipient = walletPublicKey(user);
         String messages = "1: cancel\n";
@@ -569,6 +601,12 @@ public class Database {
         return messages;
     }
 
+    /**
+     * This function only prints the products that cost less than or equal to the amount of WoCoins in a User's wallet
+     * @param user the given user id
+     * @param amount the amount of WoCoins in the user's wallet
+     * @return the available, affordable products
+     */
     public String printProductsThatUserCanAfford(String user, int amount) {
         String seller = walletPublicKey(user);
         String products = "1: cancel\n";
@@ -600,6 +638,12 @@ public class Database {
         return products;
     }
 
+    /**
+     * This function removes products after they've been bought from the store
+     * @param user given buying User id
+     * @param row the parsed row the item was in
+     * @param amount the cost of the product
+     */
     public void removeProductForTransaction(String user, int row, int amount) {
         int counter = countProductsUserDoesNotOwn(user)  + 1;
         if (row <= counter) {
@@ -624,6 +668,13 @@ public class Database {
         }
     }
 
+    /**
+     * This function gets the price of each item in the store
+     * @param user the given looking User id
+     * @param row the parsed row the USer is looking at
+     * @param amount the cost of the products
+     * @return Prices of all items in the store
+     */
     public int getPriceOfItem(String user, int row, int amount) {
         String seller = walletPublicKey(user);
         System.out.println("Row = " + row);
@@ -652,6 +703,13 @@ public class Database {
         return 0;
     }
 
+    /**
+     * This functions gets the receiver's wallet key so a product can be bought
+     * @param user the user id
+     * @param row the parsed applicable row
+     * @param amount the cost of the products
+     * @return the key wallet id to be used
+     */
     public String getReceiversKey(String user, int row, int amount) {
         String seller = walletPublicKey(user);
         System.out.println("Row = " + row);
