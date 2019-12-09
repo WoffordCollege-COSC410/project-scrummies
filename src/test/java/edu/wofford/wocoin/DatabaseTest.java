@@ -238,6 +238,7 @@ public class DatabaseTest {
         db.addProduct("testforproduct1", "NeverWinter", "Game on PC", 50);
         db.addProduct("testforproduct","Trigger me elmo", "very racist", 1);
         db.addProduct("testforproduct1", "Roomba","Yells when it bumps into things", 1);
+        db.addProduct("testforproduct", "AboutToBeRemoved", "To complete code coverage", 1);
 
         assertEquals("AlwaysWinter", db.findProductFromId("1"));
 
@@ -245,6 +246,13 @@ public class DatabaseTest {
         db.sendMessage(sellertest1,2,"Is this fake?");
 
         String receivedMessages = db.receiveMessage("testforproduct1");
+        db.removeProductForTransaction("testforproduct", 1, 1);
+        db.removeProductForTransaction("testforproduct", 10, 1);
+
+        db.getPriceOfItem("testforproduct", 1,1);
+
+        String test1 = db.getReceiversKey("testforproduct",1,1);
+
     }
 
 }

@@ -167,12 +167,20 @@ public class Feature07Main {
                                     System.out.println(menu);
                                     int response = input.nextInt();
                                     input.nextLine();
-                                    if (response == 1) {
+                                    int count = d.countProductsUserDoesNotOwn(user) + 1;
+                                    System.out.println(count);
+                                    if (response > count) {
+                                        System.out.println( "Invalid value. Enter a value between 1 and " + count + ".");
                                         System.out.println("Action canceled.");
                                     } else {
-                                        System.out.println("Enter message here: ");
-                                        String message = input.nextLine();
-                                        d.sendMessage(user, response, message);
+                                        if (response == 1) {
+                                            System.out.println("Action canceled.");
+                                        } else {
+                                            System.out.println("Enter message here: ");
+                                            String message = input.nextLine();
+                                            d.sendMessage(user, response, message);
+                                            System.out.println("Message sent.");
+                                        }
                                     }
                                 } else {
                                     System.out.println("User has no wallet.");

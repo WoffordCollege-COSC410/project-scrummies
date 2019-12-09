@@ -375,7 +375,7 @@ public class Database {
         String url = "jdbc:sqlite:" + file;
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement stmt = conn.createStatement();
-            ResultSet id = stmt.executeQuery("SELECT * FROM products WHERE seller != '" + seller + "' ORDER BY name COLLATE NOCASE;");
+            ResultSet id = stmt.executeQuery("SELECT * FROM products WHERE seller != '" + seller + "' ORDER BY price, name COLLATE NOCASE;");
             ResultSetMetaData rsmd = id.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
             while (id.next()) {
