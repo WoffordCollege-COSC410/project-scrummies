@@ -1,2 +1,2 @@
 geth --datadir node0 init genesis.json
-geth --datadir ethereum\node0 --allow-insecure-unlock --unlock "0x0fce4741f3f54fbffb97837b4ddaa8f769ba0f91" --password "ethereum\password" --rpc --mine
+geth --datadir ethereum\node0 --allow-insecure-unlock --unlock "0x0fce4741f3f54fbffb97837b4ddaa8f769ba0f91" --password "ethereum\password" --rpc --mine --gasprice 0 --targetgaslimit 0

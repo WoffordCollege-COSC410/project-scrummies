@@ -27,6 +27,7 @@ public class Feature08Main {
         boolean user_Password_Correct;
         boolean nameCorrect;
         boolean descriptionCorrect;
+        boolean notzero = false;
         if (args.length > 0) {
             while (still_Running) {
                 System.out.println("1: exit\n2: Admin\n3: User\n");
@@ -66,31 +67,36 @@ public class Feature08Main {
                                         //wallet does exist
                                         //TODO transfer WoCoins
                                         String key = "0x" + db.walletPublicKey(user);
-                                        System.out.println("Enter an amount:");
-                                        int amount = input.nextInt();
-                                        input.nextLine();
-                                        if (amount <= 0) {
-                                            System.out.println("Invalid value.");
-                                            System.out.println("Expected an integer value greater than or equal to 1.");
-                                        }else {
-                                            try {
-                                                Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
+                                        while (!notzero) {
+                                            System.out.println("Enter an amount:");
+                                            int amount = input.nextInt();
+                                            input.nextLine();
+                                            if (amount <= 0) {
+                                                System.out.println("Invalid value.");
+                                                System.out.println("Expected an integer value greater than or equal to 1.");
+                                            }else {
+                                                notzero = true;
+                                                try {
+                                                    Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
 
-                                                Credentials credentials = WalletUtils.loadCredentials("adminpwd",
-                                                        "ethereum" + File.separator + "node0" + File.separator +
-                                                                "keystore" + File.separator +
-                                                                "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json");
-                                                TransactionReceipt transactionReceipt = Transfer.sendFunds(
-                                                        web3, credentials, key,
-                                                        BigDecimal.valueOf(amount), Convert.Unit.WEI)
-                                                        .send();
-                                                System.out.println("Transfer complete.");
-                                            } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
-                                                System.out.println(ex);
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
+                                                    Credentials credentials = WalletUtils.loadCredentials("adminpwd",
+                                                            "ethereum" + File.separator + "node0" + File.separator +
+                                                                    "keystore" + File.separator +
+                                                                    "UTC--2019-08-07T17-24-10.532680697Z--0fce4741f3f54fbffb97837b4ddaa8f769ba0f91.json");
+                                                    TransactionReceipt transactionReceipt = Transfer.sendFunds(
+                                                            web3, credentials, key,
+                                                            BigDecimal.valueOf(amount), Convert.Unit.WEI)
+                                                            .send();
+                                                    System.out.println("Transfer complete.");
+                                                } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
+                                                    System.out.println(ex);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
                                             }
                                         }
+
+
                                     } else {
                                         System.out.println("User has no wallet.");
                                     }

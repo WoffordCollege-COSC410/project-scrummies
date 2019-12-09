@@ -34,4 +34,16 @@ public class Wallet {
         return "";
         }
 
+    public static String readwallet(String dir) {
+        try {
+            FileReader x = new FileReader(dir);
+            Object obj = new JSONParser().parse(x);
+            JSONObject jo = (JSONObject) obj;
+            String address = (String) jo.get("address");
+            return address;
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return "";
+    }
 }
