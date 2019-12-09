@@ -7,8 +7,11 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.file.DirectoryIteratorException;
 import java.nio.file.Files;
 import java.util.Scanner;
+
+import gherkin.lexer.Fi;
 import org.apache.commons.io.FileUtils;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
@@ -236,55 +239,68 @@ public class Feature10Main {
                                 if (d.checkWallet(user)) {
                                     System.out.println("Enter user's wallet directory");
                                     String directory = input.nextLine();
+                                    directory = directory + File.separator + user;
+
+                                    File files  = new File(directory);
+                                    File[] fList = files.listFiles();
+                                    for (File file : fList){
+                                        System.out.println("File = " + file.getName());
+                                        directory = directory + File.separator + file.getName();
+                                    }
                                     int total = 0;
+                                    if (files.exists()) {
+                                        String tempKey = Wallet.readwallet(directory);
+                                        String publicKey = d.walletPublicKey(user);
+                                        System.out.println("tempKey = " + tempKey);
+                                        System.out.println("publicKey = " + publicKey);
+                                        if (tempKey.equals(publicKey)) {
+                                            try {
+                                                String userKey = "0x" + d.walletPublicKey(user);
+                                                System.out.println("userKey = " + userKey);
+                                                Web3j web3 = Web3j.build(new HttpService());
+                                                EthGetBalance balanceWei = web3.ethGetBalance(userKey, DefaultBlockParameterName.LATEST).send();
+                                                BigInteger amount = balanceWei.getBalance();
+                                                total = amount.intValue();
+                                            } catch (IOException ex) {
+                                                System.out.println(ex);
+                                            }
 
-                                    try {
-                                        String userKey = "0x" + d.walletPublicKey(user);
-                                        System.out.println("userKey = " + userKey);
-                                        Web3j web3 = Web3j.build(new HttpService());
-                                        EthGetBalance balanceWei = web3.ethGetBalance(userKey, DefaultBlockParameterName.LATEST).send();
-                                        BigInteger amount = balanceWei.getBalance();
-                                        total = amount.intValue();
-                                    } catch (IOException ex) {
-                                        System.out.println(ex);
-                                    }
-
-                                    String menue = d.printProductsThatUserCanAfford(user,total);
-                                    System.out.println(menue);
-                                    System.out.println("Enter a row");
-                                    int next = input.nextInt();
-                                    input.nextLine();
-                                    if (next == 1) {
-                                        System.out.println("Action canceled.");
-                                    } else {
-                                        int cost = d.getPriceOfItem(user,next,total);
-                                        System.out.println("User =" + user);
-                                        System.out.println(("Password =" + password));
-                                        System.out.println("Directory =" + directory);
-                                        System.out.println("Cost = " + cost);
-                                        String key = "0x" + d.getReceiversKey(user,next,total);
-                                        System.out.println("Key = " + key);
-                                        try {
-                                            Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
-                                            Credentials credentials = WalletUtils.loadCredentials(password,
-                                                    directory);
-                                            BigDecimal value = Convert.toWei("" + cost, Convert.Unit.ETHER);
-                                            TransactionReceipt transactionReceipt = Transfer.sendFunds(
-                                                    web3, credentials, key,
-                                                    value, Convert.Unit.WEI)
-                                                    .send();
-                                            System.out.println("Transfer complete.");
-                                        } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
-                                            System.out.println(ex);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                            String menue = d.printProductsThatUserCanAfford(user,total);
+                                            System.out.println(menue);
+                                            System.out.println("Enter a row");
+                                            int next = input.nextInt();
+                                            input.nextLine();
+                                            if (next == 1) {
+                                                System.out.println("Action canceled.");
+                                            } else {
+                                                int cost = d.getPriceOfItem(user,next,total);
+                                                System.out.println("User = " + user);
+                                                System.out.println(("Password = " + password));
+                                                System.out.println("Directory = " + directory);
+                                                System.out.println("Cost = " + cost);
+                                                String key = "0x" + d.getReceiversKey(user,next,total);
+                                                System.out.println("Key = " + key);
+                                                try {
+                                                    Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
+                                                    Credentials credentials = WalletUtils.loadCredentials(password,
+                                                            directory);
+                                                    BigDecimal value = Convert.toWei("" + cost, Convert.Unit.WEI);
+                                                    TransactionReceipt transactionReceipt = Transfer.sendFunds(
+                                                            web3, credentials, key,
+                                                            value, Convert.Unit.WEI)
+                                                            .send();
+                                                    d.removeProductForTransaction(user, next, total);
+                                                    System.out.println("Item purchased.");
+                                                } catch (IOException | CipherException | InterruptedException | TransactionException ex) {
+                                                    System.out.println(ex);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        } else {
+                                            System.out.println("Invalid wallet.");
                                         }
-
-
-
-                                        //d.removeProductForTransaction(user, next, total);
                                     }
-
                                 } else {
                                     System.out.println("User has no wallet.");
                                 }

@@ -18,3 +18,27 @@
 22:39:14.080513 db@open done T·28.9625ms
 22:44:41.787362 db@close closing
 22:44:41.788360 db@close done T·997.7µs
+=============== Dec 8, 2019 (MST) ===============
+22:47:54.876323 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+22:47:54.877320 version@stat F·[1] S·832B[832B] Sc·[0.25]
+22:47:54.877320 db@open opening
+22:47:54.877320 journal@recovery F·1
+22:47:54.883346 journal@recovery recovering @3
+22:47:54.890770 memdb@flush created L0@5 N·603 S·29KiB "Dat..ion,v14":"\xde\f\xb0..<\xbc\x88,v614"
+22:47:54.897752 version@stat F·[2] S·30KiB[30KiB] Sc·[0.50]
+22:47:54.905730 db@janitor F·4 G·0
+22:47:54.905730 db@open done T·28.4097ms
+22:55:50.265172 db@close closing
+22:55:50.266169 db@close done T·996.8µs
+=============== Dec 8, 2019 (MST) ===============
+22:56:00.427877 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+22:56:00.428874 version@stat F·[2] S·30KiB[30KiB] Sc·[0.50]
+22:56:00.428874 db@open opening
+22:56:00.428874 journal@recovery F·1
+22:56:00.434898 journal@recovery recovering @6
+22:56:00.440148 memdb@flush created L0@8 N·871 S·44KiB "\x02\x91\x9c..\xbd\x1f\xa7,v1486":"\xb3I/..\x0f\x82\xe9,v1487"
+22:56:00.446865 version@stat F·[3] S·75KiB[75KiB] Sc·[0.75]
+22:56:00.455800 db@janitor F·5 G·0
+22:56:00.455800 db@open done T·26.9266ms
+23:05:56.460385 db@close closing
+23:05:56.461383 db@close done T·997.7µs

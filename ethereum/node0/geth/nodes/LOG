@@ -6,3 +6,31 @@
 22:39:14.394922 db@open done T·2.9994ms
 22:44:41.790355 db@close closing
 22:44:41.790355 db@close done T·0s
+=============== Dec 8, 2019 (MST) ===============
+22:47:55.168028 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+22:47:55.169025 version@stat F·[] S·0B[] Sc·[]
+22:47:55.169025 db@open opening
+22:47:55.169025 journal@recovery F·2
+22:47:55.169025 journal@recovery recovering @1
+22:47:55.173017 journal@recovery recovering @3
+22:47:55.175051 memdb@flush created L0@4 N·66 S·1001B "loc..seq,v2":"version,v1"
+22:47:55.175051 version@stat F·[1] S·1001B[1001B] Sc·[0.25]
+22:47:55.187293 memdb@flush created L0@6 N·556 S·19KiB "loc..seq,v398":"n:\xff..ong,v496"
+22:47:55.187974 version@stat F·[2] S·20KiB[20KiB] Sc·[0.50]
+22:47:55.189969 db@janitor F·5 G·1
+22:47:55.190966 db@janitor removing manifest-4
+22:47:55.190966 db@open done T·21.9415ms
+22:55:50.267166 db@close closing
+22:55:50.267166 db@close done T·0s
+=============== Dec 8, 2019 (MST) ===============
+22:56:00.737047 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+22:56:00.737047 version@stat F·[2] S·20KiB[20KiB] Sc·[0.50]
+22:56:00.737047 db@open opening
+22:56:00.737047 journal@recovery F·1
+22:56:00.737047 journal@recovery recovering @7
+22:56:00.740050 memdb@flush created L0@8 N·28 S·757B "loc..seq,v934":"n:\xf2..ail,v948"
+22:56:00.740050 version@stat F·[3] S·21KiB[21KiB] Sc·[0.75]
+22:56:00.749017 db@janitor F·5 G·0
+22:56:00.749017 db@open done T·11.9696ms
+23:05:56.462381 db@close closing
+23:05:56.463378 db@close done T·996.8µs
