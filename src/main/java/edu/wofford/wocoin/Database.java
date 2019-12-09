@@ -417,7 +417,8 @@ public class Database {
             System.out.println(name);
             try (Connection conn = DriverManager.getConnection(url)) {
                 Statement stmt = conn.createStatement();
-                stmt.executeUpdate("DELETE FROM products WHERE name = '" + name + "';");
+                stmt.executeUpdate("DELETE FROM products WHERE rowid = (SELECT rowid FROM products WHERE name = '" + name + "' LIMIT 1);");
+                //stmt.executeUpdate("DELETE FROM products WHERE name = '" + name + "';");
                 stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
